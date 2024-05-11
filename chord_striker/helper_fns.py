@@ -10,7 +10,7 @@ def fix_accidental(note: str, key: str):
     possible_keys = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
 
     if not key in possible_keys:
-        raise ValueError("key supplied is not valid")
+        raise ValueError(f"Key supplied ({key}) is not valid")
 
     ## check whether we are dealing with a sharp or flat key
     # what we should be seeing (sharp or flat)
