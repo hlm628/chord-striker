@@ -6,3 +6,4 @@ DOCKER_DIR ?= docker
 
 docker:
 	docker build -t $(DOCKER_IMG):$(DOCKER_TAG) $(DOCKER_DIR)
+	docker tag $(DOCKER_IMG):$(DOCKER_TAG) $(DOCKER_IMG):latest
