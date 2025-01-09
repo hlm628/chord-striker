@@ -21,17 +21,17 @@ COPY . .
 # setup pylatex
 RUN apt-get update --fix-missing -qq -y \
   && apt-get install -y \
-    texlive-latex-base \
-    texlive-xetex \ 
-    texlive-science \
-    texlive-latex-extra \
-    texlive-fonts-extra \
-    curl \
-    wget \  
-    git \
-    fontconfig \ 
-    make \ 
-    uuid-runtime \
+  texlive-latex-base \
+  texlive-xetex \ 
+  texlive-science \
+  texlive-latex-extra \
+  texlive-fonts-extra \
+  curl \
+  wget \  
+  git \
+  fontconfig \ 
+  make \ 
+  uuid-runtime \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
