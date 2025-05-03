@@ -201,36 +201,45 @@ class ChordChart:
         # remove Lilypond watermark
         self.__lilypond_file.writelines(['\n\n\\header {tagline = ""} '])
 
+        # Define tempo variable (will be available globally)
+        self.__lilypond_file.writelines([f"\ntempo = {self.__tempo}"])
+
         # add tempo information
         self.__add_tempo(rel_path_to_ref)
 
     def __add_tempo(self, rel_path_to_ref=None):
         """
         Helper method to add tempo to file header.
-
-        Args:
-            rel_path_to_ref: Path to reference files relative to lily file
         """
-        # add tempo information
+        # add tempo block for MIDI
         self.__lilypond_file.writelines(
             [
                 "\n\ntempoBlock = {",
                 f"\n  \\tempo 4 = {self.__tempo}",
-                "\n  \override Score.MetronomeMark.padding = #-6",
+                "\n  \\override Score.MetronomeMark.padding = #-6",
                 "\n}",
             ]
         )
 
-        # render this tempo as a score object, using reference file
+        # Find path to add_tempo.ly
         if rel_path_to_ref is None:
             rel_path_to_ref = os.path.relpath(
                 self.__ref_files_dir,
                 os.path.dirname(os.path.abspath(self.__lilypond_filename)),
             )
 
-        self.__lilypond_file.writelines(
-            [f'\n\n\\include "{os.path.join(rel_path_to_ref, "add_tempo.ly")}"']
+        # Read the template file
+        tempo_path = os.path.join(self.__ref_files_dir, "add_tempo.ly")
+        with open(tempo_path, "r") as f:
+            tempo_template = f.read()
+
+        # Replace placeholder with actual tempo
+        tempo_content = tempo_template.replace(
+            "TEMPO_VALUE_PLACEHOLDER", str(self.__tempo)
         )
+
+        # Write directly to the LilyPond file
+        self.__lilypond_file.writelines([f"\n\n{tempo_content}"])
 
     def __get_section_counts(self):
         """
@@ -456,7 +465,7 @@ class ChordChart:
     def generate_pdf_midi(self):
         """
         Run Lilypond and generate PDF and MIDI files in the output directory.
-        
+
         Returns:
             tuple: (lilypond_result, pdf_path, midi_path) containing the command result
                 and the paths to the generated files
@@ -464,21 +473,24 @@ class ChordChart:
         # Get the output directory and base filename
         output_dir = os.path.dirname(self.__lilypond_filename)
         base_name = os.path.splitext(os.path.basename(self.__lilypond_filename))[0]
-        
+
         # Calculate expected output paths
         pdf_path = os.path.join(output_dir, f"{base_name}.pdf")
         midi_path = os.path.join(output_dir, f"{base_name}.midi")
-        
+
         # Save current directory
         original_dir = os.getcwd()
-        
+
         try:
             # Change to the output directory
             os.chdir(output_dir)
-            
+
             # Run lilypond with just the filename (not the full path)
-            result = run(["lilypond", os.path.basename(self.__lilypond_filename)], capture_output=True)
-            
+            result = run(
+                ["lilypond", os.path.basename(self.__lilypond_filename)],
+                capture_output=True,
+            )
+
             return result, pdf_path, midi_path
         finally:
             # Always restore the original working directory

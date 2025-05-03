@@ -45,24 +45,29 @@ class SongKey:
 
 
 def get_tempo(
-    mean_tempo: int = STRUCTURE_PARAMS["mean_tempo"],
-    std_prop: float = STRUCTURE_PARAMS["tempo_std_prop"],
+    min_tempo: int = STRUCTURE_PARAMS["min_tempo"],
+    max_tempo: int = STRUCTURE_PARAMS["max_tempo"],
 ) -> int:
     """
-    Function which randomly picks a tempo for the song.
-
-    Parameters:
-        mean_tempo (int): The mean tempo we want to realize.
-        std_prop (float): We want ~68% of sampled tempos to be between 1/std_prop * mean_tempo and std_prop * mean_tempo.
+    Function which randomly picks a tempo for the song by truncating a log-normal distribution (chosen so that ~95% of tempos are between the range specified).
     """
 
-    if std_prop <= 1:
-        raise ValueError("std_prop must be greater than 1")
+    # check that min and max tempo are valid
+    if not isinstance(min_tempo, int) or not isinstance(max_tempo, int):
+        raise TypeError("min_tempo and max_tempo must be integers")
+    if min_tempo < 0 or max_tempo < 0:
+        raise ValueError("min_tempo and max_tempo must be positive")
 
-    # sample from log-normal distribution
-    sample_prop = np.random.lognormal(sigma=log(std_prop))
-
-    return round(sample_prop * mean_tempo)
+    # use min and max tempo to get mean and std of log-normal distribution
+    mean = np.log((min_tempo + max_tempo) / 2)
+    std = np.log(max_tempo / min_tempo) / 4
+    # get tempo
+    tempo = np.random.lognormal(mean, std)
+    # truncate to range
+    tempo = max(min_tempo, min(tempo, max_tempo))
+    # round to nearest integer
+    tempo = int(round(tempo))
+    return tempo
 
 
 def get_song_variables():

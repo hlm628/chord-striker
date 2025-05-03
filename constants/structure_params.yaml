@@ -1,5 +1,5 @@
-mean_tempo: 110
-tempo_std_prop: 1.17 # ~68% of generated tempos should be within this range
+min_tempo: 60
+max_tempo: 180 
 num_choruses_probs:
   2: 2
   3: 7
