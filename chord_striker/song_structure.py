@@ -49,7 +49,7 @@ def get_tempo(
     max_tempo: int = STRUCTURE_PARAMS["max_tempo"],
 ) -> int:
     """
-    Function which randomly picks a tempo for the song by truncating a log-normal distribution (chosen so that ~95% of tempos are between the range specified).
+    Function which randomly picks a tempo for the song by truncating a log-normal distribution (chosen so that ~99% of tempos are between the range specified).
     """
 
     # check that min and max tempo are valid
@@ -60,7 +60,7 @@ def get_tempo(
 
     # use min and max tempo to get mean and std of log-normal distribution
     mean = np.log((min_tempo + max_tempo) / 2)
-    std = np.log(max_tempo / min_tempo) / 4
+    std = np.log(max_tempo / min_tempo) / 6
     # get tempo
     tempo = np.random.lognormal(mean, std)
     # truncate to range
