@@ -198,8 +198,13 @@ class ChordChart:
             [f'\n\n\\include "{os.path.join(rel_path_to_ref, "slash_symbol.ly")}"']
         )
 
-        # remove Lilypond watermark
-        self.__lilypond_file.writelines(['\n\n\\header {tagline = ""} '])
+        # Add song name as title in the header
+        self.__lilypond_file.writelines([
+            '\n\n\\header {',
+            f'\n  title = "{self.__song_name}"',  # Add song name as title
+            '\n  tagline = ""',                    # Remove LilyPond watermark
+            '\n}',
+        ])
 
         # Define tempo variable (will be available globally)
         self.__lilypond_file.writelines([f"\ntempo = {self.__tempo}"])
