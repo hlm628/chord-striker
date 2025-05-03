@@ -1,5 +1,43 @@
 from pychord import Chord
 from pychord.constants.scales import FLATTED_SCALE, SHARPED_SCALE, SCALE_VAL_DICT
+from load_constants import CHORD_CHANGE_PROBS
+from random import choices
+
+
+def sample_weights_dict(d):
+    """
+    A function to sample a dictionary of weights, where the keys are the possible values
+    and the values are the weights.
+    """
+
+    # check that all weights are positive
+    for k, v in d.items():
+        if not isinstance(v, (int, float)):
+            raise TypeError("weights must be real numbers")
+        if v < 0:
+            raise ValueError("weights must be positive")
+
+    # get keys and weights
+    keys = list(d.keys())
+    weights = list(d.values())
+
+    # sample
+    return choices(keys, weights=weights)[0]
+
+
+def bernoulli_trial(p):
+    """
+    A function to sample a Bernoulli trial, where p is the probability of success.
+    """
+
+    # check that p is a valid probability
+    if not isinstance(p, (int, float)):
+        raise TypeError("p must be a real number")
+    if p < 0 or p > 1:
+        raise ValueError("p must be between 0 and 1")
+
+    # sample
+    return choices([True, False], weights=[p, 1 - p])[0]
 
 
 def fix_accidental(note: str, key: str):
@@ -55,3 +93,33 @@ def accidental_fixer(chord: Chord, key: str):
 
     # return as new chord
     return Chord(chord_name)
+
+
+def substitute(prev_chord, current_chord, next_chord=None):
+    """
+    A function to substitute a chord with another chord, based on the previous and next chords.
+    The function uses a dictionary of probabilities to determine the most likely chord to substitute.
+    """
+
+    all_possible_chords = list(CHORD_CHANGE_PROBS.keys())
+
+    if next_chord == None:
+        possible_chords = [
+            c for c in all_possible_chords if not c in [None, current_chord, prev_chord]
+        ]
+        weights = [CHORD_CHANGE_PROBS[prev_chord][c] for c in possible_chords]
+
+    else:
+        # we use a probabilistic result:
+        # P(B|AC) ~ P(C|B) P(B|A)
+        possible_chords = [
+            c
+            for c in all_possible_chords
+            if not c in [None, current_chord, prev_chord, next_chord]
+        ]
+        weights = [
+            CHORD_CHANGE_PROBS[c][next_chord] * CHORD_CHANGE_PROBS[prev_chord][c]
+            for c in possible_chords
+        ]
+
+    return choices(possible_chords, weights=weights)[0]

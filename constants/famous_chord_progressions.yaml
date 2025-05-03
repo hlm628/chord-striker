@@ -1,0 +1,56 @@
+- progression: [I, V, vi, IV]
+  weight: 10
+
+- progression: [vi, IV, I, V]
+  weight: 5
+
+- progression: [IV, I, V, IV]
+  weight: 2
+
+- progression: [V, vi, IV, I]
+  weight: 2
+
+- progression: [I, vi, IV, V]
+  weight: 5
+  tag: 50s
+
+- progression: [I, vi, ii, V]
+  weight: 2
+  tag: 50s
+
+- progression: [I, V, bVII, IV]
+  weight: 1
+
+- progression: [I, IV, V, V]
+  weight: 3
+
+- progression: [I, IV, I, V]
+  weight: 3
+
+- progression: [I, IV, V, IV]
+  weight: 2
+
+- progression: [I, V, IV, V]
+  weight: 2
+
+- progression: [ii, V, I]
+  weight: 3
+
+- progression: [I, IV, V]
+  weight: 5
+
+- progression: [IV, V, I]
+  weight: 2
+
+- progression: [V, IV, I]
+  weight: 2
+
+- progression: [I, IV, I, V, IV, I]
+  weight: 2
+  tag: twelve-bar blues
+  blues: true
+
+- progression: [I, IV, I, V, IV, I, V]
+  weight: 2
+  tag: twelve-bar blues
+  blues: true

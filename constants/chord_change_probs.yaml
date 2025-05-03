@@ -1,0 +1,97 @@
+start:
+  I: 10
+  ii: 2
+  bIII: 1
+  iii: 2
+  III: 1
+  IV: 5
+  V: 3
+  vi: 5
+  bVII: 0.5
+  vii: 0
+
+I:
+  ii: 3
+  bIII: 1
+  iii: 2
+  III: 0.5
+  IV: 10
+  V: 8
+  vi: 8
+  bVII: 1
+  vii: 0.1
+
+ii:
+  I: 10
+  iii: 1
+  III: 2
+  IV: 10
+  V: 10
+  vi: 8
+  bVII: 1
+
+bIII:
+  I: 1
+  IV: 5
+  V: 4
+  bVII: 2
+
+iii:
+  I: 5
+  ii: 1
+  III: 0.5
+  IV: 5
+  V: 5
+  vi: 5
+  bVII: 0.2
+
+III:
+  I: 5
+  ii: 2
+  iii: 2
+  IV: 10
+  V: 3
+  vi: 6
+  vii: 0.1
+
+IV:
+  I: 8
+  ii: 3
+  bIII: 1
+  iii: 5
+  III: 0.5
+  V: 10
+  vi: 5
+  bVII: 0.2
+  vii: 0.1
+
+V:
+  I: 10
+  ii: 3
+  bIII: 1
+  iii: 2
+  III: 1
+  IV: 5
+  vi: 4
+  bVII: 0.2
+
+vi:
+  I: 10
+  ii: 5
+  iii: 1
+  III: 1.5
+  IV: 10
+  V: 5
+  bVII: 2
+  vii: 0.2
+
+bVII:
+  I: 5
+  IV: 4
+  V: 3
+
+vii:
+  I: 5
+  IV: 2
+  V: 1
+  vi: 5

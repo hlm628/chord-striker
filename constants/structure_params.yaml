@@ -1,0 +1,87 @@
+mean_tempo: 110
+tempo_std_prop: 1.17 # ~68% of generated tempos should be within this range
+num_choruses_probs:
+  2: 2
+  3: 7
+  4: 7
+  5: 1
+  6: 0.1
+pre_chorus_prob: 0.3
+post_chorus_probs:
+  pre_chorus_yes: 0.15
+  pre_chorus_no: 0.3
+bridge_before_solo: 0.5
+transpose_steps_probs:
+  1: 1
+  2: 1
+  7: 1
+intro_prob: 0.95
+outro_prob: 0.9
+cheap_trick_prob: 0.005
+start_pre_chorus_prob: 0.01
+start_chorus_prob: 0.04
+last_chorus_pre_chorus_prob: 0.25
+skip_last_verse_prob: 0.25
+skip_last_pre_chorus_prob: 0.25 # only if verse is skipped
+skip_last_pre_chorus_only_prob: 0.1
+skip_last_post_chorus_prob: 0.3
+truck_drivers_base_prob: 0.01 # this increases with the number of choruses
+bridge_base_prob: 0.4 # same
+solo_base_prob: 0.25 # same
+halve_final_verse_prob: 0.15
+double_final_chorus_prob: 0.15
+measure_distributions:
+  Intro:
+    1: 1
+    2: 5
+    4: 10
+    8: 5
+    16: 2
+  Verse:
+    4: 1
+    8: 5
+    12: 2
+    16: 10
+    32: 2
+  Prechorus:
+    1: 2
+    2: 4
+    4: 10
+    8: 4
+  Chorus:
+    4: 1
+    8: 5
+    16: 4
+  Postchorus:
+    1: 1
+    2: 5
+    4: 5
+    8: 2
+  Bridge:
+    2: 1
+    4: 4
+    8: 10
+    16: 4
+  Solo:
+    2: 1
+    4: 5
+    8: 10
+    12: 1
+    16: 2
+  Outro:
+    1: 1
+    2: 1
+    4: 5
+    8: 5
+    16: 2
+chords_per_measure: 1.3 # average number of chords per measure; max is always 4
+famous_chord_progressions_probs:
+  3: 0.3
+  4: 0.5
+  blues: 0.5 
+invert_chord_prob: 0.02
+
+
+
+
+
