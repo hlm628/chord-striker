@@ -199,12 +199,14 @@ class ChordChart:
         )
 
         # Add song name as title in the header
-        self.__lilypond_file.writelines([
-            '\n\n\\header {',
-            f'\n  title = "{self.__song_name}"',  # Add song name as title
-            '\n  tagline = ""',                    # Remove LilyPond watermark
-            '\n}',
-        ])
+        self.__lilypond_file.writelines(
+            [
+                "\n\n\\header {",
+                f'\n  title = "{self.__song_name}"',  # Add song name as title
+                '\n  tagline = ""',  # Remove LilyPond watermark
+                "\n}",
+            ]
+        )
 
         # Define tempo variable (will be available globally)
         self.__lilypond_file.writelines([f"\ntempo = {self.__tempo}"])
