@@ -47,6 +47,7 @@ class SongKey:
 def get_tempo(
     min_tempo: int = STRUCTURE_PARAMS["min_tempo"],
     max_tempo: int = STRUCTURE_PARAMS["max_tempo"],
+    tempo_variation: int = STRUCTURE_PARAMS["tempo_variation"],
 ) -> int:
     """
     Function which randomly picks a tempo for the song by truncating a log-normal distribution (chosen so that ~99% of tempos are between the range specified).
@@ -61,6 +62,16 @@ def get_tempo(
     # use min and max tempo to get mean and std of log-normal distribution
     mean = np.log((min_tempo + max_tempo) / 2)
     std = np.log(max_tempo / min_tempo) / 6
+
+    # check that tempo variation is valid
+    if not isinstance(tempo_variation, int):
+        raise TypeError("tempo_variation must be an integer")
+    if tempo_variation < 0:
+        raise ValueError("tempo_variation must be positive")
+
+    # use tempo variation to adjust std
+    std = std * (tempo_variation / 100)
+
     # get tempo
     tempo = np.random.lognormal(mean, std)
     # truncate to range

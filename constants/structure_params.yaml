@@ -1,5 +1,6 @@
 min_tempo: 60
 max_tempo: 180 
+tempo_variation: 100 # 100 is default (less for less variation, more for more)
 num_choruses_probs:
   2: 2
   3: 7
