@@ -1,6 +1,6 @@
 # Chord Striker
 
-A Python library for generating harmonic song structures at random. The results are formatted into chord charts by Lilypond, output as a PDF and accompanying MIDI file. If you're stuck in a creative rut, this can be an excellent way to start writing a new song!
+A Python library for generating random harmonic song structures. The results are formatted into PDF chord charts by Lilypond, and supplied with an accompanying MIDI file. If you're stuck in a creative rut, this can be an excellent way to start writing a new song! I like to load the MIDI file into a DAW and start building on top of it.
 
 An example output is shown below:
 
