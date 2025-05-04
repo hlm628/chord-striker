@@ -3,7 +3,7 @@
   indent = 0                  % No initial indent
   short-indent = 0            % No short indent
   ragged-right = ##t          % Allow flexible right margin
-  
+
   % Chord name context
   \context {
     \ChordNames
