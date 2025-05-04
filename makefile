@@ -23,3 +23,7 @@ enter:
 
 run: chord_striker/hit_maker.py
 	$(RUN) python3 $^ --song_name $(SONG_NAME)
+
+ALBUM_TRACKS ?= 10
+run-album: chord_striker/hit_maker.py
+	$(RUN) python3 $^ --num_songs $(ALBUM_TRACKS)

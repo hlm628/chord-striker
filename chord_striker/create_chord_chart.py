@@ -208,6 +208,18 @@ class ChordChart:
             ]
         )
 
+        # Add paper block with PDF filename in footer (right-aligned)
+        pdf_filename = os.path.basename(self.__lilypond_filename).replace(".ly", ".pdf")
+        self.__lilypond_file.writelines(
+            [
+                "\n\n\\paper {",
+                # Right-align both odd and even footers
+                f'\n  oddFooterMarkup = \\markup {{ \\small \\fill-line {{ \\null \\right-align {{ "{pdf_filename}" }} }} }}',
+                f'\n  evenFooterMarkup = \\markup {{ \\small \\fill-line {{ \\null \\right-align {{ "{pdf_filename}" }} }} }}',
+                "\n}",
+            ]
+        )
+
         # Define tempo variable (will be available globally)
         self.__lilypond_file.writelines([f"\ntempo = {self.__tempo}"])
 
