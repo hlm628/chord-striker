@@ -16,7 +16,7 @@ transpose_steps_probs:
   2: 1
   7: 1
 intro_prob: 0.95
-outro_prob: 0.9
+outro_prob: 0
 cheap_trick_prob: 0.005
 start_pre_chorus_prob: 0.01
 start_chorus_prob: 0.04

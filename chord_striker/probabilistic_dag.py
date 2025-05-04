@@ -81,7 +81,7 @@ class ProbDAG:
                         "probability must be a real number between 0 (exclusive) and 1 (inclusive)"
                     )
 
-                if p <= 0 or p > 1:
+                if p < 0 or p > 1:
                     raise ValueError(
                         "probability must be a real number between 0 (exclusive) and 1 (inclusive)"
                     )
