@@ -1,4 +1,4 @@
-.PHONY: docker enter run
+.PHONY: docker enter run example
 
 DOCKER_IMG ?= chord-striker
 DOCKER_TAG ?= $(shell git rev-parse --short HEAD)
@@ -16,13 +16,20 @@ docker-multi:
 
 RUN_TAG ?= latest
 RUN ?= docker run --platform linux/arm64 -it --rm -v $(PWD):/app -w /app $(DOCKER_IMG):$(RUN_TAG)
-SONG_NAME ?= Test
+SONG_NAME ?= Example
 
 enter:
 	$(RUN) bash
 
-run: chord_striker/hit_maker.py
-	$(RUN) python3 $^ --song_name $(SONG_NAME)
+SEED ?= 42
+OUTPUT_DIR ?= example
+
+example: chord_striker/hit_maker.py $(OUTPUT_DIR)
+	$(RUN) python3 chord_striker/hit_maker.py --song_name $(SONG_NAME) --seed $(SEED) --output_dir $(OUTPUT_DIR)
+
+$(OUTPUT_DIR):
+	mkdir -p $(OUTPUT_DIR)
+	
 
 ALBUM_TRACKS ?= 10
 run-album: chord_striker/hit_maker.py

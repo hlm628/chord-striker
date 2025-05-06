@@ -56,6 +56,7 @@ def create_album(num_songs, seeds=[], parent_dir="output"):
 @click.option(
     "--num_songs",
     default=1,
+    type=int,
     help="Number of songs to generate (default: 1); if this is greater than 1, an album will be created, and following arguments will be ignored",
 )
 @click.option(
@@ -66,24 +67,31 @@ def create_album(num_songs, seeds=[], parent_dir="output"):
 @click.option(
     "--tempo",
     default=None,
+    type=int,
     help="Tempo for the chord chart; randomly generated if not suppplied (default: None)",
 )
 @click.option(
     "--seed",
     default=None,
+    type=int,
     help="Seed for the random number generators; randomly generated if not suppplied (default: None)",
 )
 @click.option(
     "--song_name", default="Random Song", help="Name of the song (default: Random Song)"
 )
-def main(num_songs, key, tempo, seed, song_name):
+@click.option(
+    "--output_dir",
+    default="output",
+    help="Directory to save the generated song or album (default: output)",
+)
+def main(num_songs, key, tempo, seed, song_name, output_dir):
     """
     Main function to create a song or an album.
     """
     if num_songs > 1:
-        create_album(num_songs)
+        create_album(num_songs, parent_dir=output_dir)
     else:
-        create_song(key, tempo, seed, song_name)
+        create_song(key, tempo, seed, song_name, output_dir)
 
 
 if __name__ == "__main__":
