@@ -1,4 +1,4 @@
-.PHONY: docker docker-all enter test run-album show-platform
+.PHONY: docker docker-all enter test run-song run-album show-platform
 
 DOCKER_IMG ?= chord-striker
 DOCKER_TAG ?= $(shell git rev-parse --short HEAD)
@@ -65,7 +65,7 @@ test: | $(OUTPUT_DIR)
 	$(RUN) python3 chord_striker/hit_maker.py --song_name $(SONG_NAME) --seed $(SEED) --output_dir $(OUTPUT_DIR)
 
 # Generate random song
-random:
+run-song:
 	$(RUN) python3 chord_striker/hit_maker.py --num_songs 1
 
 # Generate multiple songs
