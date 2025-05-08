@@ -1,4 +1,4 @@
-.PHONY: docker enter run example
+.PHONY: docker docker-all enter test run-album show-platform
 
 DOCKER_IMG ?= chord-striker
 DOCKER_TAG ?= $(shell git rev-parse --short HEAD)
@@ -46,23 +46,28 @@ docker-all:
 # Run command with platform detection
 RUN_TAG ?= latest
 RUN ?= docker run --platform $(DOCKER_PLATFORM) -it --rm -v $(PWD):/app -w /app $(DOCKER_IMG):$(RUN_TAG)
+
+# Configuration for song generation
 SONG_NAME ?= Example
-
-enter:
-	$(RUN) bash
-
 SEED ?= 42
 OUTPUT_DIR ?= example
 
-example: chord_striker/hit_maker.py $(OUTPUT_DIR)
+# Enter the container
+enter:
+	$(RUN) bash
+
+# Create output directory if it doesn't exist
+$(OUTPUT_DIR):
+	mkdir -p $@
+
+# Generate example song
+test: | $(OUTPUT_DIR)
 	$(RUN) python3 chord_striker/hit_maker.py --song_name $(SONG_NAME) --seed $(SEED) --output_dir $(OUTPUT_DIR)
 
-$(OUTPUT_DIR):
-	mkdir -p $(OUTPUT_DIR)
-
+# Generate multiple songs
 ALBUM_TRACKS ?= 10
-run-album: chord_striker/hit_maker.py
-	$(RUN) python3 $^ --num_songs $(ALBUM_TRACKS)
+run-album:
+	$(RUN) python3 chord_striker/hit_maker.py --num_songs $(ALBUM_TRACKS)
 
 # Helper target to show current platform
 show-platform:
