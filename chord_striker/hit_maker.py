@@ -1,5 +1,9 @@
-from song_structure import get_tempo, generate_song_structure, parse_song_structure
-from create_chord_chart import ChordChart
+from chord_striker.song_structure import (
+    get_tempo,
+    generate_song_structure,
+    parse_song_structure,
+)
+from chord_striker.create_chord_chart import ChordChart
 import random
 from numpy import random as np_random
 import click

@@ -1,13 +1,13 @@
 import networkx as nx
-from section import Section
-from probabilistic_dag import ProbDAG
+from chord_striker.section import Section
+from chord_striker.probabilistic_dag import ProbDAG
 from random import choices
 from math import log
 import numpy as np
 from datetime import datetime
-from chorder import ChordProgressionSelector
-from load_constants import KEYS, KEY_PROBABILITIES, STRUCTURE_PARAMS
-from helper_fns import sample_weights_dict, bernoulli_trial
+from chord_striker.chorder import ChordProgressionSelector
+from chord_striker.load_constants import KEYS, KEY_PROBABILITIES, STRUCTURE_PARAMS
+from chord_striker.helper_fns import sample_weights_dict, bernoulli_trial
 
 
 class SongKey:

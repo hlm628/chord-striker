@@ -1,6 +1,6 @@
 from pychord import Chord
 from pychord.constants.scales import FLATTED_SCALE, SHARPED_SCALE, SCALE_VAL_DICT
-from load_constants import CHORD_CHANGE_PROBS
+from chord_striker.load_constants import CHORD_CHANGE_PROBS
 from random import choices
 
 

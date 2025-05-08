@@ -60,9 +60,9 @@ enter:
 $(OUTPUT_DIR):
 	mkdir -p $@
 
-# Generate example song
-test: | $(OUTPUT_DIR)
-	$(RUN) python3 chord_striker/hit_maker.py --song_name $(SONG_NAME) --seed $(SEED) --output_dir $(OUTPUT_DIR)
+# Run tests
+test:
+	$(RUN) python3 -m pytest tests/ -v
 
 # Generate random song
 run-song:

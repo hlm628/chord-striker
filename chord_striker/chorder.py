@@ -1,11 +1,11 @@
-from section import Section
+from chord_striker.section import Section
 from random import choices, choice
 from copy import copy
 from scipy.stats import poisson
 import numpy as np
 from pychord import Chord, note_to_chord
-from helper_fns import accidental_fixer, substitute, bernoulli_trial
-from load_constants import (
+from chord_striker.helper_fns import accidental_fixer, substitute, bernoulli_trial
+from chord_striker.load_constants import (
     CHORD_CHANGE_PROBS,
     CHORD_EXTENSIONS,
     FAMOUS_CHORD_PROGRESSIONS,

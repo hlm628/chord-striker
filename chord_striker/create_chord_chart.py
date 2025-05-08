@@ -1,4 +1,4 @@
-from section import Section
+from chord_striker.section import Section
 from subprocess import run
 from pychord import Chord
 from numpy import diff

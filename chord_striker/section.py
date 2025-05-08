@@ -1,7 +1,7 @@
 from pychord import Chord
 import numpy as np
-from helper_fns import accidental_fixer
-from load_constants import KEYS
+from chord_striker.helper_fns import accidental_fixer
+from chord_striker.load_constants import KEYS
 
 
 def chord_nc_equality(chord_nc_1, chord_nc_2):
