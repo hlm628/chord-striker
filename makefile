@@ -64,6 +64,10 @@ $(OUTPUT_DIR):
 test: | $(OUTPUT_DIR)
 	$(RUN) python3 chord_striker/hit_maker.py --song_name $(SONG_NAME) --seed $(SEED) --output_dir $(OUTPUT_DIR)
 
+# Generate random song
+random:
+	$(RUN) python3 chord_striker/hit_maker.py --num_songs 1
+
 # Generate multiple songs
 ALBUM_TRACKS ?= 10
 run-album:
