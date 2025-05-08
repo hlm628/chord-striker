@@ -54,19 +54,15 @@ RUN set -e; \
     mkdir -p /tmp/lilypond && \
     cd /tmp/lilypond && \
     # Install based on architecture
-    if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
-        # x86_64 installation method
-        wget -q https://lilypond.org/download/binaries/linux-64/lilypond-2.22.1-1.linux-64.sh && \
-        printf "E\n" | sh lilypond-2.22.1-1.linux-64.sh && \
-        mkdir -p /usr/local/lilypond/2.22.1 && \
+    if [ "$TARGETPLATFORM" = "linux/amd64" ] && [ "$BUILDPLATFORM" = "linux/amd64" ]; then \
+        # x86_64 installation method (only when building natively)
+        wget -q https://lilypond.org/download/binaries/linux-64/lilypond-2.24.3-1.linux-64.sh && \
+        chmod +x lilypond-2.24.3-1.linux-64.sh && \
+        printf "E\n" | ./lilypond-2.24.3-1.linux-64.sh && \
+        mkdir -p /usr/local/lilypond/2.24.3 && \
         cp -r ./usr/* /usr/; \
-    elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
-        # ARM64 installation method - use apt
-        apt-get update && \
-        apt-get install -y lilypond && \
-        apt-get clean; \
     else \
-        # Fallback to apt for other architectures
+        # ARM64 and cross-compilation - use apt
         apt-get update && \
         apt-get install -y lilypond && \
         apt-get clean; \
@@ -78,7 +74,7 @@ RUN set -e; \
     echo "LilyPond version:" && \
     lilypond --version | head -n 1
 
-# Modify the way we install requirements
+# Copy requirements file
 COPY requirements.txt ./
 
 # Install Python dependencies
