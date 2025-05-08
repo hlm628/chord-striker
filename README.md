@@ -8,3 +8,131 @@ Example outputs can be seen in the [example directory](./example).
 
 ## Features
 
+- Generate random chord progressions with musical coherence
+- Create full song structures with intros, verses, pre-choruses, choruses, and so on
+- Export to PDF chord charts using Lilypond
+- Generate accompanying MIDI files
+- Cross-platform support via Docker
+
+
+## Installation
+
+### Using Docker (Recommended)
+
+The easiest way to get started is using Docker:
+
+```bash
+# Build the Docker image
+make docker
+
+# Enter the container
+make enter
+```
+
+### Manual Installation
+
+1. Install Python 3.11 or later
+2. Install Lilypond (version 2.22.1 or later)
+3. Install the Python dependencies:
+   ```bash
+   pip install -r docker/requirements.txt
+   ```
+
+## Usage
+
+### Basic Usage
+
+Generate a single song:
+```bash
+make run-song
+```
+
+Generate multiple songs (default: 10):
+```bash
+make run-album
+```
+
+Generate a test song with specific parameters:
+```bash
+make test SONG_NAME="My Song" SEED=42
+```
+
+### Output
+
+The generated files will be placed in the `example` directory by default. Each song generation creates:
+- A PDF chord chart
+- A MIDI file
+- A Lilypond source file
+
+### Customization
+
+You can customize the output by modifying:
+- `SONG_NAME`: Name of the generated song
+- `SEED`: Random seed for reproducible results
+- `OUTPUT_DIR`: Directory for generated files
+- `ALBUM_TRACKS`: Number of songs to generate (for `run-album`)
+
+## Development
+
+### Project Structure
+
+```
+chord-striker/
+├── chord_striker/     # Main Python package
+├── docker/           # Docker configuration
+├── example/          # Generated output
+├── assets/           # Static assets
+├── tests/            # Test suite
+└── constants/        # Musical constants
+```
+
+### Running Tests
+
+```bash
+make test
+```
+
+### Building for All Platforms
+
+To build Docker images for both ARM64 and AMD64:
+
+```bash
+make docker-all
+```
+
+Note: This requires a Docker registry for pushing the images.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Here's how you can help:
+
+1. **Fork and Clone**
+   - Fork the repository
+   - Clone your fork: `git clone https://github.com/your-username/chord-striker.git`
+
+2. **Make Changes**
+   - Create a new branch: `git checkout -b feature/your-feature`
+   - Make your changes
+   - Run tests: `make test`
+   - Ensure Docker builds: `make docker`
+
+3. **Submit Changes**
+   - Push to your fork: `git push origin feature/your-feature`
+   - Open a Pull Request
+
+### Guidelines
+
+- Keep changes focused and well-documented
+- Add tests for new features
+- Update documentation as needed
+- Follow the existing code style
+- Make sure all tests pass before submitting
+
+### Questions?
+
+Feel free to open an issue for any questions or suggestions!
+
