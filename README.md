@@ -88,7 +88,14 @@ You can customise the output of `make run-song` with the following options:
 - `PRINT_GRAPH`: Whether to print the song structure graph
 - `CONSTANTS_DIR`: Directory containing custom YAML parameter files
 
-`CONSTANTS_DIR` should be a subdirectory of `constants`, and should contain the same files and schema as the `constants/defaults` directory.
+`CONSTANTS_DIR` should be a subdirectory of `constants`, and should contain the same files and schema as the `constants/defaults` directory:
+- `structure_params.yaml`: Song structure probabilities
+- `chord_change_probs.yaml`: Chord transition probabilities
+- `key_probs.yaml`: Key probabilities
+- `chord_extensions.yaml`: Chord extension probabilities
+- `famous_chord_progressions.yaml`: Pre-defined chord progressions
+
+
 
 ## Development
 
