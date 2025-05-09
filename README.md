@@ -20,7 +20,7 @@ Example outputs can be seen in the [example directory](./example).
 
 Chord Striker uses probability and music theory to generate song structures. 
 
-- First, a section layout is generated. This works by sampling from a probalistic directed acyclic graph (DAG) that models common song transitions. The details can be found in `chord_striker/probabilistic_dag.py` and `chord_striker/song_structure.py`.
+- First, a section layout is generated. This works by sampling from a probalistic directed acyclic graph (DAG) that models common song transitions. The details can be found in `chord_striker/probabilistic_dag.py` and `chord_striker/song_structure.py`. An example of a generated song structure graph can be seen in [example/song_structure_graph.png](./example/song_structure_graph.png).
 - Then each section is populated with chord progressions. These are generated in one of two ways: either by sampling from a list of pre-defined "famous" chord progressions, or from a Markov chain that models how chords transition between one another. The details can be found in `chord_striker/chorder.py`. Repetitions of sections may have small variations (e.g. a chord change, an added chord, or a different length).
 - Finally, the resulting song structure is exported to Lilypond, which converts it into a PDF chord chart and accompanying MIDI file.
 
