@@ -20,11 +20,11 @@ Example outputs can be seen in the [example directory](./example).
 
 Chord Striker uses probability and music theory to generate song structures. 
 
-- First, a section layout is generated. This works by sampling from a probalistic directed acyclic graph (DAG) that models common song transitions. The details can be found in `chord_striker/probabilistic_dag.py` and `chord_striker/song_structure.py`. An example of a generated song structure graph can be seen in [example/song_structure_graph.png](./example/song_structure_graph.png).
+- First, a section layout is generated. This works by sampling from a probabilistic directed acyclic graph (DAG) that models common song transitions. The details can be found in `chord_striker/probabilistic_dag.py` and `chord_striker/song_structure.py`. An example of a generated song structure graph can be seen in [example/song_structure_graph.png](./example/song_structure_graph.png).
 - Then each section is populated with chord progressions. These are generated in one of two ways: either by sampling from a list of pre-defined "famous" chord progressions, or from a Markov chain that models how chords transition between one another. The details can be found in `chord_striker/chorder.py`. Repetitions of sections may have small variations (e.g. a chord change, an added chord, or a different length).
 - Finally, the resulting song structure is exported to Lilypond, which converts it into a PDF chord chart and accompanying MIDI file.
 
-There are a number of hard-coded parameters that can be modified to change the sound of the generated songs. These can be found in the `constants` directory and are loaded by `chord_striker/load_constants.py`. Experimenting with these is a good way to impart your own style into the generated songs.
+There are a number of parameters that can be modified to change the sound of the generated songs. These are stored in YAML files in the `constants` directory. The package will first look for custom parameters in `constants/user`, falling back to the defaults in `constants/defaults` if none are found. You can also specify a custom directory of parameters when calling the functions directly. Experimenting with these is a good way to impart your own style into the generated songs.
 
 ## Installation
 
@@ -74,15 +74,17 @@ The generated files will be placed in the `example` directory by default. Each s
 - A PDF chord chart
 - A MIDI file
 - A Lilypond source file
-- An auxillary file for Lilypond containing the chord symbols
+- An auxiliary file for Lilypond containing the chord symbols
 
-### Customization
+### Customisation
 
-You can customize the output by modifying:
-- `SONG_NAME`: Name of the generated song
-- `SEED`: Random seed for reproducible results
-- `OUTPUT_DIR`: Directory for generated files
-- `ALBUM_TRACKS`: Number of songs to generate (for `run-album`)
+You can customise the output in several ways:
+
+1. Command-line options:
+   - `SONG_NAME`: Name of the generated song
+   - `SEED`: Random seed for reproducible results
+   - `OUTPUT_DIR`: Directory for generated files
+   - `ALBUM_TRACKS`: Number of songs to generate (for `run-album`)
 
 ## Development
 
@@ -96,6 +98,8 @@ chord-striker/
 ├── assets/           # Static assets
 ├── tests/            # Test suite
 └── constants/        # Musical constants
+    ├── defaults/     # Default parameters
+    └── user/         # Custom parameters (git-ignored)
 ```
 
 ### Running Tests
