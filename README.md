@@ -58,15 +58,17 @@ Generate a single song:
 make run-song
 ```
 
+Generate a song with specific parameters:
+```bash
+make run-song SONG_NAME="My Song" SEED=42 TEMPO=120 KEY="C"
+```
+
 Generate multiple songs (default: 10):
 ```bash
 make run-album
 ```
 
-Generate a test song with specific parameters:
-```bash
-make run-song SONG_NAME="My Song" SEED=42
-```
+
 
 ### Output
 
