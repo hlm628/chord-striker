@@ -51,6 +51,12 @@ RUN ?= docker run --platform $(DOCKER_PLATFORM) -it --rm -v $(PWD):/app -w /app 
 SONG_NAME ?= Example
 SEED ?= 42
 OUTPUT_DIR ?= example
+KEY ?= None
+TEMPO ?= None
+NUM_SONGS ?= 1
+PRINT_GRAPH ?= False
+CONSTANTS_DIR ?= None
+
 
 # Enter the container
 enter:
@@ -66,7 +72,7 @@ test:
 
 # Generate random song
 run-song:
-	$(RUN) python3 chord_striker/hit_maker.py --num_songs 1
+	$(RUN) python3 chord_striker/hit_maker.py --num_songs 1 --song_name $(SONG_NAME) --seed $(SEED) --output_dir $(OUTPUT_DIR) --print_graph $(PRINT_GRAPH) --constants_dir $(CONSTANTS_DIR)
 
 # Generate example song
 run-example-song:
@@ -75,7 +81,7 @@ run-example-song:
 # Generate multiple songs
 ALBUM_TRACKS ?= 10
 run-album:
-	$(RUN) python3 chord_striker/hit_maker.py --num_songs $(ALBUM_TRACKS)
+	$(RUN) python3 chord_striker/hit_maker.py --num_songs $(NUM_SONGS)
 
 # Helper target to show current platform
 show-platform:
