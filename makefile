@@ -48,9 +48,9 @@ RUN_TAG ?= latest
 RUN ?= docker run --platform $(DOCKER_PLATFORM) -it --rm -v $(PWD):/app -w /app $(DOCKER_IMG):$(RUN_TAG)
 
 # Configuration for song generation
-SONG_NAME ?= Example
-SEED ?= 42
-OUTPUT_DIR ?= example
+SONG_NAME ?= Random Song
+SEED ?= None
+OUTPUT_DIR ?= output
 KEY ?= None
 TEMPO ?= None
 NUM_SONGS ?= 1
@@ -76,7 +76,7 @@ run-song:
 
 # Generate example song
 run-example-song:
-	$(RUN) python3 chord_striker/hit_maker.py --num_songs 1 --song_name $(SONG_NAME) --seed $(SEED) --output_dir $(OUTPUT_DIR) --print_graph True
+	make run-song SONG_NAME="Example" SEED=42 OUTPUT_DIR=example PRINT_GRAPH=True
 
 # Generate multiple songs
 ALBUM_TRACKS ?= 10
