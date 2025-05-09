@@ -4,9 +4,11 @@ from chord_striker.song_structure import (
     parse_song_structure,
 )
 from chord_striker.create_chord_chart import ChordChart
+from chord_striker.load_constants import load_constants
 import random
 from numpy import random as np_random
 import click
+import os
 
 
 def set_seed(seed):
@@ -18,12 +20,33 @@ def set_seed(seed):
         np_random.seed(seed)
 
 
-def create_song(key, tempo, seed, song_name, output_dir="output", print_graph=False):
+def create_song(
+    key,
+    tempo,
+    seed,
+    song_name,
+    output_dir="output",
+    print_graph=False,
+    constants_dir=None,
+):
     """
     Create a song with the given key, tempo, and seed.
+
+    Args:
+        key: The key of the song
+        tempo: The tempo of the song
+        seed: Random seed for reproducibility
+        song_name: Name of the song
+        output_dir: Directory to save the output
+        print_graph: Whether to print the song structure graph
+        constants_dir: Directory containing custom YAML files for constants
     """
     # Set the random seed if provided
     set_seed(seed)
+
+    # Load custom constants if provided
+    if constants_dir:
+        load_constants(constants_dir)
 
     # Generate a random tempo if not provided
     if tempo is None:
@@ -40,7 +63,7 @@ def create_song(key, tempo, seed, song_name, output_dir="output", print_graph=Fa
     chord_chart.generate_pdf_midi()
 
 
-def create_album(num_songs, seeds=[], parent_dir="output"):
+def create_album(num_songs, seeds=[], parent_dir="output", constants_dir=None):
     """
     Create an album with the specified number of songs and seeds.
     """
@@ -53,6 +76,7 @@ def create_album(num_songs, seeds=[], parent_dir="output"):
             seed=seed,
             song_name=song_name,
             output_dir=f"{parent_dir}/{song_name}",
+            constants_dir=constants_dir,
         )
 
 
@@ -93,14 +117,21 @@ def create_album(num_songs, seeds=[], parent_dir="output"):
     default=False,
     help="Print the graph of the song structure (default: False)",
 )
-def main(num_songs, key, tempo, seed, song_name, output_dir, print_graph):
+@click.option(
+    "--constants_dir",
+    default=None,
+    help="Directory containing custom YAML files for constants (default: None)",
+)
+def main(
+    num_songs, key, tempo, seed, song_name, output_dir, print_graph, constants_dir
+):
     """
     Main function to create a song or an album.
     """
     if num_songs > 1:
-        create_album(num_songs, parent_dir=output_dir)
+        create_album(num_songs, parent_dir=output_dir, constants_dir=constants_dir)
     else:
-        create_song(key, tempo, seed, song_name, output_dir, print_graph)
+        create_song(key, tempo, seed, song_name, output_dir, print_graph, constants_dir)
 
 
 if __name__ == "__main__":

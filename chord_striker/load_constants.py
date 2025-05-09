@@ -1,9 +1,77 @@
 from random import choices
 import yaml
+import os
+from pathlib import Path
 
 ALLOWED_SYMBOLS = ["I", "II", "III", "IV", "V", "VI", "VII"]
 ALLOWED_SYMBOLS = ALLOWED_SYMBOLS + [c.lower() for c in ALLOWED_SYMBOLS]
 ALLOWED_SYMBOLS = ALLOWED_SYMBOLS + ["b" + c for c in ALLOWED_SYMBOLS]
+
+# Constants will be loaded into these global variables
+STRUCTURE_PARAMS = {}
+CHORD_CHANGE_PROBS = {}
+KEY_PROBABILITIES = {}
+KEYS = []
+
+
+def load_constants(constants_dir=None):
+    """
+    Load constants from YAML files. If constants_dir is provided, it will look for files there first,
+    then fall back to the default constants in constants/defaults.
+
+    Args:
+        constants_dir: Optional directory containing custom YAML files. If None, uses constants/user
+                      if it exists, otherwise falls back to constants/defaults.
+    """
+    global STRUCTURE_PARAMS, CHORD_CHANGE_PROBS, KEY_PROBABILITIES, KEYS
+
+    # Determine the constants directory to use
+    if constants_dir is None:
+        # Check if user constants exist
+        user_constants = Path("constants/user")
+        if user_constants.exists() and any(user_constants.iterdir()):
+            constants_dir = user_constants
+        else:
+            constants_dir = Path("constants/defaults")
+    else:
+        constants_dir = Path(constants_dir)
+
+    # Load structure parameters
+    structure_params_path = constants_dir / "structure_params.yaml"
+    if not structure_params_path.exists():
+        structure_params_path = Path("constants/defaults/structure_params.yaml")
+    with open(structure_params_path, "r") as f:
+        STRUCTURE_PARAMS = yaml.safe_load(f)
+
+    # Load chord change probabilities
+    chord_change_probs_path = constants_dir / "chord_change_probs.yaml"
+    if not chord_change_probs_path.exists():
+        chord_change_probs_path = Path("constants/defaults/chord_change_probs.yaml")
+    with open(chord_change_probs_path, "r") as f:
+        CHORD_CHANGE_PROBS = yaml.safe_load(f)
+        # replace "start" key with None
+        CHORD_CHANGE_PROBS[None] = CHORD_CHANGE_PROBS.pop("start")
+        # set the prob for all over chords to 0
+        for key in CHORD_CHANGE_PROBS.keys():
+            for k in ALLOWED_SYMBOLS:
+                if k not in CHORD_CHANGE_PROBS[key]:
+                    CHORD_CHANGE_PROBS[key][k] = 0
+
+    # Load key probabilities
+    key_probs_path = constants_dir / "key_probs.yaml"
+    if not key_probs_path.exists():
+        key_probs_path = Path("constants/defaults/key_probs.yaml")
+    with open(key_probs_path, "r") as f:
+        KEY_PROBABILITIES = yaml.safe_load(f)
+        # check that keys are C-B in order
+        KEYS = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
+        for key in KEYS:
+            if not key in KEY_PROBABILITIES:
+                raise KeyError(f"key {key} not found in key probabilities")
+            if not isinstance(KEY_PROBABILITIES[key], (int, float)):
+                raise TypeError(f"key {key} must be a float")
+            if KEY_PROBABILITIES[key] < 0:
+                raise ValueError(f"key {key} must be non-negative")
 
 
 def is_probability(value):
@@ -20,57 +88,28 @@ def is_probability(value):
     return True
 
 
-def get_key_probs(key_prob_path="constants/key_probabilities.yaml"):
-    """
-    A function to load the key probabilities from a yaml file.
-    """
-
-    with open(key_prob_path, "r") as f:
-        key_probs = yaml.safe_load(f)
-
-    # check that keys are C-B in order
-    keys = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
-    for key in keys:
-        if not key in key_probs:
-            raise KeyError(f"key {key} not found in key probabilities")
-    # check that all values are non-negative floats
-    for key in keys:
-        if not isinstance(key_probs[key], (int, float)):
-            raise TypeError(f"key {key} must be a float")
-        if key_probs[key] < 0:
-            raise ValueError(f"key {key} must be non-negative")
-
-    return keys, key_probs
-
-
-def get_CC_probs(cc_prob_path="constants/chord_change_probs.yaml"):
-    """
-    A function to load the chord change probabilities from a yaml file.
-    """
-
-    with open(cc_prob_path, "r") as f:
-        cc_probs = yaml.safe_load(f)
-
-    # replace "start" key with None
-    cc_probs[None] = cc_probs.pop("start")
-
-    # set the prob for all over chords to 0
-    for key in cc_probs.keys():
-        for k in ALLOWED_SYMBOLS:
-            if k not in cc_probs[key]:
-                cc_probs[key][k] = 0
-
-    return cc_probs
-
-
 class ExtensionSelector:
-    def __init__(self, ext_path="constants/chord_extensions.yaml"):
+    def __init__(self, constants_dir=None):
         """
         A class to select chord extensions based on a dictionary of weights.
         The dictionary is loaded from a yaml file.
         """
-
         self.__ext_dict = dict()
+
+        # Determine the constants directory to use
+        if constants_dir is None:
+            user_constants = Path("constants/user")
+            if user_constants.exists() and any(user_constants.iterdir()):
+                constants_dir = user_constants
+            else:
+                constants_dir = Path("constants/defaults")
+        else:
+            constants_dir = Path(constants_dir)
+
+        # Load extensions
+        ext_path = constants_dir / "chord_extensions.yaml"
+        if not ext_path.exists():
+            ext_path = Path("constants/defaults/chord_extensions.yaml")
 
         with open(ext_path, "r") as f:
             proposed_extensions = yaml.safe_load(f)
@@ -121,13 +160,27 @@ class ExtensionSelector:
 
 
 class FamousCPSelector:
-    def __init__(self, cp_path="constants/famous_chord_progressions.yaml"):
+    def __init__(self, constants_dir=None):
         """
         A class to select famous chord progressions based on a dictionary of weights.
         The dictionary is loaded from a yaml file.
         """
-
         self.__cp_dict = dict()
+
+        # Determine the constants directory to use
+        if constants_dir is None:
+            user_constants = Path("constants/user")
+            if user_constants.exists() and any(user_constants.iterdir()):
+                constants_dir = user_constants
+            else:
+                constants_dir = Path("constants/defaults")
+        else:
+            constants_dir = Path(constants_dir)
+
+        # Load famous chord progressions
+        cp_path = constants_dir / "famous_chord_progressions.yaml"
+        if not cp_path.exists():
+            cp_path = Path("constants/defaults/famous_chord_progressions.yaml")
 
         with open(cp_path, "r") as f:
             cp_candidates = yaml.safe_load(f)
@@ -179,25 +232,9 @@ class FamousCPSelector:
         return this_CP
 
 
-def load_params(structure_parameter_path="constants/structure_params.yaml"):
-    """
-    A function to load the variables from a yaml file.
-    """
-
-    with open(structure_parameter_path, "r") as f:
-        params = yaml.safe_load(f)
-
-    # check any keys ending in "_prob" are valid probabilities
-    for key in params.keys():
-        if key.endswith("_prob"):
-            if not is_probability(params[key]):
-                raise ValueError(f"{key} must be a probability")
-
-    return params
-
-
-CHORD_CHANGE_PROBS = get_CC_probs()
+# Initialize global variables
 CHORD_EXTENSIONS = ExtensionSelector()
 FAMOUS_CHORD_PROGRESSIONS = FamousCPSelector()
-KEYS, KEY_PROBABILITIES = get_key_probs()
-STRUCTURE_PARAMS = load_params()
+
+# Load constants on module import
+load_constants()
