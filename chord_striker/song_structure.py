@@ -102,7 +102,7 @@ def get_song_variables():
         )
 
     # should the bridge come before the solo (if there is one)?
-    bridge_solo_order = bernoulli_trial(STRUCTURE_PARAMS["bridge_before_solo"])
+    bridge_solo_order = bernoulli_trial(STRUCTURE_PARAMS["bridge_before_solo_prob"])
 
     return num_choruses, prechorus, postchorus, bridge_solo_order
 

@@ -11,7 +11,7 @@ pre_chorus_prob: 0.3
 post_chorus_probs:
   pre_chorus_yes: 0.15
   pre_chorus_no: 0.3
-bridge_before_solo: 0.5
+bridge_before_solo_prob: 0.5
 transpose_steps_probs:
   1: 1
   2: 1
