@@ -10,10 +10,21 @@ Example outputs can be seen in the [example directory](./example).
 
 - Generate random chord progressions with musical coherence
 - Create full song structures with intros, verses, pre-choruses, choruses, and so on
+- Add realistic variations to chord progressions
 - Export to PDF chord charts using Lilypond
 - Generate accompanying MIDI files
 - Cross-platform support via Docker
+- Create full albums of songs
 
+## How It Works
+
+Chord Striker uses probability and music theory to generate song structures. 
+
+- First, a section layout is generated. This works by sampling from a probalistic directed acyclic graph (DAG) that models common song transitions. The details can be found in `chord_striker/probabilistic_dag.py` and `chord_striker/song_structure.py`.
+- Then each section is filled with chord progressions. These can be generated in one of two ways: either by choosing from a list of pre-defined "famous" chord progressions, or by randomly sampling from a Markov chain that models how chords transition into one another. The details can be found in `chord_striker/chorder.py`. Repetitions of sections may have small variations (e.g. a chord change, an added chord, or a different length).
+- Finally, the resulting song structure is exported to Lilypond, which converts it into a PDF chord chart and accompanying MIDI file.
+
+There are a number of hard-coded parameters that can be modified to change the sound of the generated songs. These can be found in the `constants` directory and are loaded by `chord_striker/load_constants.py`. Experimenting with these is a good way to impart your own style into the generated songs.
 
 ## Installation
 
