@@ -68,6 +68,10 @@ test:
 run-song:
 	$(RUN) python3 chord_striker/hit_maker.py --num_songs 1
 
+# Generate example song
+run-example-song:
+	$(RUN) python3 chord_striker/hit_maker.py --num_songs 1 --song_name $(SONG_NAME) --seed $(SEED) --output_dir $(OUTPUT_DIR) --print_graph True
+
 # Generate multiple songs
 ALBUM_TRACKS ?= 10
 run-album:

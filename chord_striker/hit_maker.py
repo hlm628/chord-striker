@@ -18,7 +18,7 @@ def set_seed(seed):
         np_random.seed(seed)
 
 
-def create_song(key, tempo, seed, song_name, output_dir="output"):
+def create_song(key, tempo, seed, song_name, output_dir="output", print_graph=False):
     """
     Create a song with the given key, tempo, and seed.
     """
@@ -30,7 +30,7 @@ def create_song(key, tempo, seed, song_name, output_dir="output"):
         tempo = get_tempo()
 
     # Create song structure
-    ss = generate_song_structure()
+    ss = generate_song_structure(print_graph=print_graph, output_dir=output_dir)
 
     # Add chords
     sections = parse_song_structure(ss, key)
@@ -88,14 +88,19 @@ def create_album(num_songs, seeds=[], parent_dir="output"):
     default="output",
     help="Directory to save the generated song or album (default: output)",
 )
-def main(num_songs, key, tempo, seed, song_name, output_dir):
+@click.option(
+    "--print_graph",
+    default=False,
+    help="Print the graph of the song structure (default: False)",
+)
+def main(num_songs, key, tempo, seed, song_name, output_dir, print_graph):
     """
     Main function to create a song or an album.
     """
     if num_songs > 1:
         create_album(num_songs, parent_dir=output_dir)
     else:
-        create_song(key, tempo, seed, song_name, output_dir)
+        create_song(key, tempo, seed, song_name, output_dir, print_graph)
 
 
 if __name__ == "__main__":

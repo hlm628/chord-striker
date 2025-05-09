@@ -471,7 +471,7 @@ def song_structure_graph(num_choruses, prechorus, postchorus, bridge_solo_order)
 def generate_song_structure(
     print_graph: bool = False,
     output_dir: str = None,
-    graph_filepath: str = "song_structure_graph.dot",
+    graph_filepath: str = "song_structure_graph.png",
 ):
     """
     Function which generates a song structure.

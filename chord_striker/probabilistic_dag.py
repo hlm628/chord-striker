@@ -145,22 +145,20 @@ class ProbDAG:
 
         return path
 
-    def write_graphviz(self, filepath="test.dot", decimal_places=4):
-        """
-        Write the graph to a Graphviz DOT file with probability values as edge labels.
-
-        Args:
-            filepath (str): Path to save the DOT file (default: "test.dot")
-            decimal_places (int): Number of decimal places for rounding probabilities (default: 4)
-        """
-        # create a proper copy of the graph to avoid modifying the original
-        graph_copy = nx.DiGraph(self.__graph)
-
-        # get edge probabilities, round them, and set as labels in one step
+    def write_graphviz(self, filepath):
+        """Write the graph to a PNG file using Graphviz."""
+        graph_copy = self.__graph.copy()
         edge_labels = {
-            edge: round(data["p"], decimal_places)
-            for edge, data in graph_copy.edges(data=True)
+            (u, v): f"{data['p']:.2f}" for u, v, data in graph_copy.edges(data=True)
         }
-
         nx.set_edge_attributes(graph_copy, edge_labels, "label")
-        nx.drawing.nx_pydot.write_dot(graph_copy, filepath)
+
+        # Create a Pydot graph
+        pydot_graph = nx.drawing.nx_pydot.to_pydot(graph_copy)
+
+        # Set graph attributes for better visualization
+        pydot_graph.set_rankdir("TB")  # Top to bottom layout
+        pydot_graph.set_node_defaults(shape="box", style="rounded")
+
+        # Save as PNG
+        pydot_graph.write_png(filepath)
