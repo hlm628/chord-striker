@@ -63,6 +63,7 @@ The generated files will be placed in the `example` directory by default. Each s
 - A PDF chord chart
 - A MIDI file
 - A Lilypond source file
+- An auxillary file for Lilypond containing the chord symbols
 
 ### Customization
 
