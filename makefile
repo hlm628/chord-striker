@@ -49,13 +49,13 @@ RUN ?= docker run --platform $(DOCKER_PLATFORM) -it --rm -v $(PWD):/app -w /app 
 
 # Configuration for song generation
 SONG_NAME ?= Random Song
-SEED ?= None
+SEED ?= 
 OUTPUT_DIR ?= output
-KEY ?= None
-TEMPO ?= None
+KEY ?= 
+TEMPO ?= 
 NUM_SONGS ?= 1
 PRINT_GRAPH ?= False
-CONSTANTS_DIR ?= None
+CONSTANTS_DIR ?= 
 
 
 # Enter the container
@@ -72,7 +72,14 @@ test:
 
 # Generate random song
 run-song:
-	$(RUN) python3 chord_striker/hit_maker.py --num_songs 1 --song_name $(SONG_NAME) --seed $(SEED) --output_dir $(OUTPUT_DIR) --print_graph $(PRINT_GRAPH) --constants_dir $(CONSTANTS_DIR)
+	$(RUN) python3 chord_striker/hit_maker.py --num_songs 1 \
+		--song_name "$(SONG_NAME)" \
+		$(if $(SEED),--seed $(SEED),) \
+		--output_dir "$(OUTPUT_DIR)" \
+		--print_graph $(PRINT_GRAPH) \
+		$(if $(CONSTANTS_DIR),--constants_dir "$(CONSTANTS_DIR)",) \
+		$(if $(TEMPO),--tempo $(TEMPO),) \
+		$(if $(KEY),--key "$(KEY)",)
 
 # Generate example song
 run-example-song:
