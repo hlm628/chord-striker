@@ -8,6 +8,7 @@ from datetime import datetime
 from chord_striker.chorder import ChordProgressionSelector
 from chord_striker.load_constants import KEYS, KEY_PROBABILITIES, STRUCTURE_PARAMS
 from chord_striker.helper_fns import sample_weights_dict, bernoulli_trial
+import os
 
 
 class SongKey:
@@ -467,7 +468,11 @@ def song_structure_graph(num_choruses, prechorus, postchorus, bridge_solo_order)
     return ProbDAG(G)
 
 
-def generate_song_structure(print_graph: bool = False, print_filepath: str = None):
+def generate_song_structure(
+    print_graph: bool = False,
+    output_dir: str = None,
+    graph_filepath: str = "song_structure_graph.dot",
+):
     """
     Function which generates a song structure.
     """
@@ -477,13 +482,8 @@ def generate_song_structure(print_graph: bool = False, print_filepath: str = Non
     G = song_structure_graph(num_choruses, prechorus, postchorus, bridge_solo_order)
     event_type_mapping = G.get_node_attributes("event_type")
 
-    if print_graph and print_filepath == None:
-        print_filepath = (
-            f"song_structure_graphs/{str(datetime.now()).replace(' ', '_')}.dot"
-        )
-
     if print_graph:
-        G.write_graphviz(print_filepath)
+        G.write_graphviz(os.path.join(output_dir, graph_filepath))
 
     raw_song_structure = G.get_random_path()
 
