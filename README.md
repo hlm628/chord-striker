@@ -120,29 +120,7 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 ## Contributing
 
-Contributions are welcome! Here's how you can help:
-
-1. **Fork and Clone**
-   - Fork the repository
-   - Clone your fork: `git clone https://github.com/your-username/chord-striker.git`
-
-2. **Make Changes**
-   - Create a new branch: `git checkout -b feature/your-feature`
-   - Make your changes
-   - Run tests: `make test`
-   - Ensure Docker builds: `make docker`
-
-3. **Submit Changes**
-   - Push to your fork: `git push origin feature/your-feature`
-   - Open a Pull Request
-
-### Guidelines
-
-- Keep changes focused and well-documented
-- Add tests for new features
-- Update documentation as needed
-- Follow the existing code style
-- Make sure all tests pass before submitting
+Contributions are welcome! Please make changes to a fork and open a pull request. Run `make test` to ensure your changes are compatible with the existing code.
 
 ### Questions?
 
