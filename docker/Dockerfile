@@ -80,4 +80,7 @@ COPY requirements.txt ./
 # Install Python dependencies
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
+# Set PYTHONPATH to include the app directory
+ENV PYTHONPATH=/app
+
 CMD ["/bin/bash"]
