@@ -60,7 +60,7 @@ make run-song
 
 Generate a song with specific parameters:
 ```bash
-make run-song SONG_NAME="My\ Song" SEED=42 TEMPO=120 KEY="C"
+make run-song SONG_NAME="My Song" SEED=42 TEMPO=120 KEY=D
 ```
 
 Generate multiple songs (default: 10):
