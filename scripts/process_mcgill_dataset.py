@@ -202,7 +202,7 @@ def analyse_chords(data_dir, output_dir):
     # Save the results
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    save_yaml(transitions, output_dir / "chord_transitions.yaml")
+    save_yaml(transitions, output_dir / "chord_change_probs.yaml")
     save_yaml(extensions, output_dir / "chord_extensions.yaml")
     save_yaml(progressions, output_dir / "famous_chord_progressions.yaml")
 
@@ -295,7 +295,7 @@ def save_yaml(data, filename):
             f.write("\n".join(formatted_data))
     else:
         # For other files, sort dictionaries by weight
-        if "chord_extensions.yaml" in str(filename) or "chord_transitions.yaml" in str(
+        if "chord_extensions.yaml" in str(filename) or "chord_change_probs.yaml" in str(
             filename
         ):
             # Create a new dictionary with sorted values
