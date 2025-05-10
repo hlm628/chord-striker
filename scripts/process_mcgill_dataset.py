@@ -8,11 +8,12 @@ from collections import defaultdict
 from pathlib import Path
 import yaml
 import tarfile
-from chord_striker.load_constants import KEYS
+from chord_striker.load_constants import KEYS, ALLOWED_SYMBOLS
 from pychord import Chord
 from chord_striker.chorder import chord_parser
 import re
 import click
+import pandas as pd
 
 MODE_MAP = {
     "ionian": ["I", "ii", "iii", "IV", "V", "vi", "vii"],
@@ -36,11 +37,24 @@ MODE_SEMITONE_MAP = {
 
 
 def download_mcgill_dataset(output_dir):
-    """Download the Billboard dataset."""
-    url = "https://www.dropbox.com/s/2lvny9ves8kns4o/billboard-2.0-salami_chords.tar.gz?dl=1"
+    """Download the Billboard dataset and metadata."""
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    # Download metadata if it doesn't exist
+    metadata_path = Path("data/billboard-2.0-index.csv")
+    if not metadata_path.exists():
+        print("Downloading Billboard metadata...")
+        metadata_url = (
+            "https://www.dropbox.com/s/o0olz0uwl9z9stb/billboard-2.0-index.csv?dl=1"
+        )
+        metadata_path.parent.mkdir(parents=True, exist_ok=True)
+        response = requests.get(metadata_url)
+        with open(metadata_path, "wb") as f:
+            f.write(response.content)
+
+    # Download and extract the chord dataset
+    url = "https://www.dropbox.com/s/2lvny9ves8kns4o/billboard-2.0-salami_chords.tar.gz?dl=1"
     tar_path = output_dir / "billboard-2.0-salami_chords.tar.gz"
     data_dir_path = output_dir / "McGill-Billboard"
     if not data_dir_path.exists():
@@ -49,10 +63,10 @@ def download_mcgill_dataset(output_dir):
         with open(tar_path, "wb") as f:
             f.write(response.content)
 
-    # Extract the tar.gz file
-    print("Extracting dataset...")
-    with tarfile.open(tar_path, "r:gz") as tar_ref:
-        tar_ref.extractall(output_dir)
+        # Extract the tar.gz file
+        print("Extracting dataset...")
+        with tarfile.open(tar_path, "r:gz") as tar_ref:
+            tar_ref.extractall(output_dir)
 
 
 def parse_chord(chord_str, key):
@@ -71,6 +85,9 @@ def parse_chord(chord_str, key):
         # there may also be an inversion
         if "/" in ext:
             ext, inversion = ext.split("/")
+
+        # Convert enharmonic spellings to standard form
+        root = standardise_note(root)
 
         # Validate root is a valid note
         if root not in KEYS:
@@ -145,8 +162,14 @@ def parse_chord(chord_str, key):
         return None, None
 
 
-def analyse_chords(data_dir, output_dir):
-    """Analyze chord transitions from the dataset."""
+def analyse_chords(data_dir, output_dir, valid_ids=None):
+    """Analyze chord transitions from the dataset.
+
+    Args:
+        data_dir: Directory containing the McGill Billboard dataset
+        output_dir: Directory to save the processed data
+        valid_ids: Set of valid IDs to process. If None, process all files.
+    """
     data_dir = Path(data_dir)
 
     # Init dictionaries to store transitions, extensions and chord progressions
@@ -176,7 +199,12 @@ def analyse_chords(data_dir, output_dir):
 
     # Find all salami-chords.txt files in numbered subdirectories
     chord_files = list(data_dir.glob("*/salami_chords.txt"))
-    print(f"Found {len(chord_files)} chord files to analyze")
+    print(f"Found {len(chord_files)} chord files to analyse")
+
+    # Filter files by valid_ids if provided
+    if valid_ids is not None:
+        chord_files = [f for f in chord_files if f.parent.name in valid_ids]
+        print(f"Filtered to {len(chord_files)} files in the specified year range")
 
     for file in chord_files:
         print(f"Processing {file}...")
@@ -475,13 +503,57 @@ def save_yaml(data, filename):
     default=True,
     help="Whether to download the dataset if it doesn't exist",
 )
-def main(input_dir, output_dir, download):
-    """Process the McGill Billboard dataset to generate chord transition and extension data."""
+@click.option(
+    "--first-year",
+    type=int,
+    default=None,
+    help="First year to include in the dataset (inclusive)",
+)
+@click.option(
+    "--last-year",
+    type=int,
+    default=None,
+    help="Last year to include in the dataset (inclusive). If None, includes all years up to present.",
+)
+def main(input_dir, output_dir, download, first_year, last_year):
+    """
+    Process the McGill Billboard dataset and save the results.
+
+    Args:
+        input_dir: Directory containing the McGill Billboard dataset
+        output_dir: Directory to save the processed data
+        download: Whether to download the dataset if it doesn't exist
+        first_year: First year to include in the dataset (inclusive)
+        last_year: Last year to include in the dataset (inclusive). If None, includes all years up to present.
+    """
     if download:
         download_mcgill_dataset(input_dir)
 
+    # Load metadata
+    metadata_path = Path("data/billboard-2.0-index.csv")
+    if not metadata_path.exists():
+        raise FileNotFoundError(f"Metadata file not found at {metadata_path}")
+
+    # Read metadata and convert chart_date to datetime
+    metadata = pd.read_csv(metadata_path)
+    metadata["chart_date"] = pd.to_datetime(metadata["chart_date"])
+    metadata["year"] = metadata["chart_date"].dt.year
+
+    if first_year is None:
+        first_year = metadata["year"].min()
+
+    # Filter by year
+    if last_year is None:
+        last_year = metadata["year"].max()
+
+    year_mask = (metadata["year"] >= first_year) & (metadata["year"] <= last_year)
+    filtered_metadata = metadata[year_mask]
+
+    # Get list of valid IDs for the year range, formatted as 4-digit strings
+    valid_ids = set(filtered_metadata["id"].astype(int).astype(str).str.zfill(4))
+
     # Analyze progressions, transitions and extensions
-    analyse_chords(input_dir, output_dir)
+    analyse_chords(input_dir, output_dir, valid_ids)
 
     print(f"Analysis complete! Results saved to {output_dir}/")
 

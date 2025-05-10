@@ -92,8 +92,9 @@ run-album:
 	$(RUN) python3 chord_striker/hit_maker.py --num_songs $(NUM_SONGS)
 
 # Process Billboard dataset
+FIRST_YEAR ?= 1967
 process-billboard:
-	$(RUN) python3 scripts/process_mcgill_dataset.py
+	$(RUN) python3 scripts/process_mcgill_dataset.py --first-year $(FIRST_YEAR)
 # Helper target to show current platform
 show-platform:
 	@echo "Current platform: $(DOCKER_PLATFORM)"
