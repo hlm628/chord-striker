@@ -154,6 +154,7 @@ def analyse_chords(data_dir, output_dir):
     extensions = {}
     progressions = []  # Changed to list to match YAML format
     mode_stats = {mode: 0 for mode in MODE_MAP.keys()}  # Track statistics for all modes
+    key_stats = {key: 0 for key in KEYS}  # Track statistics for all keys
 
     # Add the blues progressions from defaults
     progressions.extend(
@@ -179,7 +180,11 @@ def analyse_chords(data_dir, output_dir):
 
     for file in chord_files:
         print(f"Processing {file}...")
-        sections, section_modes = parse_salami(file)
+        sections, section_modes, first_key = parse_salami(file)
+
+        # Track the first key of each song
+        if first_key is not None:
+            key_stats[first_key] += 1
 
         for section, mode in zip(sections, section_modes):
             # Track mode statistics
@@ -254,12 +259,20 @@ def analyse_chords(data_dir, output_dir):
     for mode, count in sorted(mode_stats.items(), key=lambda x: x[1], reverse=True):
         print(f"{mode}: {count} ({count/total_sections*100:.1f}%)")
 
+    # Print key statistics
+    total_songs = sum(key_stats.values())
+    print("\nKey Statistics:")
+    print(f"Total songs analyzed: {total_songs}")
+    for key, count in sorted(key_stats.items(), key=lambda x: x[1], reverse=True):
+        print(f"{key}: {count} ({count/total_songs*100:.1f}%)")
+
     # Save the results
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     save_yaml(transitions, output_dir / "chord_change_probs.yaml")
     save_yaml(extensions, output_dir / "chord_extensions.yaml")
     save_yaml(progressions, output_dir / "famous_chord_progressions.yaml")
+    save_yaml(key_stats, output_dir / "key_probs.yaml")
 
 
 def standardise_note(note):
@@ -324,6 +337,7 @@ def parse_salami(file):
     # init a list of sections
     sections = []
     section_modes = []  # Track the original mode of each section
+    first_key = None  # Track the first key of the song
 
     # figure out the chords in each section, and the key
     for section_line in section_lines:
@@ -366,6 +380,12 @@ def parse_salami(file):
             new_tonic = KEYS[(tonic_index + semitone_offset) % 12]
             # Reparse the chords relative to the new tonic
             nashville_chords = [parse_chord(c, new_tonic) for c in chords]
+        else:
+            new_tonic = tonic
+
+        # Track the first key of the song
+        if first_key is None:
+            first_key = new_tonic
 
         # drop list entries which repeat the previous entry
         nashville_chords = [
@@ -376,7 +396,7 @@ def parse_salami(file):
 
         sections.append(nashville_chords)
 
-    return sections, section_modes
+    return sections, section_modes, first_key
 
 
 def save_yaml(data, filename):
