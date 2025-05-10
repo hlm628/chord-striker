@@ -169,6 +169,11 @@ def analyse_chords(data_dir, output_dir):
                         for i in range(len(section) - seq_len + 1):
                             # Get the sequence
                             seq = tuple(c[0] for c in section[i : i + seq_len])
+                            # Skip if it's just alternating between two chords
+                            if seq_len == 3 and seq[0] == seq[2] and seq[0] != seq[1]:
+                                continue
+                            if seq_len == 4 and seq[0] == seq[2] and seq[1] == seq[3]:
+                                continue
                             # Check if this sequence repeats
                             for j in range(i + seq_len, len(section) - seq_len + 1):
                                 next_seq = tuple(c[0] for c in section[j : j + seq_len])
