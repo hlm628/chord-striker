@@ -1,260 +1,194 @@
 chordsA = \chords{
   \bar "|"
-  f1:m
-  f1:m
-  g8:m
-  f8
-  \chordSlash f4
-  \chordSlash f4
-  c4:maj7
-  c1:maj7
-  f4
-  d4:m
-  \chordSlash d2:m
-  g2/d
-  f2:maj7
-  g2
-  \chordSlash g4
-  f4
-  f4
-  c4
-  \chordSlash c2
+  fis2
+  \chordSlash fis4
+  b4
+  b1
+  b1
+  fis4
+  a4:7
+  cis2:7
+  fis2
+  \chordSlash fis4
+  b4
+  b1
+  b1
+  fis4
+  a4:7
+  cis2:7
   \bar "|"
 }
 
 chordsB = \chords{
   \bar "|"
-  c1
-  f1
-  f2
-  \chordSlash f4
-  \chordSlash f8
-  c8
-  f4:m/c
-  bes4:m
-  \chordSlash bes4:m
-  \chordSlash bes8:m
-  c8:maj7
-  ees2:7
-  c8
-  f8
-  ees4
-  f4:m/c
-  aes4
-  \chordSlash aes4
-  c4
-  c2
-  d2:m
-  g1
+  b2:m
+  fis2
+  fis2
+  \chordSlash fis4
+  d4
+  d2
+  \chordSlash d4
+  a4
+  a2
+  g2
+  e2:m
+  a2:7
+  b2:m
+  g2
+  d1
+  d1
   \bar "|"
 }
 
 chordsBA = \chords{
   \bar "|"
-  f1:m
-  f1:m
-  g8:m
-  f8
-  \chordSlash f4
-  \chordSlash f4
-  c4:maj7
-  c1:maj7
-  f4
-  d4:m
-  \chordSlash d2:m
-  g2/d
-  f2:maj7
-  g2
-  \chordSlash g4
-  f4
-  f4
-  c4
-  \chordSlash c2
+  cis1
+  b1
+  fis2
+  b2
+  fis4
+  b4
+  cis2
+  cis1
+  b1
+  fis2
+  b2
+  fis4
+  b4
+  cis2
   \bar "|"
 }
 
 chordsBB = \chords{
   \bar "|"
-  c1
-  f1
-  f2
-  \chordSlash f4
-  \chordSlash f8
-  c8
-  f4:m/c
-  bes4:m
-  \chordSlash bes4:m
-  \chordSlash bes8:m
-  c8:maj7
-  ees2:7
-  c8
-  f8
-  ees4
-  f4:m/c
-  aes4
-  \chordSlash aes4
-  c4
-  c2
-  d2:m
-  g1
+  b2:m
+  fis2
+  fis2
+  \chordSlash fis4
+  d4
+  d2
+  \chordSlash d4
+  a4
+  a2
+  g2
+  e2:m
+  a2:7
+  b2:m
+  g2
+  d1
+  d1
   \bar "|"
 }
 
 chordsBAA = \chords{
   \bar "|"
-  f1:m
-  f1:m
-  g8:m
-  f8
-  \chordSlash f4
-  \chordSlash f4
-  c4:maj7
-  c1:maj7
-  f4
-  d4:m
-  \chordSlash d2:m
-  g2/d
-  f2:maj7
-  g2
-  \chordSlash g4
-  f4
-  f4
-  c4
-  \chordSlash c2
+  cis1
+  b1
+  fis2
+  b2
+  fis4
+  b4
+  cis2
+  cis1
+  b1
+  fis2
+  b2
+  fis4
+  b4
+  cis2
   \bar "|"
 }
 
 chordsBAB = \chords{
   \bar "|"
-  c1
-  f1
-  f2
-  \chordSlash f4
-  \chordSlash f8
-  c8
-  f4:m/c
-  bes4:m
-  \chordSlash bes4:m
-  \chordSlash bes8:m
-  c8:maj7
-  ees2:7
-  c8
-  f8
-  ees4
-  f4:m/c
-  aes4
-  \chordSlash aes4
-  c4
-  c2
-  d2:m
-  g1
+  b2:m
+  fis2
+  fis2
+  \chordSlash fis4
+  d4
+  d2
+  \chordSlash d4
+  a4
+  a2
+  g2
+  e2:m
+  a2:7
+  b2:m
+  g2
+  d1
+  d1
   \bar "|"
 }
 
 chordsBBA = \chords{
   \bar "|"
-  c1
-  f1
-  f2
-  \chordSlash f4
-  \chordSlash f8
-  c8
-  f4:m/c
-  bes4:m
-  \chordSlash bes4:m
-  \chordSlash bes8:m
-  c8:maj7
-  ees2:7
-  c8
-  f8
-  ees4
-  f4:m/c
-  aes4
-  \chordSlash aes4
-  c4
-  c2
-  d2:m
-  g1
-  c1
-  f1
-  f2
-  \chordSlash f4
-  \chordSlash f8
-  c8
-  f4:m/c
-  bes4:m
-  \chordSlash bes4:m
-  \chordSlash bes8:m
-  c8:maj7
-  ees2:7
-  c8
-  f8
-  ees4
-  f4:m/c
-  aes4
-  \chordSlash aes4
-  c4
-  c2
-  d2:m
-  g1
+  cis1
+  b1
+  fis2
+  b2
+  fis4
+  b4
+  cis2
+  cis1
+  b1
+  fis2
+  b2
+  fis4
+  b4
+  cis2
   \bar "|"
 }
 
 chordsBBB = \chords{
   \bar "|"
-  c4:sus4
-  f4
-  c8:maj7
-  f8/c
-  \chordSlash f4/c
-  f1/c
-  f1/c
-  f2/c
-  aes2
-  c1:maj7
-  des1
-  ees4
-  f4
+  b2:m
+  fis2
+  fis2
+  \chordSlash fis4
+  d4
+  d2
+  \chordSlash d4
+  a4
+  a2
+  g2
+  e2:m
   a2:7
-  f2
-  g4:sus4
-  c4
+  b2:m
+  g2
+  d1
+  d1
   \bar "|"
 }
 
 chordsBAAA = \chords{
   \bar "|"
-  bes1
-  c2:sus2
-  b2:m7-5
-  b2:m7-5
-  e2:7
-  g2
-  \chordSlash g4
-  a4:7
-  bes1
-  c2:sus2
-  b2:m7-5
-  b2:m7-5
-  e2:7
-  g2
-  \chordSlash g4
-  a4:7
-  bes1
-  c2:sus2
-  b2:m7-5
-  b2:m7-5
-  e2:7
-  g2
-  \chordSlash g4
-  a4:7
-  bes1
-  c2:sus2
-  b2:m7-5
-  b2:m7-5
-  e2:7
-  g2
-  \chordSlash g4
-  a4:7
+  cis1
+  b1
+  fis2
+  b2
+  fis4
+  b4
+  cis2
+  cis1
+  b1
+  fis2
+  b2
+  fis4
+  b4
+  cis2
+  \bar "|"
+}
+
+chordsBAAB = \chords{
+  \bar "|"
+  fis1:maj7
+  dis2:7
+  \chordSlash dis4:7
+  b4:maj7
+  b1:maj7
+  e4:7
+  d4
+  dis4
+  cis4:7
   \bar "|."
 }

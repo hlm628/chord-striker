@@ -122,20 +122,12 @@ class Chorder:
 
 
 def chord_progression_selector(section: Section):
-
     # decide where to place chord changes + get number of changes
     change_indices = choose_change_locations(section)
     num_changes = len(change_indices)
 
     # choose chords
     chords = []
-
-    this_chord = None
-    for i in range(num_changes):
-        this_chord = Chorder(
-            prev_chord=this_chord, last_chord=(i == (num_changes - 1))
-        ).new_chord()
-        chords.append(this_chord)
 
     # decide whether or not to use famous CP - this can happen if there are 3/4 changes or 12 measures
     if section.num_measures == 12 and bernoulli_trial(
@@ -157,14 +149,26 @@ def chord_progression_selector(section: Section):
         else:
             raise ValueError("this is some new kind of blues unseen before!")
 
-    elif num_changes == 3 and bernoulli_trial(
+    elif num_changes % 3 == 0 and bernoulli_trial(
         STRUCTURE_PARAMS["famous_chord_progressions_probs"][3]
     ):
-        chords = FAMOUS_CHORD_PROGRESSIONS.get_prog(3)
-    elif num_changes == 4 and bernoulli_trial(
+        base_prog = FAMOUS_CHORD_PROGRESSIONS.get_prog(3)
+        times = num_changes // 3
+        chords = (base_prog * times)[:num_changes]
+    elif num_changes % 4 == 0 and bernoulli_trial(
         STRUCTURE_PARAMS["famous_chord_progressions_probs"][4]
     ):
-        chords = FAMOUS_CHORD_PROGRESSIONS.get_prog(4)
+        base_prog = FAMOUS_CHORD_PROGRESSIONS.get_prog(4)
+        times = num_changes // 4
+        chords = (base_prog * times)[:num_changes]
+    else:
+        # fallback to original logic
+        this_chord = None
+        for i in range(num_changes):
+            this_chord = Chorder(
+                prev_chord=this_chord, last_chord=(i == (num_changes - 1))
+            ).new_chord()
+            chords.append(this_chord)
 
     return change_indices, chords
 

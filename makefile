@@ -84,7 +84,7 @@ run-song:
 
 # Generate example song
 run-example-song:
-	make run-song SONG_NAME="Example" SEED=17 OUTPUT_DIR=example PRINT_GRAPH=True
+	make run-song SONG_NAME="Example" SEED=42 OUTPUT_DIR=example PRINT_GRAPH=True
 
 # Generate multiple songs
 ALBUM_TRACKS ?= 10

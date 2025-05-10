@@ -78,7 +78,7 @@ measure_distributions:
 chords_per_measure: 1.3 # average number of chords per measure; max is always 4
 famous_chord_progressions_probs:
   3: 0.3
-  4: 0.5
+  4: 0.6
   blues: 0.5 
 invert_chord_prob: 0.08 # probability of inverting a chord
 apply_extension_prob: 0.3 # probability of applying a chord extension
