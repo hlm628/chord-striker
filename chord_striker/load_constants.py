@@ -123,32 +123,40 @@ class ExtensionSelector:
 
         # Initialize all allowed symbols with default extensions
         for symbol in ALLOWED_SYMBOLS:
-            if symbol.startswith('b'):
+            if symbol.startswith("b"):
                 # For flat chords, use the same extensions as their non-flat counterparts
                 base_symbol = symbol[1:]
                 if base_symbol in proposed_extensions:
-                    self.__ext_dict[symbol] = proposed_extensions[base_symbol].copy()
-                else:
-                    # Default extensions for flat chords
+                    # Filter out power chords
                     self.__ext_dict[symbol] = {
-                        '7': 1000,
-                        '5': 500,
-                        'maj7': 300,
-                        'sus4': 200,
-                        '9': 100
+                        ext: weight
+                        for ext, weight in proposed_extensions[base_symbol].items()
+                        if ext != "5"
+                    }
+                else:
+                    # Default extensions for flat chords (excluding power chords)
+                    self.__ext_dict[symbol] = {
+                        "7": 1000,
+                        "maj7": 300,
+                        "sus4": 200,
+                        "9": 100,
                     }
             else:
                 # For non-flat chords, use extensions from YAML or defaults
                 if symbol in proposed_extensions:
-                    self.__ext_dict[symbol] = proposed_extensions[symbol].copy()
-                else:
-                    # Default extensions for non-flat chords
+                    # Filter out power chords
                     self.__ext_dict[symbol] = {
-                        '7': 1000,
-                        '5': 500,
-                        'maj7': 300,
-                        'sus4': 200,
-                        '9': 100
+                        ext: weight
+                        for ext, weight in proposed_extensions[symbol].items()
+                        if ext != "5"
+                    }
+                else:
+                    # Default extensions for non-flat chords (excluding power chords)
+                    self.__ext_dict[symbol] = {
+                        "7": 1000,
+                        "maj7": 300,
+                        "sus4": 200,
+                        "9": 100,
                     }
 
     def add_extension(self, chord, extension, weight):
