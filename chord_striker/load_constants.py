@@ -16,37 +16,27 @@ KEYS = []
 
 def load_constants(constants_dir=None):
     """
-    Load constants from YAML files. If constants_dir is provided, it will look for files there first,
-    then fall back to the default constants in constants/defaults.
+    Load constants from YAML files. If constants_dir is provided, it will look for files there,
+    otherwise uses constants/defaults.
 
     Args:
-        constants_dir: Optional directory containing custom YAML files. If None, uses constants/user
-                      if it exists, otherwise falls back to constants/defaults.
+        constants_dir: Optional directory containing custom YAML files. If None, uses constants/defaults.
     """
     global STRUCTURE_PARAMS, CHORD_CHANGE_PROBS, KEY_PROBABILITIES, KEYS
 
     # Determine the constants directory to use
     if constants_dir is None:
-        # Check if user constants exist
-        user_constants = Path("constants/user")
-        if user_constants.exists() and any(user_constants.iterdir()):
-            constants_dir = user_constants
-        else:
-            constants_dir = Path("constants/defaults")
+        constants_dir = Path("constants/defaults")
     else:
         constants_dir = Path(constants_dir)
 
     # Load structure parameters
     structure_params_path = constants_dir / "structure_params.yaml"
-    if not structure_params_path.exists():
-        structure_params_path = Path("constants/defaults/structure_params.yaml")
     with open(structure_params_path, "r") as f:
         STRUCTURE_PARAMS = yaml.safe_load(f)
 
     # Load chord change probabilities
     chord_change_probs_path = constants_dir / "chord_change_probs.yaml"
-    if not chord_change_probs_path.exists():
-        chord_change_probs_path = Path("constants/defaults/chord_change_probs.yaml")
     with open(chord_change_probs_path, "r") as f:
         CHORD_CHANGE_PROBS = yaml.safe_load(f)
         # replace "start" key with None
@@ -59,8 +49,6 @@ def load_constants(constants_dir=None):
 
     # Load key probabilities
     key_probs_path = constants_dir / "key_probs.yaml"
-    if not key_probs_path.exists():
-        key_probs_path = Path("constants/defaults/key_probs.yaml")
     with open(key_probs_path, "r") as f:
         KEY_PROBABILITIES = yaml.safe_load(f)
         # check that keys are C-B in order
@@ -95,6 +83,10 @@ class ExtensionSelector:
         The dictionary is loaded from a yaml file.
         """
         self.__ext_dict = dict()
+
+        # Initialize all allowed symbols with empty extension
+        for symbol in ALLOWED_SYMBOLS:
+            self.__ext_dict[symbol] = {"": 1}
 
         # Determine the constants directory to use
         if constants_dir is None:
@@ -139,11 +131,6 @@ class ExtensionSelector:
             # add extension weights to dictionary
             for extension, weight in proposed_extensions[chord].items():
                 self.add_extension(chord, extension, weight)
-
-        # for each key in the dictionary, add the empty extension with weight 1
-        for chord in self.__ext_dict.keys():
-            if "" not in self.__ext_dict[chord]:
-                self.__ext_dict[chord][""] = 1
 
     def add_extension(self, chord, extension, weight):
         if chord not in self.__ext_dict:

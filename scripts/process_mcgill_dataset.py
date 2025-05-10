@@ -95,21 +95,22 @@ def parse_chord(chord_str, key):
         # Convert semitones to scale degree (1-7)
         semitone_to_degree = {
             0: "I",
+            1: "bII",
             2: "II",
+            3: "bIII",
             4: "III",
             5: "IV",
+            6: "bV",
             7: "V",
+            8: "bVI",
             9: "VI",
+            10: "bVII",
             11: "VII",
         }
 
-        semitone_reference = min(
-            [x for x in semitone_to_degree.keys() if x >= semitones]
-        )
-        nashville = semitone_to_degree[semitone_reference]
-        if semitone_reference < semitones:
-            nashville = "b" + nashville
+        nashville = semitone_to_degree[semitones]
 
+        # If it's a minor chord, make it lowercase
         if (len(ext) > 0 and ext[0] == "m" and ext[:3] != "maj") or ext == "dim":
             nashville = nashville.lower()
 
@@ -215,6 +216,26 @@ def analyse_chords(data_dir, output_dir):
     save_yaml(progressions, output_dir / "famous_chord_progressions.yaml")
 
 
+def standardise_note(note):
+    """Convert enharmonic spellings to standard form.
+
+    Args:
+        note: A note name (e.g. "Db", "D#", etc.)
+
+    Returns:
+        The standardised note name (e.g. "C#", "Eb", etc.)
+    """
+    enharmonic_map = {
+        "Cb": "B",
+        "Db": "C#",
+        "D#": "Eb",
+        "Gb": "F#",
+        "G#": "Ab",
+        "A#": "Bb",
+    }
+    return enharmonic_map.get(note, note)
+
+
 def parse_salami(file):
     """Parse a salami file into a list of chords and key."""
     with open(file, "r") as f:
@@ -223,11 +244,14 @@ def parse_salami(file):
     # Collapse all spaces to single spaces and remove the first word
     content = [" ".join(l.split()[1:]) for l in content]
 
-    key_lines = [idx for idx, l in enumerate(content) if l.startswith("tonic:")]
-    if len(key_lines) == 0:
-        raise ValueError("No key line found")
-    # convert into dict with key as line number and value as key
-    key_dict = {idx: content[idx].split("tonic:")[1].strip() for idx in key_lines}
+    tonic_lines = [idx for idx, l in enumerate(content) if l.startswith("tonic:")]
+    if len(tonic_lines) == 0:
+        raise ValueError("No tonic line found")
+    # convert into dict with line number and tonic
+    tonic_dict = {
+        idx: standardise_note(content[idx].split("tonic:")[1].strip())
+        for idx in tonic_lines
+    }
 
     # lines where sections begin contain a pipe, but do not start with them
     section_lines = [
@@ -239,8 +263,8 @@ def parse_salami(file):
 
     # figure out the chords in each section, and the key
     for section_line in section_lines:
-        last_key_idx = max([idx for idx in key_lines if idx < section_line])
-        key = key_dict[last_key_idx]
+        last_key_idx = max([idx for idx in tonic_lines if idx < section_line])
+        tonic = tonic_dict[last_key_idx]
 
         # now figure out the chords
         last_section_line = min(
@@ -263,13 +287,34 @@ def parse_salami(file):
                 ]
                 chords.extend(chords_line)
 
-        # convert chords to Nashville notation
-        chords = [parse_chord(c, key) for c in chords]
+        # Parse the chords relative to the tonic
+        nashville_chords = [parse_chord(c, tonic) for c in chords]
+
+        # Figure out whether the tonic if major or minor, by looking at the ratio of I/i, IV/iv, V/v, vi/VI
+        tonic_major_count = 0
+        tonic_minor_count = 0
+        for c in nashville_chords:
+            if c[0] in ["I", "ii", "iii", "IV", "V", "vi", "vii"]:
+                tonic_major_count += 1
+            elif c[0] in ["i", "II", "bIII", "iv", "v", "bVI", "bVII"]:
+                tonic_minor_count += 1
+
+        if tonic_major_count > tonic_minor_count:
+            key = tonic
+        else:
+            key = KEYS[(KEYS.index(tonic) + 3) % 12]
+
+            # reparse the chords relative to the key
+            nashville_chords = [parse_chord(c, key) for c in chords]
 
         # drop list entries which repeat the previous entry
-        chords = [c for i, c in enumerate(chords) if i == 0 or c[0] != chords[i - 1][0]]
+        nashville_chords = [
+            c
+            for i, c in enumerate(nashville_chords)
+            if i == 0 or c[0] != nashville_chords[i - 1][0]
+        ]
 
-        sections.append(chords)
+        sections.append(nashville_chords)
 
     return sections
 

@@ -10,6 +10,7 @@ from chord_striker.load_constants import (
     CHORD_EXTENSIONS,
     FAMOUS_CHORD_PROGRESSIONS,
     STRUCTURE_PARAMS,
+    ALLOWED_SYMBOLS,
 )
 
 
@@ -169,13 +170,9 @@ def chord_progression_selector(section: Section):
 
 
 def chord_parser(chord: "str", key: str):
-
-    # possible chords
-    diatonic_chords = ["I", "ii", "iii", "IV", "V", "vi", "vii"]
-    borrowed = ["bIII", "III", "bVII"]
-
-    if not chord in diatonic_chords + borrowed:
-        raise ValueError("chord is not valid")
+    # Check if chord is in allowed symbols
+    if not chord in ALLOWED_SYMBOLS:
+        raise ValueError(f"chord is not valid: {chord}")
 
     # generate chord extensions
     extension = CHORD_EXTENSIONS.get_ext(chord)
@@ -187,15 +184,32 @@ def chord_parser(chord: "str", key: str):
         else:
             extension = "m7-5"
 
-    if chord in diatonic_chords:
-        py_chord = Chord.from_note_index(
-            diatonic_chords.index(chord) + 1, extension, key + "maj"
-        )
-
-    elif chord in borrowed:
-        py_chord = Chord.from_note_index(1, extension, key + "maj")
-        transpose_tones = {"bIII": 3, "III": 4, "bVII": 10}
-        py_chord.transpose(transpose_tones[chord])
+    # Get the scale degree (1-7) relative to the key
+    if chord in ALLOWED_SYMBOLS:
+        # For diatonic chords (I-VII)
+        if chord.upper() in ["I", "II", "III", "IV", "V", "VI", "VII"]:
+            py_chord = Chord.from_note_index(
+                ["I", "II", "III", "IV", "V", "VI", "VII"].index(chord.upper()) + 1,
+                extension,
+                key + "maj",
+            )
+        # For flat chords (bI-bVII)
+        elif chord.startswith("b"):
+            base_chord = chord[1:]
+            py_chord = Chord.from_note_index(
+                ["I", "II", "III", "IV", "V", "VI", "VII"].index(base_chord.upper())
+                + 1,
+                extension,
+                key + "maj",
+            )
+            py_chord.transpose(-1)  # Flatten by one semitone
+        # For lowercase chords (i-vii)
+        else:
+            py_chord = Chord.from_note_index(
+                ["I", "II", "III", "IV", "V", "VI", "VII"].index(chord.upper()) + 1,
+                extension,
+                key + "maj",
+            )
 
     # invert
     if bernoulli_trial(STRUCTURE_PARAMS["invert_chord_prob"]):
