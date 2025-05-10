@@ -84,7 +84,7 @@ run-song:
 
 # Generate example song
 run-example-song:
-	make run-song SONG_NAME="Example" SEED=17 OUTPUT_DIR=example PRINT_GRAPH=True
+	make run-song SONG_NAME="Example" SEED=42 OUTPUT_DIR=example PRINT_GRAPH=True
 
 # Generate multiple songs
 ALBUM_TRACKS ?= 10
@@ -92,8 +92,9 @@ run-album:
 	$(RUN) python3 chord_striker/hit_maker.py --num_songs $(NUM_SONGS)
 
 # Process Billboard dataset
+FIRST_YEAR ?= 1967
 process-billboard:
-	$(RUN) python3 scripts/process_mcgill_dataset.py
+	$(RUN) python3 scripts/process_mcgill_dataset.py --first-year $(FIRST_YEAR)
 # Helper target to show current platform
 show-platform:
 	@echo "Current platform: $(DOCKER_PLATFORM)"

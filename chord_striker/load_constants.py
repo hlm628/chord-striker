@@ -84,24 +84,16 @@ class ExtensionSelector:
         """
         self.__ext_dict = dict()
 
-        # Initialize all allowed symbols with empty extension
-        for symbol in ALLOWED_SYMBOLS:
-            self.__ext_dict[symbol] = {"": 1}
-
         # Determine the constants directory to use
         if constants_dir is None:
-            user_constants = Path("constants/user")
-            if user_constants.exists() and any(user_constants.iterdir()):
-                constants_dir = user_constants
-            else:
-                constants_dir = Path("constants/defaults")
+            constants_dir = Path("constants/defaults")
         else:
             constants_dir = Path(constants_dir)
 
         # Load extensions
         ext_path = constants_dir / "chord_extensions.yaml"
         if not ext_path.exists():
-            ext_path = Path("constants/defaults/chord_extensions.yaml")
+            raise FileNotFoundError(f"Chord extensions file not found at {ext_path}")
 
         with open(ext_path, "r") as f:
             proposed_extensions = yaml.safe_load(f)
@@ -124,13 +116,44 @@ class ExtensionSelector:
                 raise TypeError("values of value must be floats")
             if not all(v >= 0 for v in proposed_extensions[key].values()):
                 raise ValueError("values of value must be >= 0")
-            if not all(v <= 1 for v in proposed_extensions[key].values()):
-                raise ValueError("values of value must be <= 1")
 
-        for chord in proposed_extensions:
-            # add extension weights to dictionary
-            for extension, weight in proposed_extensions[chord].items():
-                self.add_extension(chord, extension, weight)
+        # Initialize all allowed symbols with default extensions
+        for symbol in ALLOWED_SYMBOLS:
+            if symbol.startswith("b"):
+                # For flat chords, use the same extensions as their non-flat counterparts
+                base_symbol = symbol[1:]
+                if base_symbol in proposed_extensions:
+                    # Filter out power chords
+                    self.__ext_dict[symbol] = {
+                        ext: weight
+                        for ext, weight in proposed_extensions[base_symbol].items()
+                        if ext != "5"
+                    }
+                else:
+                    # Default extensions for flat chords (excluding power chords)
+                    self.__ext_dict[symbol] = {
+                        "7": 1000,
+                        "maj7": 300,
+                        "sus4": 200,
+                        "9": 100,
+                    }
+            else:
+                # For non-flat chords, use extensions from YAML or defaults
+                if symbol in proposed_extensions:
+                    # Filter out power chords
+                    self.__ext_dict[symbol] = {
+                        ext: weight
+                        for ext, weight in proposed_extensions[symbol].items()
+                        if ext != "5"
+                    }
+                else:
+                    # Default extensions for non-flat chords (excluding power chords)
+                    self.__ext_dict[symbol] = {
+                        "7": 1000,
+                        "maj7": 300,
+                        "sus4": 200,
+                        "9": 100,
+                    }
 
     def add_extension(self, chord, extension, weight):
         if chord not in self.__ext_dict:
@@ -139,10 +162,10 @@ class ExtensionSelector:
 
     def get_ext(self, chord):
         possible_exts = list(self.__ext_dict[chord].keys())
+        if not possible_exts:  # If no extensions defined, return empty string
+            return ""
         ext_weights = [self.__ext_dict[chord][k] for k in possible_exts]
-
         ext = choices(possible_exts, weights=ext_weights)[0]
-
         return ext
 
 
