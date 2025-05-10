@@ -80,7 +80,7 @@ famous_chord_progressions_probs:
   3: 0.3
   4: 0.5
   blues: 0.5 
-invert_chord_prob: 0.08 # deprecated, use chord_inversions instead
+invert_chord_prob: 0.08 # probability of inverting a chord
 apply_extension_prob: 0.3 # probability of applying a chord extension
 
 
