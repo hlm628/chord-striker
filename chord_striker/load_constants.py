@@ -166,7 +166,8 @@ class ExtensionSelector:
             return ""
         ext_weights = [self.__ext_dict[chord][k] for k in possible_exts]
         ext = choices(possible_exts, weights=ext_weights)[0]
-        return ext
+        # Split on spaces and take the first extension to avoid multiple extensions
+        return ext.split()
 
 
 class FamousCPSelector:

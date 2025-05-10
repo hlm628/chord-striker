@@ -182,13 +182,20 @@ def chord_parser(chord: "str", key: str):
     extension = ""
     if bernoulli_trial(STRUCTURE_PARAMS["apply_extension_prob"]):
         extension = CHORD_EXTENSIONS.get_ext(chord)
+        # If extension contains multiple numbers, take the highest one
+        if extension:
+            numbers = [int(x) for x in extension.split() if x.isdigit()]
+            if numbers:
+                extension = str(max(numbers))
 
     # incorporate minor tonality if needed
-    if chord.islower() and chord != "vii" and not extension and not "sus" in extension:
-        # Only add 'm' if we don't have an extension
-        extension = "m"
+    if chord.islower() and chord != "vii":
+        if not extension:  # No extension, add 'm'
+            extension = "m"
+        elif not any(x in extension for x in ["m", "sus"]):  # Has extension but not minor or sus
+            extension = "m" + extension
     elif chord == "vii" and not extension and not "sus" in extension:
-        extension = "m7-5"
+        extension = "m7b5"
 
     # Get the scale degree (1-7) relative to the key
     if chord in ALLOWED_SYMBOLS:

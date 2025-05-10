@@ -524,19 +524,7 @@ def section_variation(base_variations: list):
 
 def base_section_length(n: int):
     # function which decides base chord structure in CP
-
-    # check if n is a power of 2
-    if n == 1 or int(log(n, 2)) != log(n, 2):
-        return n
-
-    else:
-        # if n=8 then there is a 50% chance we repeat a 4-measure section
-        keep_n = choices([True, False], weights=[8, n])[0]
-        if keep_n:
-            return n
-        else:
-            # recursively
-            return base_section_length(n // 2)
+    return n
 
 
 def measures_assign():
