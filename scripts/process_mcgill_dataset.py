@@ -294,7 +294,25 @@ def save_yaml(data, filename):
         with open(filename, "w") as f:
             f.write("\n".join(formatted_data))
     else:
-        # For other files, use standard YAML dump
+        # For other files, sort dictionaries by weight
+        if "chord_extensions.yaml" in str(filename) or "chord_transitions.yaml" in str(
+            filename
+        ):
+            # Create a new dictionary with sorted values
+            sorted_data = {}
+            # Sort outer keys alphabetically
+            for key in sorted(data.keys()):
+                value = data[key]
+                if isinstance(value, dict):
+                    # Sort the inner dictionary by value (weight) in descending order
+                    sorted_data[key] = dict(
+                        sorted(value.items(), key=lambda x: x[1], reverse=True)
+                    )
+                else:
+                    sorted_data[key] = value
+            data = sorted_data
+
+        # Use standard YAML dump
         with open(filename, "w") as f:
             yaml.dump(data, f, default_flow_style=False, sort_keys=False)
 
