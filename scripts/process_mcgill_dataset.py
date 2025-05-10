@@ -14,6 +14,16 @@ from chord_striker.chorder import chord_parser
 import re
 import click
 
+MODE_MAP = {
+    "ionian": ["I", "ii", "iii", "IV", "V", "vi", "vii"],
+    "dorian": ["i", "ii", "bIII", "IV", "v", "vi", "bVII"],
+    "phrygian": ["i", "bII", "bIII", "iv", "v", "bVI", "bvii"],
+    "lydian": ["I", "II", "iii", "bv", "V", "vi", "vii"],
+    "mixolydian": ["I", "ii", "iii", "IV", "v", "vi", "bVII"],
+    "aeolian": ["i", "ii", "bIII", "iv", "v", "bVI", "bVII"],
+    "locrian": ["i", "bII", "biii", "iv", "bV", "bVI", "bvii"],
+}
+
 
 def download_mcgill_dataset(output_dir):
     """Download the Billboard dataset."""
@@ -251,6 +261,24 @@ def standardise_note(note):
     return enharmonic_map.get(note, note)
 
 
+def detect_mode(chords, tonic):
+    """Detect the mode of a chord progression.
+
+    Args:
+        chords: List of chords
+        tonic: Tonic chord
+    """
+    # init dictionary to count chords, using keys from MODE_MAP
+    chord_counts = {mode: 0 for mode in MODE_MAP.keys()}
+    for chord in chords:
+        for mode in MODE_MAP.keys():
+            if chord in MODE_MAP[mode]:
+                chord_counts[mode] += 1
+                break
+    # return the mode with the most chords
+    return max(chord_counts, key=chord_counts.get)
+
+
 def parse_salami(file):
     """Parse a salami file into a list of chords and key."""
     with open(file, "r") as f:
@@ -311,27 +339,29 @@ def parse_salami(file):
             if i == 0 or c[0] != nashville_chords[i - 1][0]
         ]
 
-        # Figure out whether the tonic is major or minor, by comparing chords
-        tonic_major_count = 0
-        tonic_minor_count = 0
-        for c in nashville_chords:
-            if c[0] in ["I", "ii", "iii", "IV", "V", "vi", "vii"]:
-                tonic_major_count += 1
-            elif c[0] in ["i", "II", "bIII", "iv", "v", "bVI", "bVII"]:
-                tonic_minor_count += 1
+        # Check the mode
+        mode = detect_mode(nashville_chords, tonic)
 
-        if tonic_major_count > tonic_minor_count:
-            key = tonic
-        else:
-            key = KEYS[(KEYS.index(tonic) + 3) % 12]
+        # Convert mode to semitone offset
+        mode_to_semitone = {
+            "ionian": 0,
+            "dorian": 2,
+            "phrygian": 3,
+            "lydian": 4,
+            "mixolydian": 5,
+            "aeolian": 7,
+            "locrian": 9,
+        }
+        semitone_offset = mode_to_semitone[mode]
+        key = KEYS[(KEYS.index(tonic) + semitone_offset) % 12]
 
-            # reparse the chords relative to the key
-            nashville_chords = [parse_chord(c, key) for c in chords]
-            nashville_chords = [
-                c
-                for i, c in enumerate(nashville_chords)
-                if i == 0 or c[0] != nashville_chords[i - 1][0]
-            ]
+        # reparse the chords relative to the key
+        nashville_chords = [parse_chord(c, key) for c in chords]
+        nashville_chords = [
+            c
+            for i, c in enumerate(nashville_chords)
+            if i == 0 or c[0] != nashville_chords[i - 1][0]
+        ]
 
         sections.append(nashville_chords)
 
