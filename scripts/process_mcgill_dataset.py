@@ -179,6 +179,12 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
     mode_stats = {mode: 0 for mode in MODE_MAP.keys()}  # Track statistics for all modes
     key_stats = {key: 0 for key in KEYS}  # Track statistics for all keys
 
+    # Initialize song structure statistics
+    section_counts = defaultdict(int)
+    section_lengths = defaultdict(list)
+    sections_per_song = defaultdict(lambda: defaultdict(int))  # Track sections per song
+    valid_sections = {"intro", "verse", "chorus", "outro", "bridge"}
+
     # Add the blues progressions from defaults
     progressions.extend(
         [
@@ -208,11 +214,18 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
 
     for file in chord_files:
         print(f"Processing {file}...")
-        sections, section_modes, first_key = parse_salami(file)
+        sections, section_modes, first_key, song_structure = parse_salami(file)
 
         # Track the first key of each song
         if first_key is not None:
             key_stats[first_key] += 1
+
+        # Track song structure statistics
+        for section_type, num_measures in song_structure:
+            if section_type.lower() in valid_sections:
+                section_counts[section_type.lower()] += 1
+                section_lengths[section_type.lower()].append(num_measures)
+                sections_per_song[file.parent.name][section_type.lower()] += 1
 
         for section, mode in zip(sections, section_modes):
             # Track mode statistics
@@ -294,6 +307,44 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
     for key, count in sorted(key_stats.items(), key=lambda x: x[1], reverse=True):
         print(f"{key}: {count} ({count/total_songs*100:.1f}%)")
 
+    # Calculate and print song structure statistics
+    print("\nSong Structure Statistics:")
+    total_sections = sum(section_counts.values())
+    print(f"Total sections analyzed: {total_sections}")
+
+    # Calculate section counts per song
+    choruses_per_song = defaultdict(int)
+    for song_sections in sections_per_song.values():
+        choruses_per_song[song_sections["chorus"]] += 1
+
+    # Create song structure statistics dictionary
+    structure_stats = {
+        "measure_distributions": {
+            section.capitalize(): {
+                2**i: sum(1 for l in lengths if 2**i <= l < 2 ** (i + 1))
+                for i in range(6)  # This will cover lengths 1, 2, 4, 8, 16, 32
+            }
+            for section, lengths in section_lengths.items()
+        },
+        "num_choruses_probs": {
+            num: count
+            for num, count in sorted(choruses_per_song.items())
+            if 2 <= num <= 7
+        },
+    }
+
+    # Load default structure parameters
+    default_params_path = Path("constants/defaults/structure_params.yaml")
+    with open(default_params_path, "r") as f:
+        default_params = yaml.safe_load(f)
+
+    # Update only the relevant fields in default_params
+    for key in structure_stats["measure_distributions"].keys():
+        default_params["measure_distributions"][key] = structure_stats[
+            "measure_distributions"
+        ][key]
+    default_params["num_choruses_probs"] = structure_stats["num_choruses_probs"]
+
     # Save the results
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -301,6 +352,7 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
     save_yaml(extensions, output_dir / "chord_extensions.yaml")
     save_yaml(progressions, output_dir / "famous_chord_progressions.yaml")
     save_yaml(key_stats, output_dir / "key_probs.yaml")
+    save_yaml(default_params, output_dir / "structure_params.yaml")
 
 
 def standardise_note(note):
@@ -366,6 +418,7 @@ def parse_salami(file):
     sections = []
     section_modes = []  # Track the original mode of each section
     first_key = None  # Track the first key of the song
+    song_structure = []
 
     # figure out the chords in each section, and the key
     for section_line in section_lines:
@@ -392,6 +445,14 @@ def parse_salami(file):
                     if c.strip() and c.strip() != "." and c.strip() != "&pause"
                 ]
                 chords.extend(chords_line)
+
+        # also save the section type and the number of measures
+        section_type = content[section_line].split("|")[0].split(", ")[1]
+        # get the number of measures by counting the number of "|" in the section lines
+        num_measures = sum(
+            l.count("|") - 1 for l in content[section_line:last_section_line]
+        )
+        song_structure.append((section_type, num_measures))
 
         # Parse the chords relative to the tonic
         nashville_chords = [parse_chord(c, tonic) for c in chords]
@@ -424,7 +485,7 @@ def parse_salami(file):
 
         sections.append(nashville_chords)
 
-    return sections, section_modes, first_key
+    return sections, section_modes, first_key, song_structure
 
 
 def save_yaml(data, filename):
