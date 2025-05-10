@@ -86,18 +86,14 @@ class ExtensionSelector:
 
         # Determine the constants directory to use
         if constants_dir is None:
-            user_constants = Path("constants/user")
-            if user_constants.exists() and any(user_constants.iterdir()):
-                constants_dir = user_constants
-            else:
-                constants_dir = Path("constants/defaults")
+            constants_dir = Path("constants/defaults")
         else:
             constants_dir = Path(constants_dir)
 
         # Load extensions
         ext_path = constants_dir / "chord_extensions.yaml"
         if not ext_path.exists():
-            ext_path = Path("constants/defaults/chord_extensions.yaml")
+            raise FileNotFoundError(f"Chord extensions file not found at {ext_path}")
 
         with open(ext_path, "r") as f:
             proposed_extensions = yaml.safe_load(f)

@@ -31,8 +31,8 @@ chordsBA = \chords{
   \bar "|"
   fis4
   \chordSlash fis8
-  e8:maj7
-  \chordSlash e2:maj7
+  e8:sus4
+  \chordSlash e2:sus4
   dis1:m
   dis1:m
   b8
@@ -43,7 +43,7 @@ chordsBA = \chords{
   gis8:m
   gis1:m
   gis2:m
-  b4:maj7
+  b4:7
   fis4
   fis2
   \chordSlash fis4
@@ -66,8 +66,8 @@ chordsBAA = \chords{
   \bar "|"
   fis4
   \chordSlash fis8
-  e8:maj7
-  \chordSlash e2:maj7
+  e8:sus4
+  \chordSlash e2:sus4
   dis1:m
   dis1:m
   b8
@@ -78,7 +78,7 @@ chordsBAA = \chords{
   gis8:m
   gis1:m
   gis2:m
-  b4:maj7
+  b4:7
   fis4
   fis2
   \chordSlash fis4
@@ -101,8 +101,8 @@ chordsBBA = \chords{
   \bar "|"
   fis4
   \chordSlash fis8
-  e8:maj7
-  \chordSlash e2:maj7
+  e8:sus4
+  \chordSlash e2:sus4
   dis1:m
   dis1:m
   b8
@@ -113,7 +113,7 @@ chordsBBA = \chords{
   gis8:m
   gis1:m
   gis2:m
-  b4:maj7
+  b4:7
   fis4
   fis2
   \chordSlash fis4
@@ -136,8 +136,8 @@ chordsBAAA = \chords{
   \bar "|"
   fis4
   \chordSlash fis8
-  e8:maj7
-  \chordSlash e2:maj7
+  e8:sus4
+  \chordSlash e2:sus4
   dis1:m
   dis1:m
   b8
@@ -148,7 +148,7 @@ chordsBAAA = \chords{
   gis8:m
   gis1:m
   gis2:m
-  b4:maj7
+  b4:7
   fis4
   fis2
   \chordSlash fis4
