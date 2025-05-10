@@ -39,8 +39,8 @@ measure_distributions:
     8: 5
     16: 2
   Verse:
-    4: 1
-    8: 5
+    4: 0.5
+    8: 3
     12: 2
     16: 10
     32: 2
