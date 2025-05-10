@@ -274,8 +274,13 @@ def save_yaml(data, filename):
 
     # For chord progressions, format each entry as a string
     if "famous_chord_progressions.yaml" in str(filename):
+        # Sort progressions: non-blues by weight (descending), blues at the bottom
+        non_blues = [p for p in data if not p.get("blues", False)]
+        blues = [p for p in data if p.get("blues", False)]
+        sorted_data = sorted(non_blues, key=lambda x: x["weight"], reverse=True) + blues
+
         formatted_data = []
-        for entry in data:
+        for entry in sorted_data:
             # Format progression as a single line
             progression_str = f"[{', '.join(entry['progression'])}]"
             # Build the entry string
