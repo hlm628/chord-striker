@@ -80,7 +80,28 @@ famous_chord_progressions_probs:
   3: 0.3
   4: 0.5
   blues: 0.5 
-invert_chord_prob: 0.02
+invert_chord_prob: 0.02 # deprecated, use chord_inversions instead
+chord_inversions:
+  enabled: true # master switch for chord inversions
+  base_prob: 0.02 # base probability of inverting any chord
+  section_probs: # probability multipliers for different sections
+    Intro: 1.0
+    Verse: 1.0
+    Prechorus: 1.2
+    Chorus: 0.8
+    Postchorus: 1.0
+    Bridge: 1.5
+    Solo: 2.0
+    Outro: 1.0
+  chord_probs: # probability multipliers for different chord types
+    I: 1.0
+    IV: 1.0
+    V: 1.0
+    vi: 1.2
+    ii: 1.2
+    iii: 1.2
+    vii: 1.5
+apply_extension_prob: 0.3 # probability of applying a chord extension
 
 
 

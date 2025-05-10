@@ -174,15 +174,17 @@ def chord_parser(chord: "str", key: str):
     if not chord in ALLOWED_SYMBOLS:
         raise ValueError(f"chord is not valid: {chord}")
 
-    # generate chord extensions
-    extension = CHORD_EXTENSIONS.get_ext(chord)
+    # generate chord extensions with probability
+    extension = ""
+    if bernoulli_trial(STRUCTURE_PARAMS["apply_extension_prob"]):
+        extension = CHORD_EXTENSIONS.get_ext(chord)
 
-    if not "sus" in extension:
-        # incorporate minor tonality
-        if chord != "vii":
-            extension = "m" * (chord.islower()) + extension
-        else:
-            extension = "m7-5"
+    # incorporate minor tonality if needed
+    if chord.islower() and chord != "vii" and not extension and not "sus" in extension:
+        # Only add 'm' if we don't have an extension
+        extension = "m"
+    elif chord == "vii" and not extension and not "sus" in extension:
+        extension = "m7-5"
 
     # Get the scale degree (1-7) relative to the key
     if chord in ALLOWED_SYMBOLS:
