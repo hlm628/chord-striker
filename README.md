@@ -106,10 +106,12 @@ You can customise the output of `make run-song` with the following options:
 
 ```
 chord-striker/
+├── assets/           # Static assets
 ├── chord_striker/     # Main Python package
 ├── docker/           # Docker configuration
 ├── example/          # Generated output
-├── assets/           # Static assets
+├── lilypond_assets/   # Lilypond assets
+├── scripts/          # Utility scripts
 ├── tests/            # Test suite
 └── constants/        # Musical constants
     ├── defaults/     # Default parameters
