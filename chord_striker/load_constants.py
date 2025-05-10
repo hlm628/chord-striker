@@ -179,11 +179,7 @@ class FamousCPSelector:
 
         # Determine the constants directory to use
         if constants_dir is None:
-            user_constants = Path("constants/user")
-            if user_constants.exists() and any(user_constants.iterdir()):
-                constants_dir = user_constants
-            else:
-                constants_dir = Path("constants/defaults")
+            constants_dir = Path("constants/defaults")
         else:
             constants_dir = Path(constants_dir)
 

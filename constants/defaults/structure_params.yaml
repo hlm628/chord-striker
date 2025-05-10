@@ -84,7 +84,7 @@ measure_distributions:
     8: 116
     16: 75
     32: 9
-chords_per_measure: 1.3
+chords_per_measure: 1.25
 famous_chord_progressions_probs:
   3: 0.3
   4: 0.6
