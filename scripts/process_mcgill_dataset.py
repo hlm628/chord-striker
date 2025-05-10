@@ -162,19 +162,29 @@ def analyse_chords(data_dir, output_dir):
 
         for section in sections:
             # look for famous chord progressions
-            if len(section) in [3, 4] and not (None, None) in section:
-                basic_chord_progression = tuple(c[0] for c in section)
-                # Find if this progression already exists
-                found = False
-                for p in progressions:
-                    if p["progression"] == list(basic_chord_progression):
-                        p["weight"] += 1
-                        found = True
-                        break
-                if not found:
-                    progressions.append(
-                        {"progression": list(basic_chord_progression), "weight": 1}
-                    )
+            if len(section) >= 3 and not (None, None) in section:
+                # Check for repeated 3 or 4 chord sequences
+                for seq_len in [3, 4]:
+                    if len(section) >= seq_len * 2:  # Need at least 2 repetitions
+                        for i in range(len(section) - seq_len + 1):
+                            # Get the sequence
+                            seq = tuple(c[0] for c in section[i : i + seq_len])
+                            # Check if this sequence repeats
+                            for j in range(i + seq_len, len(section) - seq_len + 1):
+                                next_seq = tuple(c[0] for c in section[j : j + seq_len])
+                                if seq == next_seq:
+                                    # Found a repeated sequence, add it to progressions
+                                    found = False
+                                    for p in progressions:
+                                        if p["progression"] == list(seq):
+                                            p["weight"] += 1
+                                            found = True
+                                            break
+                                    if not found:
+                                        progressions.append(
+                                            {"progression": list(seq), "weight": 1}
+                                        )
+                                    break  # Stop looking for more repetitions of this sequence
 
             # now look for transitions
             first_chord = section[0]
@@ -289,8 +299,14 @@ def parse_salami(file):
 
         # Parse the chords relative to the tonic
         nashville_chords = [parse_chord(c, tonic) for c in chords]
+        # drop list entries which repeat the previous entry
+        nashville_chords = [
+            c
+            for i, c in enumerate(nashville_chords)
+            if i == 0 or c[0] != nashville_chords[i - 1][0]
+        ]
 
-        # Figure out whether the tonic if major or minor, by looking at the ratio of I/i, IV/iv, V/v, vi/VI
+        # Figure out whether the tonic is major or minor, by comparing chords
         tonic_major_count = 0
         tonic_minor_count = 0
         for c in nashville_chords:
@@ -306,13 +322,11 @@ def parse_salami(file):
 
             # reparse the chords relative to the key
             nashville_chords = [parse_chord(c, key) for c in chords]
-
-        # drop list entries which repeat the previous entry
-        nashville_chords = [
-            c
-            for i, c in enumerate(nashville_chords)
-            if i == 0 or c[0] != nashville_chords[i - 1][0]
-        ]
+            nashville_chords = [
+                c
+                for i, c in enumerate(nashville_chords)
+                if i == 0 or c[0] != nashville_chords[i - 1][0]
+            ]
 
         sections.append(nashville_chords)
 
