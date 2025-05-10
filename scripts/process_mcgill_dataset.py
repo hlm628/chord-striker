@@ -176,6 +176,14 @@ def analyse_chords(data_dir, output_dir):
                     )
 
             # now look for transitions
+            first_chord = section[0]
+            if first_chord[0] is not None:
+                if "start" not in transitions:
+                    transitions["start"] = {}
+                if first_chord[0] not in transitions["start"]:
+                    transitions["start"][first_chord[0]] = 0
+                transitions["start"][first_chord[0]] += 1
+
             for i in range(len(section) - 1):
                 current_chord = section[i]
                 next_chord = section[i + 1]
@@ -300,16 +308,23 @@ def save_yaml(data, filename):
         ):
             # Create a new dictionary with sorted values
             sorted_data = {}
-            # Sort outer keys alphabetically
-            for key in sorted(data.keys()):
-                value = data[key]
-                if isinstance(value, dict):
-                    # Sort the inner dictionary by value (weight) in descending order
-                    sorted_data[key] = dict(
-                        sorted(value.items(), key=lambda x: x[1], reverse=True)
+            # For chord_change_probs, put 'start' first
+            if "chord_change_probs.yaml" in str(filename):
+                if "start" in data:
+                    sorted_data["start"] = dict(
+                        sorted(data["start"].items(), key=lambda x: x[1], reverse=True)
                     )
-                else:
-                    sorted_data[key] = value
+            # Sort remaining keys alphabetically
+            for key in sorted(data.keys()):
+                if key != "start":  # Skip 'start' as it's already handled
+                    value = data[key]
+                    if isinstance(value, dict):
+                        # Sort the inner dictionary by value (weight) in descending order
+                        sorted_data[key] = dict(
+                            sorted(value.items(), key=lambda x: x[1], reverse=True)
+                        )
+                    else:
+                        sorted_data[key] = value
             data = sorted_data
 
         # Use standard YAML dump
