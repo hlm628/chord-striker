@@ -1,4 +1,4 @@
-.PHONY: docker docker-all enter test run-song run-album show-platform
+.PHONY: docker docker-all enter test run-song run-album show-platform process-billboard
 
 DOCKER_IMG ?= chord-striker
 DOCKER_TAG ?= $(shell git rev-parse --short HEAD)
@@ -90,6 +90,10 @@ run-example-song:
 ALBUM_TRACKS ?= 10
 run-album:
 	$(RUN) python3 chord_striker/hit_maker.py --num_songs $(NUM_SONGS)
+
+# Process Billboard dataset
+process-billboard:
+	$(RUN) python3 scripts/process_mcgill_dataset.py
 
 # Helper target to show current platform
 show-platform:
