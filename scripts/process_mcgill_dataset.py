@@ -16,12 +16,22 @@ import click
 
 MODE_MAP = {
     "ionian": ["I", "ii", "iii", "IV", "V", "vi", "vii"],
-    "dorian": ["i", "ii", "bIII", "IV", "v", "vi", "bVII"],
-    "phrygian": ["i", "bII", "bIII", "iv", "v", "bVI", "bvii"],
-    "lydian": ["I", "II", "iii", "bv", "V", "vi", "vii"],
-    "mixolydian": ["I", "ii", "iii", "IV", "v", "vi", "bVII"],
     "aeolian": ["i", "ii", "bIII", "iv", "v", "bVI", "bVII"],
+    "mixolydian": ["I", "ii", "iii", "IV", "v", "vi", "bVII"],
+    "dorian": ["i", "ii", "bIII", "IV", "v", "vi", "bVII"],
+    "lydian": ["I", "II", "iii", "bv", "V", "vi", "vii"],
+    "phrygian": ["i", "bII", "bIII", "iv", "v", "bVI", "bvii"],
     "locrian": ["i", "bII", "biii", "iv", "bV", "bVI", "bvii"],
+}
+
+MODE_SEMITONE_MAP = {
+    "ionian": 0,
+    "dorian": 2,
+    "phrygian": 3,
+    "lydian": 4,
+    "mixolydian": 5,
+    "aeolian": 7,
+    "locrian": 9,
 }
 
 
@@ -143,6 +153,7 @@ def analyse_chords(data_dir, output_dir):
     transitions = {}
     extensions = {}
     progressions = []  # Changed to list to match YAML format
+    mode_stats = {mode: 0 for mode in MODE_MAP.keys()}  # Track statistics for all modes
 
     # Add the blues progressions from defaults
     progressions.extend(
@@ -168,9 +179,12 @@ def analyse_chords(data_dir, output_dir):
 
     for file in chord_files:
         print(f"Processing {file}...")
-        sections = parse_salami(file)
+        sections, section_modes = parse_salami(file)
 
-        for section in sections:
+        for section, mode in zip(sections, section_modes):
+            # Track mode statistics
+            mode_stats[mode] += 1
+
             # look for famous chord progressions
             if len(section) >= 3 and not (None, None) in section:
                 # Check for repeated 3 or 4 chord sequences
@@ -233,6 +247,13 @@ def analyse_chords(data_dir, output_dir):
                         extensions[c[0]][c[1]] = 0
                     extensions[c[0]][c[1]] += 1
 
+    # Print mode statistics
+    total_sections = sum(mode_stats.values())
+    print("\nMode Statistics:")
+    print(f"Total sections analyzed: {total_sections}")
+    for mode, count in sorted(mode_stats.items(), key=lambda x: x[1], reverse=True):
+        print(f"{mode}: {count} ({count/total_sections*100:.1f}%)")
+
     # Save the results
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -261,18 +282,17 @@ def standardise_note(note):
     return enharmonic_map.get(note, note)
 
 
-def detect_mode(chords, tonic):
+def detect_mode(chords):
     """Detect the mode of a chord progression.
 
     Args:
         chords: List of chords
-        tonic: Tonic chord
     """
     # init dictionary to count chords, using keys from MODE_MAP
     chord_counts = {mode: 0 for mode in MODE_MAP.keys()}
     for chord in chords:
         for mode in MODE_MAP.keys():
-            if chord in MODE_MAP[mode]:
+            if chord[0] in MODE_MAP[mode]:
                 chord_counts[mode] += 1
                 break
     # return the mode with the most chords
@@ -303,6 +323,7 @@ def parse_salami(file):
 
     # init a list of sections
     sections = []
+    section_modes = []  # Track the original mode of each section
 
     # figure out the chords in each section, and the key
     for section_line in section_lines:
@@ -332,31 +353,21 @@ def parse_salami(file):
 
         # Parse the chords relative to the tonic
         nashville_chords = [parse_chord(c, tonic) for c in chords]
-        # drop list entries which repeat the previous entry
-        nashville_chords = [
-            c
-            for i, c in enumerate(nashville_chords)
-            if i == 0 or c[0] != nashville_chords[i - 1][0]
-        ]
 
-        # Check the mode
-        mode = detect_mode(nashville_chords, tonic)
+        # Detect the mode before any transposition
+        mode = detect_mode(nashville_chords)
+        section_modes.append(mode)
 
         # Convert mode to semitone offset
-        mode_to_semitone = {
-            "ionian": 0,
-            "dorian": 2,
-            "phrygian": 3,
-            "lydian": 4,
-            "mixolydian": 5,
-            "aeolian": 7,
-            "locrian": 9,
-        }
-        semitone_offset = mode_to_semitone[mode]
-        key = KEYS[(KEYS.index(tonic) + semitone_offset) % 12]
+        semitone_offset = MODE_SEMITONE_MAP[mode]
+        if semitone_offset != 0:
+            # Transpose the tonic
+            tonic_index = KEYS.index(tonic)
+            new_tonic = KEYS[(tonic_index + semitone_offset) % 12]
+            # Reparse the chords relative to the new tonic
+            nashville_chords = [parse_chord(c, new_tonic) for c in chords]
 
-        # reparse the chords relative to the key
-        nashville_chords = [parse_chord(c, key) for c in chords]
+        # drop list entries which repeat the previous entry
         nashville_chords = [
             c
             for i, c in enumerate(nashville_chords)
@@ -365,7 +376,7 @@ def parse_salami(file):
 
         sections.append(nashville_chords)
 
-    return sections
+    return sections, section_modes
 
 
 def save_yaml(data, filename):

@@ -28,9 +28,9 @@
   weight: 206
 - progression: [IV, V, I, V]
   weight: 205
-- progression: [i, bVI, bVII]
+- progression: [iv, bII, bIII]
   weight: 205
-- progression: [bVI, bVII, i]
+- progression: [bII, bIII, iv]
   weight: 187
 - progression: [V, IV, V, I]
   weight: 185
@@ -54,7 +54,7 @@
   weight: 139
 - progression: [V, I, vi]
   weight: 129
-- progression: [bVII, i, bVI]
+- progression: [bIII, iv, bII]
   weight: 129
 - progression: [I, vi, IV, V]
   weight: 115
@@ -70,19 +70,19 @@
   weight: 106
 - progression: [IV, I, ii]
   weight: 102
-- progression: [i, bVII, bVI]
+- progression: [iv, bIII, bII]
   weight: 101
 - progression: [IV, I, V, I]
   weight: 97
 - progression: [V, IV, I, IV]
   weight: 96
-- progression: [bVI, V, i]
+- progression: [bII, I, iv]
   weight: 96
 - progression: [V, I, IV, I]
   weight: 92
-- progression: [bVI, bVII, i, bVI]
+- progression: [bII, bIII, iv, bII]
   weight: 90
-- progression: [bVII, i, bVI, bVII]
+- progression: [bIII, iv, bII, bIII]
   weight: 90
 - progression: [I, IV, V, IV]
   weight: 89
@@ -92,13 +92,13 @@
   weight: 88
 - progression: [V, IV, I, V]
   weight: 87
-- progression: [i, bVI, V]
+- progression: [iv, bII, I]
   weight: 87
 - progression: [IV, I, vi]
   weight: 86
 - progression: [I, IV, bVII]
   weight: 84
-- progression: [i, bVI, bVII, i]
+- progression: [iv, bII, bIII, iv]
   weight: 84
 - progression: [vi, ii, V]
   weight: 78
@@ -109,7 +109,7 @@
 - progression: [I, vi, ii]
   weight: 71
 - progression: [I, bIII, IV]
-  weight: 70
+  weight: 66
 - progression: [iii, IV, vi]
   weight: 65
 - progression: [IV, I, IV, V]
@@ -120,7 +120,7 @@
   weight: 63
 - progression: [V, I, ii]
   weight: 61
-- progression: [V, i, bVI]
+- progression: [I, iv, bII]
   weight: 60
 - progression: [I, vi, ii, V]
   weight: 60
@@ -166,11 +166,13 @@
   weight: 46
 - progression: [I, IV, bVII, IV]
   weight: 46
+- progression: [bIII, bVII, IV]
+  weight: 45
 - progression: [V, I, vi, ii]
   weight: 45
 - progression: [II, V, I]
   weight: 45
-- progression: [iv, bVI, bVII]
+- progression: [bvii, bII, bIII]
   weight: 44
 - progression: [bIII, IV, I]
   weight: 44
@@ -178,41 +180,39 @@
   weight: 44
 - progression: [bVII, IV, I, IV]
   weight: 43
+- progression: [IV, bVII, bIII]
+  weight: 42
 - progression: [IV, V, vi]
   weight: 42
-- progression: [i, bVI, V, i]
+- progression: [iv, bII, I, iv]
   weight: 42
-- progression: [bVI, V, i, bVI]
+- progression: [bII, I, iv, bII]
   weight: 42
-- progression: [V, i, bVI, V]
+- progression: [I, iv, bII, I]
   weight: 42
 - progression: [IV, iii, ii]
   weight: 40
-- progression: [i, bIII, iv]
+- progression: [iv, bVI, bvii]
   weight: 40
-- progression: [bV, bII, bVI]
-  weight: 39
 - progression: [V, IV, vi]
   weight: 39
-- progression: [bVI, i, bVII]
+- progression: [bII, iv, bIII]
   weight: 39
-- progression: [i, bVII, v]
+- progression: [iv, bIII, i]
   weight: 38
 - progression: [I, IV, ii]
   weight: 38
 - progression: [I, VI, IV]
   weight: 38
-- progression: [bVI, bVII, I]
+- progression: [iv, i, bII]
   weight: 38
-- progression: [i, v, bVI]
+- progression: [bVI, bvii, bII]
   weight: 38
-- progression: [bIII, iv, bVI]
+- progression: [bvii, bII, I]
   weight: 38
-- progression: [iv, bVI, V]
+- progression: [iv, bVI, bvii, bII]
   weight: 38
-- progression: [i, bIII, iv, bVI]
-  weight: 38
-- progression: [bIII, iv, bVI, V]
+- progression: [bVI, bvii, bII, I]
   weight: 38
 - progression: [V, I, VI]
   weight: 37
@@ -220,11 +220,9 @@
   weight: 37
 - progression: [V, ii, IV]
   weight: 37
-- progression: [iv, v, i]
+- progression: [bvii, i, iv]
   weight: 36
-- progression: [bIII, IV, v]
-  weight: 36
-- progression: [v, bIII, IV]
+- progression: [i, bVI, bVII]
   weight: 35
 - progression: [IV, I, IV, bVII]
   weight: 35
@@ -236,13 +234,15 @@
   weight: 34
 - progression: [IV, I, vi, IV]
   weight: 34
-- progression: [v, bVI, bVII]
+- progression: [bVI, bVII, i]
+  weight: 34
+- progression: [i, bII, bIII]
   weight: 33
-- progression: [bIII, bVII, I]
+- progression: [bVI, bIII, IV]
   weight: 33
-- progression: [bVI, bII, bV]
+- progression: [bVII, bIII, bVII, IV]
   weight: 32
-- progression: [v, i, bVII]
+- progression: [i, iv, bIII]
   weight: 32
 - progression: [I, II, V]
   weight: 32
@@ -250,13 +250,9 @@
   weight: 32
 - progression: [IV, I, V, ii]
   weight: 32
-- progression: [bII, bV, bII, bVI]
+- progression: [bIII, bvii, i]
   weight: 31
-- progression: [bVII, iv, v]
-  weight: 31
-- progression: [I, bIII, bVII]
-  weight: 31
-- progression: [bVII, I, bIII]
+- progression: [bIII, IV, bVI]
   weight: 31
 - progression: [I, V, bVI]
   weight: 30
@@ -272,20 +268,16 @@
   weight: 30
 - progression: [IV, iv, I]
   weight: 29
-- progression: [VI, II, V]
-  weight: 29
-- progression: [IV, v, bIII]
+- progression: [bVII, i, bVI]
   weight: 29
 - progression: [I, IV, vi]
   weight: 28
 - progression: [I, vi, IV, I]
   weight: 28
-- progression: [bVII, bVI, i]
+- progression: [IV, bVI, bIII]
   weight: 28
-- progression: [bV, bII, bVI, bII]
-  weight: 27
-- progression: [I, bVI, bVII]
-  weight: 27
+- progression: [bIII, bII, iv]
+  weight: 28
 - progression: [I, IV, iv]
   weight: 27
 - progression: [I, IV, iv, I]
@@ -298,17 +290,13 @@
   weight: 27
 - progression: [IV, V, I, ii]
   weight: 27
-- progression: [v, bIII, IV, v]
+- progression: [i, bVI, bVII, i]
   weight: 27
-- progression: [bII, bVI, bII, bV]
-  weight: 26
 - progression: [IV, ii, V]
   weight: 26
 - progression: [I, iii, IV]
   weight: 26
 - progression: [V, vi, iii]
-  weight: 26
-- progression: [i, bVII, IV]
   weight: 26
 - progression: [VI, ii, V]
   weight: 26
@@ -322,41 +310,39 @@
   weight: 25
 - progression: [V, vi, iii, IV]
   weight: 25
-- progression: [i, bVII, iv]
+- progression: [iv, bIII, bvii]
   weight: 25
-- progression: [i, iv, V]
-  weight: 25
-- progression: [bVI, bVII, iv]
+- progression: [bII, bIII, bvii]
   weight: 25
 - progression: [I, V, VI]
   weight: 25
-- progression: [IV, bIII, bVII]
+- progression: [iv, i, bII, bIII]
   weight: 25
-- progression: [i, v, bVI, bVII]
-  weight: 25
-- progression: [i, iv, v]
+- progression: [iv, bvii, i]
+  weight: 24
+- progression: [bVII, bIII, IV]
   weight: 24
 - progression: [V, I, ii, IV]
   weight: 24
-- progression: [bIII, IV, v, bIII]
+- progression: [bVI, bVII, i, bVI]
   weight: 24
-- progression: [IV, v, bIII, IV]
+- progression: [bVII, i, bVI, bVII]
   weight: 24
 - progression: [V, VI, IV]
   weight: 24
 - progression: [I, V, VI, IV]
   weight: 24
-- progression: [iv, bVI, V, i]
+- progression: [bvii, bII, I, iv]
   weight: 24
 - progression: [IV, bVII, V]
   weight: 24
 - progression: [I, IV, bVII, V]
   weight: 24
-- progression: [i, bVII, bVI, i]
+- progression: [iv, bIII, bII, iv]
   weight: 24
-- progression: [bVII, bVI, i, bVII]
+- progression: [bIII, bII, iv, bIII]
   weight: 24
-- progression: [bVI, i, bVII, bVI]
+- progression: [bII, iv, bIII, bII]
   weight: 24
 - progression: [iii, ii, I]
   weight: 24
@@ -376,7 +362,11 @@
   weight: 22
 - progression: [I, iii, vi]
   weight: 22
-- progression: [bVII, v, i]
+- progression: [bIII, i, iv]
+  weight: 22
+- progression: [bIII, IV, bVII]
+  weight: 22
+- progression: [IV, bIII, bVII]
   weight: 22
 - progression: [IV, iii, vi]
   weight: 22
@@ -384,17 +374,15 @@
   weight: 22
 - progression: [bVII, v, I]
   weight: 22
-- progression: [V, bVII, IV]
-  weight: 22
 - progression: [I, bIII, IV, I]
   weight: 22
 - progression: [IV, I, bIII, IV]
   weight: 22
-- progression: [V, i, bIII]
+- progression: [I, iv, bVI]
   weight: 22
-- progression: [bVI, V, i, bIII]
+- progression: [bII, I, iv, bVI]
   weight: 22
-- progression: [V, i, bIII, iv]
+- progression: [I, iv, bVI, bvii]
   weight: 22
 - progression: [IV, bIII, I]
   weight: 22
@@ -402,33 +390,49 @@
   weight: 22
 - progression: [I, IV, I, ii]
   weight: 21
+- progression: [bIII, bVII, IV, bVII]
+  weight: 21
 - progression: [iii, IV, V]
   weight: 21
-- progression: [bVII, i, v]
+- progression: [bIII, iv, i]
+  weight: 21
+- progression: [VI, II, V]
   weight: 21
 - progression: [IV, V, I, VI]
   weight: 21
+- progression: [bVI, bVII, I]
+  weight: 21
+- progression: [bIII, bII, i]
+  weight: 21
 - progression: [ii, V, vi]
   weight: 21
-- progression: [i, bVII, iv, v]
+- progression: [iv, bIII, bvii, i]
   weight: 21
-- progression: [i, v, iv]
+- progression: [iv, i, bvii]
+  weight: 21
+- progression: [V, bVII, IV]
+  weight: 21
+- progression: [bII, bIII, bVI]
   weight: 21
 - progression: [vi, V, IV, vi]
   weight: 21
 - progression: [ii, vi, V]
   weight: 21
-- progression: [iv, i, iv, v]
+- progression: [bvii, iv, bvii, i]
   weight: 21
 - progression: [I, v, IV]
   weight: 20
 - progression: [v, IV, I]
   weight: 20
-- progression: [bVI, bII, bV, bII]
+- progression: [bVII, IV, bVII, bIII]
+  weight: 20
+- progression: [IV, bVII, bIII, bVII]
   weight: 20
 - progression: [IV, iii, V]
   weight: 20
 - progression: [V, ii, V, I]
+  weight: 20
+- progression: [bVI, bIII, bII]
   weight: 20
 - progression: [I, VI, ii]
   weight: 20
@@ -436,19 +440,17 @@
   weight: 20
 - progression: [V, IV, vi, V]
   weight: 20
-- progression: [i, bVII, bVI, bVII]
+- progression: [iv, bIII, bII, bIII]
   weight: 20
 - progression: [V, VI, IV, V]
   weight: 20
 - progression: [bVII, V, I]
   weight: 20
-- progression: [i, iv, v, i]
+- progression: [iv, bvii, i, iv]
   weight: 20
 - progression: [bIII, I, IV]
   weight: 20
 - progression: [I, V, vi, V]
-  weight: 19
-- progression: [v, ii, bVII]
   weight: 19
 - progression: [V, I, IV, ii]
   weight: 19
@@ -456,11 +458,11 @@
   weight: 19
 - progression: [V, vi, IV, V]
   weight: 19
-- progression: [i, bIII, IV]
+- progression: [iv, bVI, bVII]
   weight: 19
 - progression: [vi, IV, iii]
   weight: 19
-- progression: [I, iv, v]
+- progression: [iv, bvii, I]
   weight: 19
 - progression: [vi, II, V]
   weight: 19
@@ -471,6 +473,8 @@
 - progression: [IV, bVII, V, I]
   weight: 19
 - progression: [V, I, V, vi]
+  weight: 18
+- progression: [bVII, IV, bIII]
   weight: 18
 - progression: [IV, ii, V, I]
   weight: 18
@@ -486,6 +490,8 @@
   weight: 18
 - progression: [ii, V, vi, iii]
   weight: 18
+- progression: [iv, bIII, bVII]
+  weight: 18
 - progression: [IV, I, V, vi]
   weight: 18
 - progression: [vi, IV, ii, III]
@@ -494,15 +500,17 @@
   weight: 18
 - progression: [I, i, v, IV]
   weight: 18
-- progression: [IV, bVII, i]
+- progression: [V, II, VI]
+  weight: 18
+- progression: [bVII, bIII, iv]
   weight: 18
 - progression: [I, VI, II, V]
   weight: 18
 - progression: [I, vi, bVII]
   weight: 17
-- progression: [bVI, v, iv]
+- progression: [bII, i, bvii]
   weight: 17
-- progression: [i, IV, bIII]
+- progression: [bVII, bVI, bIII]
   weight: 17
 - progression: [iii, ii, vi]
   weight: 17
@@ -510,39 +518,37 @@
   weight: 17
 - progression: [vi, iii, V]
   weight: 17
-- progression: [bIII, bVII, IV]
-  weight: 17
 - progression: [I, V, bVII]
+  weight: 17
+- progression: [bII, bIII, IV]
   weight: 17
 - progression: [IV, iii, ii, I]
   weight: 17
 - progression: [iii, vi, IV]
   weight: 16
-- progression: [i, bVII, v, i]
+- progression: [iv, bIII, i, iv]
   weight: 16
-- progression: [bVII, v, i, bVII]
+- progression: [bIII, i, iv, bIII]
   weight: 16
-- progression: [v, i, bVII, v]
-  weight: 16
-- progression: [IV, bVII, bIII]
-  weight: 16
-- progression: [II, bv, V]
+- progression: [i, iv, bIII, i]
   weight: 16
 - progression: [ii, I, bVI]
   weight: 16
 - progression: [I, ii, I, bVI]
   weight: 16
-- progression: [v, iv, bVI]
+- progression: [i, bvii, bII]
   weight: 16
-- progression: [v, iv, bVI, bVII]
+- progression: [i, bvii, bII, bIII]
   weight: 16
 - progression: [I, VI, ii, V]
   weight: 16
-- progression: [bVII, iv, bVI]
+- progression: [bIII, bvii, bII]
   weight: 16
 - progression: [vi, ii, IV]
   weight: 16
 - progression: [vi, IV, I, V]
+  weight: 16
+- progression: [I, iv, v]
   weight: 16
 - progression: [I, VII, IV]
   weight: 16
@@ -550,31 +556,23 @@
   weight: 16
 - progression: [I, VII, IV, V]
   weight: 16
-- progression: [bIII, IV, bVII]
+- progression: [II, bv, V]
   weight: 15
-- progression: [bIII, bVI, i]
+- progression: [bVI, bII, iv]
   weight: 15
 - progression: [I, IV, I, vi]
   weight: 15
 - progression: [V, ii, iii]
   weight: 15
-- progression: [iv, V, i]
-  weight: 15
 - progression: [IV, I, bVII, I]
-  weight: 15
-- progression: [bVII, IV, i]
   weight: 15
 - progression: [I, II, IV]
   weight: 15
 - progression: [bVII, IV, I, V]
   weight: 15
-- progression: [bVI, bVII, bIII]
-  weight: 15
 - progression: [vi, V, I]
   weight: 15
-- progression: [bVII, I, bVI]
-  weight: 15
-- progression: [i, IV, iv]
+- progression: [bVI, bII, bIII]
   weight: 15
 - progression: [VI, II, V, I]
   weight: 15
@@ -585,6 +583,8 @@
 - progression: [I, V, II]
   weight: 15
 - progression: [IV, v, ii]
+  weight: 15
+- progression: [v, ii, bVII]
   weight: 15
 - progression: [ii, bVII, I]
   weight: 15
@@ -600,35 +600,33 @@
   weight: 15
 - progression: [bIII, I, IV, bIII]
   weight: 15
-- progression: [bVII, bVI, V]
+- progression: [bIII, bII, I]
   weight: 14
 - progression: [V, iii, VI]
   weight: 14
 - progression: [iii, V, IV]
   weight: 14
-- progression: [ii, I, bVI, bVII]
+- progression: [I, bVI, bVII]
   weight: 14
-- progression: [I, bVI, bVII, I]
+- progression: [ii, I, bVI, bVII]
   weight: 14
 - progression: [V, vi, IV, I]
   weight: 14
-- progression: [IV, bVII, v]
+- progression: [iv, bVII, bVI]
   weight: 14
-- progression: [iv, v, I]
+- progression: [bII, bIII, iv, i]
   weight: 14
-- progression: [bVI, bVII, i, v]
+- progression: [II, VI, vii]
   weight: 14
-- progression: [VII, bV, bvi]
+- progression: [VI, vii, II]
   weight: 14
-- progression: [bV, bvi, VII]
+- progression: [vii, II, VI]
   weight: 14
-- progression: [bvi, VII, bV]
+- progression: [VI, II, VI, vii]
   weight: 14
-- progression: [bV, VII, bV, bvi]
+- progression: [II, VI, vii, II]
   weight: 14
-- progression: [VII, bV, bvi, VII]
-  weight: 14
-- progression: [bV, bvi, VII, bV]
+- progression: [VI, vii, II, VI]
   weight: 14
 - progression: [IV, vi, ii]
   weight: 14
@@ -648,17 +646,15 @@
   weight: 14
 - progression: [III, vi, IV, ii]
   weight: 14
-- progression: [III, VII, bV]
+- progression: [bII, bVI, bIII]
   weight: 14
-- progression: [bVI, bIII, bVII]
-  weight: 14
-- progression: [bvii, bIII, bVI]
+- progression: [biii, bVI, bII]
   weight: 14
 - progression: [IV, I, II]
   weight: 14
-- progression: [bVII, v, bVI]
+- progression: [bIII, i, bII]
   weight: 14
-- progression: [i, bVII, v, bVI]
+- progression: [iv, bIII, i, bII]
   weight: 14
 - progression: [I, IV, v]
   weight: 14
@@ -674,17 +670,23 @@
   weight: 13
 - progression: [vi, IV, I, vi]
   weight: 13
-- progression: [bIII, IV, i]
+- progression: [bVI, bVII, iv]
   weight: 13
-- progression: [i, IV, bVI]
+- progression: [iv, bVII, bII]
   weight: 13
-- progression: [i, v, iv, bVI]
+- progression: [IV, bVII, v]
+  weight: 13
+- progression: [iv, i, bvii, bII]
   weight: 13
 - progression: [VI, ii, V, I]
   weight: 13
 - progression: [iii, vi, I]
   weight: 13
+- progression: [IV, bII, bIII]
+  weight: 13
 - progression: [I, vi, II]
+  weight: 13
+- progression: [iv, v, I]
   weight: 13
 - progression: [v, I, iv]
   weight: 13
@@ -692,19 +694,23 @@
   weight: 13
 - progression: [II, I, V]
   weight: 13
-- progression: [bVII, IV, bIII]
-  weight: 13
 - progression: [IV, V, bII]
   weight: 13
 - progression: [VII, IV, V, bII]
   weight: 13
+- progression: [IV, bVII, bIII, IV]
+  weight: 12
+- progression: [bVII, bIII, IV, bVII]
+  weight: 12
+- progression: [bIII, IV, bVII, bIII]
+  weight: 12
 - progression: [bv, V, II]
   weight: 12
 - progression: [V, II, bv]
   weight: 12
-- progression: [i, bIII, bVI]
+- progression: [iv, bVI, bII]
   weight: 12
-- progression: [bVI, i, bIII]
+- progression: [bII, iv, bVI]
   weight: 12
 - progression: [vi, bVII, v]
   weight: 12
@@ -718,25 +724,29 @@
   weight: 12
 - progression: [ii, iii, IV]
   weight: 12
-- progression: [bVII, iv, v, i]
+- progression: [bIII, bvii, i, iv]
   weight: 12
-- progression: [iv, v, i, bVII]
+- progression: [bvii, i, iv, bIII]
   weight: 12
-- progression: [v, i, bVII, iv]
+- progression: [i, iv, bIII, bvii]
   weight: 12
-- progression: [IV, i, bVII]
+- progression: [bIII, bVII, iv]
   weight: 12
 - progression: [vi, I, IV]
   weight: 12
 - progression: [bIII, IV, I, bIII]
   weight: 12
-- progression: [bVII, i, bVII, bVI]
+- progression: [bIII, iv, bIII, bII]
   weight: 12
 - progression: [V, I, V, VI]
   weight: 12
-- progression: [bvi, VII, bV, VII]
+- progression: [vii, II, VI, II]
   weight: 12
 - progression: [ii, I, IV, I]
+  weight: 12
+- progression: [bII, bV, VII]
+  weight: 12
+- progression: [iv, bVII, bvii]
   weight: 12
 - progression: [ii, iii, V]
   weight: 12
@@ -746,7 +756,7 @@
   weight: 12
 - progression: [II, IV, V]
   weight: 12
-- progression: [bVII, bIII, i]
+- progression: [bIII, bVI, iv]
   weight: 12
 - progression: [I, II, iii]
   weight: 12
@@ -760,11 +770,11 @@
   weight: 12
 - progression: [I, IV, I, bIII]
   weight: 12
-- progression: [v, i, iv]
+- progression: [i, iv, bvii]
   weight: 12
-- progression: [iv, v, i, iv]
+- progression: [bvii, i, iv, bvii]
   weight: 12
-- progression: [v, i, iv, i]
+- progression: [i, iv, bvii, iv]
   weight: 12
 - progression: [V, bII, I]
   weight: 12
@@ -786,45 +796,37 @@
   weight: 11
 - progression: [I, ii, V, I]
   weight: 11
-- progression: [bVII, bVI, v]
+- progression: [iv, bIII, bII, i]
   weight: 11
-- progression: [i, bVII, bVI, v]
-  weight: 11
-- progression: [bVII, bVI, v, iv]
-  weight: 11
-- progression: [IV, bVI, V]
-  weight: 11
-- progression: [i, bVII, IV, i]
+- progression: [bIII, bII, i, bvii]
   weight: 11
 - progression: [II, IV, I]
   weight: 11
 - progression: [I, vi, iii]
   weight: 11
-- progression: [bVII, iv, bVI, bVII]
+- progression: [bIII, bvii, bII, bIII]
+  weight: 11
+- progression: [bIII, IV, bII]
   weight: 11
 - progression: [I, V, IV, vi]
   weight: 11
-- progression: [I, bIII, v]
-  weight: 11
 - progression: [ii, V, iii]
   weight: 11
-- progression: [iv, bVII, i]
+- progression: [bvii, bIII, iv]
   weight: 11
-- progression: [bVI, v, i]
+- progression: [bII, i, iv]
   weight: 11
-- progression: [v, bVI, i]
+- progression: [i, bII, iv]
   weight: 11
-- progression: [bVII, v, bVI, i]
+- progression: [bIII, i, bII, iv]
   weight: 11
-- progression: [v, bVI, i, bVII]
+- progression: [i, bII, iv, bIII]
   weight: 11
-- progression: [bVI, i, bVII, v]
+- progression: [bII, iv, bIII, i]
   weight: 11
 - progression: [I, IV, I, bVII]
   weight: 11
-- progression: [bVII, bIII, IV]
-  weight: 10
-- progression: [bII, bVI, bV]
+- progression: [bVII, IV, bIII, bVII]
   weight: 10
 - progression: [II, bv, V, II]
   weight: 10
@@ -832,13 +834,11 @@
   weight: 10
 - progression: [V, II, bv, V]
   weight: 10
+- progression: [I, bVI, bVII, I]
+  weight: 10
 - progression: [bIII, ii, IV]
   weight: 10
 - progression: [V, bVI, bIII]
-  weight: 10
-- progression: [bVI, bIII, bII]
-  weight: 10
-- progression: [bIII, bII, i]
   weight: 10
 - progression: [bII, i, I]
   weight: 10
@@ -868,7 +868,7 @@
   weight: 10
 - progression: [bVI, IV, II, V]
   weight: 10
-- progression: [bVII, bVI, bIII]
+- progression: [iv, bIII, bVII, iv]
   weight: 10
 - progression: [IV, bVII, v, I]
   weight: 10
@@ -878,9 +878,9 @@
   weight: 10
 - progression: [IV, bVII, I]
   weight: 10
-- progression: [iv, bVI, bVII, iv]
+- progression: [bvii, bII, bIII, bvii]
   weight: 10
-- progression: [bVI, bVII, iv, bVI]
+- progression: [bII, bIII, bvii, bII]
   weight: 10
 - progression: [vi, IV, bVI]
   weight: 10
@@ -896,7 +896,7 @@
   weight: 10
 - progression: [V, IV, iii, V]
   weight: 10
-- progression: [bVI, bvii, bIII]
+- progression: [bII, biii, bVI]
   weight: 10
 - progression: [I, iv, v, I]
   weight: 10
@@ -912,23 +912,21 @@
   weight: 10
 - progression: [V, ii, iii, ii]
   weight: 10
-- progression: [bIII, bVII, bVI]
-  weight: 10
-- progression: [i, iv, V, i]
-  weight: 10
-- progression: [II, V, VI]
-  weight: 10
-- progression: [bVI, bVII, iv, v]
+- progression: [bII, bIII, bvii, i]
   weight: 10
 - progression: [V, iii, vi]
   weight: 9
-- progression: [i, v, bVII]
+- progression: [iv, i, bIII]
   weight: 9
-- progression: [v, bVII, i]
+- progression: [i, bIII, iv]
   weight: 9
 - progression: [I, V, ii, V]
   weight: 9
-- progression: [i, IV, bVII]
+- progression: [bvii, I, iv]
+  weight: 9
+- progression: [bVII, iv, bIII]
+  weight: 9
+- progression: [iv, bVII, bIII]
   weight: 9
 - progression: [iii, vi, IV, iii]
   weight: 9
@@ -936,25 +934,19 @@
   weight: 9
 - progression: [ii, V, I, VI]
   weight: 9
-- progression: [V, i, iv]
+- progression: [I, iv, bvii]
   weight: 9
 - progression: [I, vi, iii, V]
   weight: 9
-- progression: [I, bVII, I, bIII]
-  weight: 9
-- progression: [IV, bIII, bVII, IV]
+- progression: [IV, bIII, IV, bVI]
   weight: 9
 - progression: [I, vi, II, V]
-  weight: 9
-- progression: [bIII, bVI, bVII]
   weight: 9
 - progression: [IV, I, i]
   weight: 9
 - progression: [i, v, IV, I]
   weight: 9
-- progression: [bIII, bVII, i]
-  weight: 9
-- progression: [bIII, bVI, bvii]
+- progression: [bVI, bII, biii]
   weight: 9
 - progression: [V, II, I]
   weight: 9
@@ -964,25 +956,27 @@
   weight: 9
 - progression: [IV, I, II, iii]
   weight: 9
+- progression: [bIII, bVI, bII]
+  weight: 9
 - progression: [I, vii, vi]
   weight: 9
-- progression: [v, bVI, bVII, i]
+- progression: [i, bII, bIII, iv]
   weight: 9
-- progression: [bVII, i, v, bVI]
+- progression: [bIII, iv, i, bII]
   weight: 9
-- progression: [iv, bVII, bIII]
+- progression: [bvii, bIII, bVI]
   weight: 9
-- progression: [bIII, i, iv]
+- progression: [bVI, iv, bvii]
   weight: 9
-- progression: [bVII, bIII, i, iv]
+- progression: [bIII, bVI, iv, bvii]
   weight: 9
-- progression: [bVI, bV, bII]
+- progression: [bIII, bVII, IV, bIII]
   weight: 8
-- progression: [i, bIII, bVI, i]
+- progression: [iv, bVI, bII, iv]
   weight: 8
-- progression: [i, v, bVII, i]
+- progression: [iv, i, bIII, iv]
   weight: 8
-- progression: [bIII, v, i]
+- progression: [bVI, i, iv]
   weight: 8
 - progression: [v, I, vi]
   weight: 8
@@ -996,27 +990,31 @@
   weight: 8
 - progression: [I, iii, IV, V]
   weight: 8
-- progression: [i, iv, bVII]
+- progression: [iv, bvii, bIII]
   weight: 8
-- progression: [bVII, V, i]
+- progression: [bIII, I, iv]
   weight: 8
 - progression: [I, IV, vi, V]
   weight: 8
 - progression: [I, ii, iii]
   weight: 8
-- progression: [bIII, bVII, I, bVII]
+- progression: [i, bVII, IV]
+  weight: 8
+- progression: [bVI, bIII, IV, bIII]
   weight: 8
 - progression: [bIII, IV, I, IV]
   weight: 8
-- progression: [v, bVI, V]
+- progression: [i, bII, I]
   weight: 8
-- progression: [i, v, bVI, V]
+- progression: [iv, i, bII, I]
   weight: 8
-- progression: [bIII, v, bVII]
+- progression: [IV, bVI, i]
   weight: 8
-- progression: [iv, bIII, bVI]
+- progression: [bVI, i, bIII]
   weight: 8
-- progression: [iv, bIII, bVI, bVII]
+- progression: [bvii, bVI, bII]
+  weight: 8
+- progression: [bvii, bVI, bII, bIII]
   weight: 8
 - progression: [vii, V, VI]
   weight: 8
@@ -1026,57 +1024,51 @@
   weight: 8
 - progression: [IV, I, i, v]
   weight: 8
-- progression: [VII, bV, III]
+- progression: [II, VI, V]
   weight: 8
-- progression: [bV, III, VII]
+- progression: [VI, V, II]
   weight: 8
 - progression: [IV, iii, vi, IV]
   weight: 8
-- progression: [bVI, bII, bIII]
+- progression: [bVI, bIII, iv]
   weight: 8
 - progression: [V, I, II, V]
   weight: 8
 - progression: [I, V, vi, iii]
   weight: 8
-- progression: [V, VI, II]
+- progression: [bIII, bII, bIII, iv]
   weight: 8
-- progression: [bVII, bVI, bVII, i]
+- progression: [bII, bIII, iv, bIII]
   weight: 8
-- progression: [bVI, bVII, i, bVII]
-  weight: 8
-- progression: [IV, i, bIII]
-  weight: 8
-- progression: [bVII, IV, bIII, bVII]
+- progression: [bVII, iv, bVI]
   weight: 8
 - progression: [I, II, I, V]
   weight: 8
 - progression: [II, I, V, II]
   weight: 8
-- progression: [bIII, bVI, bIII, bVII]
+- progression: [bVI, bII, bVI, bIII]
   weight: 8
-- progression: [v, iv, bVII]
+- progression: [i, bvii, bIII]
   weight: 8
-- progression: [i, v, iv, bVII]
+- progression: [iv, i, bvii, bIII]
   weight: 8
 - progression: [V, IV, I, ii]
   weight: 7
-- progression: [i, ii, bIII]
-  weight: 7
-- progression: [i, ii, bIII, ii]
-  weight: 7
-- progression: [V, i, IV]
-  weight: 7
 - progression: [iv, v, bVI]
   weight: 7
-- progression: [iv, v, bVI, bVII]
+- progression: [iv, v, bVI, v]
   weight: 7
-- progression: [iv, bVI, bVII, i]
+- progression: [bvii, i, bII]
   weight: 7
-- progression: [IV, bVI, bIII]
+- progression: [bvii, i, bII, bIII]
   weight: 7
-- progression: [bIII, i, IV]
+- progression: [bvii, bII, bIII, iv]
   weight: 7
-- progression: [i, IV, bVI, bIII]
+- progression: [bVII, bII, bVI]
+  weight: 7
+- progression: [bVI, iv, bVII]
+  weight: 7
+- progression: [iv, bVII, bII, bVI]
   weight: 7
 - progression: [IV, V, bVII]
   weight: 7
@@ -1096,15 +1088,19 @@
   weight: 7
 - progression: [iii, vi, I, II]
   weight: 7
+- progression: [IV, bVI, V]
+  weight: 7
 - progression: [vi, IV, bVI, V]
   weight: 7
 - progression: [I, III, IV]
+  weight: 7
+- progression: [IV, bIII, bVII, IV]
   weight: 7
 - progression: [ii, V, iii, VI]
   weight: 7
 - progression: [V, IV, I, vi]
   weight: 7
-- progression: [i, bVI, bIII]
+- progression: [iv, bII, bVI]
   weight: 7
 - progression: [V, I, IV, bVII]
   weight: 7
@@ -1118,31 +1114,23 @@
   weight: 7
 - progression: [I, v, bVII, IV]
   weight: 7
-- progression: [v, i, bVI]
+- progression: [i, iv, bII]
   weight: 7
 - progression: [bVII, I, bVII, IV]
   weight: 7
 - progression: [I, bVII, I, IV]
   weight: 7
-- progression: [bVI, V, bVII]
+- progression: [bII, I, bIII]
   weight: 7
-- progression: [V, bVII, bVI]
+- progression: [I, bIII, bII]
   weight: 7
-- progression: [bVII, i, IV]
+- progression: [bIII, iv, bVII]
   weight: 7
 - progression: [iii, vi, V]
   weight: 6
 - progression: [vi, bVII, IV]
   weight: 6
 - progression: [IV, I, ii, V]
-  weight: 6
-- progression: [IV, bVII, bIII, IV]
-  weight: 6
-- progression: [bVII, bIII, IV, bVII]
-  weight: 6
-- progression: [bIII, IV, bVII, bIII]
-  weight: 6
-- progression: [bV, bII, bVI, bV]
   weight: 6
 - progression: [II, V, iii]
   weight: 6
@@ -1152,13 +1140,11 @@
   weight: 6
 - progression: [ii, IV, I, vi]
   weight: 6
-- progression: [IV, bIII, i]
-  weight: 6
 - progression: [iii, vi, ii]
   weight: 6
-- progression: [bVII, i, iv]
+- progression: [bIII, iv, bvii]
   weight: 6
-- progression: [bIII, i, IV, bVI]
+- progression: [bVI, iv, bVII, bII]
   weight: 6
 - progression: [V, bVII, IV, V]
   weight: 6
@@ -1170,53 +1156,59 @@
   weight: 6
 - progression: [ii, iii, IV, V]
   weight: 6
-- progression: [bVI, bVII, bIII, bVII]
+- progression: [bII, bIII, bVI, bIII]
   weight: 6
 - progression: [IV, vi, V, I]
   weight: 6
 - progression: [vi, V, I, IV]
   weight: 6
-- progression: [bVII, I, bIII, bVII]
+- progression: [bIII, IV, bVI, bIII]
   weight: 6
-- progression: [I, bIII, bVII, I]
+- progression: [IV, bVI, bIII, IV]
   weight: 6
 - progression: [V, I, vi, V]
   weight: 6
-- progression: [bVI, bVII, I, bVI]
+- progression: [bII, bIII, IV, bII]
   weight: 6
-- progression: [bVII, I, bVI, bVII]
+- progression: [bIII, IV, bII, bIII]
   weight: 6
-- progression: [v, bVI, V, i]
+- progression: [i, bII, I, iv]
   weight: 6
-- progression: [bIII, bV, bVI]
+- progression: [bVI, VII, bII]
   weight: 6
-- progression: [i, iv, bVI]
+- progression: [iv, bvii, bII]
   weight: 6
-- progression: [i, iv, bVI, bVII]
+- progression: [iv, bvii, bII, bIII]
   weight: 6
 - progression: [IV, I, vi, II]
   weight: 6
 - progression: [vi, II, V, I]
   weight: 6
-- progression: [bVI, bVII, V]
+- progression: [bII, bIII, I]
   weight: 6
-- progression: [bIII, bVI, bVII, V]
+- progression: [bVI, bII, bIII, I]
   weight: 6
-- progression: [bVI, bVII, V, i]
+- progression: [bII, bIII, I, iv]
   weight: 6
 - progression: [iii, V, I]
   weight: 6
 - progression: [VI, IV, V, IV]
   weight: 6
-- progression: [IV, iv, i]
+- progression: [VII, bV, bII]
   weight: 6
-- progression: [iv, i, IV]
+- progression: [VII, bV, bII, bV]
   weight: 6
-- progression: [III, VII, bV, III]
+- progression: [bV, bII, bV, VII]
   weight: 6
-- progression: [VII, bV, III, VII]
+- progression: [bVII, bvii, iv]
   weight: 6
-- progression: [bV, III, VII, bV]
+- progression: [bvii, iv, bVII]
+  weight: 6
+- progression: [V, II, VI, V]
+  weight: 6
+- progression: [II, VI, V, II]
+  weight: 6
+- progression: [VI, V, II, VI]
   weight: 6
 - progression: [I, iii, vi, I]
   weight: 6
@@ -1238,33 +1230,31 @@
   weight: 6
 - progression: [IV, I, vi, V]
   weight: 6
-- progression: [i, IV, bVII, i]
+- progression: [iv, bVII, bIII, iv]
   weight: 6
-- progression: [i, bvii, bIII]
+- progression: [iv, biii, bVI]
   weight: 6
-- progression: [i, bvii, bIII, bVI]
+- progression: [iv, biii, bVI, bII]
   weight: 6
-- progression: [bIII, bVII, bIII, i]
+- progression: [bVI, bIII, bVI, iv]
   weight: 6
 - progression: [ii, iv, I]
   weight: 6
 - progression: [iii, IV, ii]
   weight: 6
-- progression: [II, V, VI, II]
-  weight: 6
-- progression: [V, VI, II, V]
-  weight: 6
-- progression: [VI, II, V, VI]
-  weight: 6
 - progression: [I, vi, IV, iii]
   weight: 6
-- progression: [bII, bIII, bVI]
-  weight: 6
 - progression: [I, II, IV, V]
+  weight: 6
+- progression: [i, iv, V]
+  weight: 6
+- progression: [iv, V, i]
   weight: 6
 - progression: [V, i, vi]
   weight: 6
 - progression: [i, vi, IV]
+  weight: 6
+- progression: [i, iv, V, i]
   weight: 6
 - progression: [iv, V, i, vi]
   weight: 6
@@ -1272,25 +1262,19 @@
   weight: 6
 - progression: [i, vi, IV, V]
   weight: 6
-- progression: [bVII, iv, v, bVI]
+- progression: [bIII, bvii, i, bII]
   weight: 6
-- progression: [I, bIII, II]
+- progression: [bVI, VII, bVII]
   weight: 6
-- progression: [bIII, II, bII]
+- progression: [VII, bVII, VI]
   weight: 6
-- progression: [I, bIII, II, bII]
+- progression: [bVI, VII, bVII, VI]
   weight: 6
-- progression: [v, I, bIII]
+- progression: [bVI, bIII, bII, bIII]
   weight: 6
-- progression: [i, IV, bIII, bVII]
+- progression: [bvii, bIII, bVI, iv]
   weight: 6
-- progression: [IV, bIII, bVII, i]
-  weight: 6
-- progression: [bIII, bVII, bVI, bVII]
-  weight: 6
-- progression: [iv, bVII, bIII, i]
-  weight: 6
-- progression: [bIII, i, iv, V]
+- progression: [bVI, iv, bvii, I]
   weight: 6
 - progression: [I, v, IV, I]
   weight: 5
@@ -1302,17 +1286,11 @@
   weight: 5
 - progression: [I, iii, vi, IV]
   weight: 5
-- progression: [bVI, IV, I]
+- progression: [iv, bIII, bII, I]
   weight: 5
-- progression: [I, bVI, IV]
+- progression: [bVI, bII, iv, bVI]
   weight: 5
-- progression: [i, bVII, bVI, V]
-  weight: 5
-- progression: [bIII, bVI, i, bIII]
-  weight: 5
-- progression: [bVI, i, bIII, bVI]
-  weight: 5
-- progression: [V, II, VI]
+- progression: [bII, iv, bVI, bII]
   weight: 5
 - progression: [vi, iii, IV, V]
   weight: 5
@@ -1326,23 +1304,19 @@
   weight: 5
 - progression: [vi, ii, iii]
   weight: 5
-- progression: [bVII, i, v, iv]
+- progression: [bIII, iv, i, bvii]
   weight: 5
 - progression: [V, I, IV, iii]
   weight: 5
 - progression: [bIII, IV, V]
   weight: 5
-- progression: [bIII, bVI, bII]
-  weight: 5
-- progression: [iv, i, iv, bVII]
+- progression: [bvii, iv, bvii, bIII]
   weight: 5
 - progression: [I, iii, IV, I]
   weight: 5
 - progression: [vi, I, II, V]
   weight: 5
-- progression: [iv, bvii, biii]
-  weight: 5
-- progression: [V, I, bVII]
+- progression: [bvi, bii, bv]
   weight: 5
 - progression: [I, V, I, VI]
   weight: 5
@@ -1352,13 +1326,15 @@
   weight: 5
 - progression: [V, IV, vi, IV]
   weight: 5
-- progression: [bIII, i, bVI]
+- progression: [bVI, iv, bII]
+  weight: 5
+- progression: [bVI, bVII, bIII]
   weight: 5
 - progression: [bVII, V, I, IV]
   weight: 5
-- progression: [bvii, bIII, bVI, bvii]
+- progression: [biii, bVI, bII, biii]
   weight: 5
-- progression: [bIII, bVI, bvii, bIII]
+- progression: [bVI, bII, biii, bVI]
   weight: 5
 - progression: [I, V, II, I]
   weight: 5
@@ -1368,11 +1344,9 @@
   weight: 5
 - progression: [bVII, vi, bVI]
   weight: 5
-- progression: [i, bVI, v]
+- progression: [iv, bII, i]
   weight: 5
 - progression: [ii, IV, I, IV]
-  weight: 5
-- progression: [bVII, bIII, bVI]
   weight: 5
 - progression: [I, ii, iii, ii]
   weight: 5
@@ -1392,21 +1366,23 @@
   weight: 5
 - progression: [iii, I, vii, vi]
   weight: 5
-- progression: [bIII, bVII, IV, bIII]
+- progression: [i, bII, bIII, IV]
   weight: 5
-- progression: [v, bVI, bVII, I]
+- progression: [IV, bII, bIII, bvii]
   weight: 5
-- progression: [I, bVI, bVII, iv]
+- progression: [bIII, bII, I, bIII]
   weight: 5
-- progression: [bVII, bVI, V, bVII]
+- progression: [bII, I, bIII, bII]
   weight: 5
-- progression: [bVI, V, bVII, bVI]
-  weight: 5
-- progression: [V, bVII, bVI, V]
+- progression: [I, bIII, bII, I]
   weight: 5
 - progression: [I, iii, vi, iii]
   weight: 5
-- progression: [bVII, i, IV, bIII]
+- progression: [iv, bVII, bVI, bIII]
+  weight: 5
+- progression: [bVII, bVI, bIII, iv]
+  weight: 5
+- progression: [bIII, iv, bVII, bVI]
   weight: 5
 - progression: [iii, ii, V, I]
   weight: 4
@@ -1414,13 +1390,13 @@
   weight: 4
 - progression: [iii, vi, IV, bVII]
   weight: 4
-- progression: [ii, bVII, i]
+- progression: [i, v, bIII]
   weight: 4
-- progression: [v, ii, bVII, i]
+- progression: [v, bIII, iv]
   weight: 4
-- progression: [bII, bVI, bV, bII]
+- progression: [i, v, bIII, iv]
   weight: 4
-- progression: [bVI, bV, bII, bV]
+- progression: [IV, bIII, bVII, bIII]
   weight: 4
 - progression: [vi, IV, V, vi]
   weight: 4
@@ -1430,25 +1406,25 @@
   weight: 4
 - progression: [V, I, V, ii]
   weight: 4
-- progression: [v, bVI, bIII]
+- progression: [i, bII, bVI]
   weight: 4
-- progression: [bVI, bIII, iv]
+- progression: [bII, bVI, bvii]
   weight: 4
-- progression: [bIII, iv, i]
+- progression: [bVI, bvii, iv]
   weight: 4
-- progression: [iv, i, II]
+- progression: [bvii, iv, V]
   weight: 4
-- progression: [i, II, V]
+- progression: [iv, V, I]
   weight: 4
-- progression: [i, v, bVI, bIII]
+- progression: [iv, i, bII, bVI]
   weight: 4
-- progression: [v, bVI, bIII, iv]
+- progression: [i, bII, bVI, bvii]
   weight: 4
-- progression: [bVI, bIII, iv, i]
+- progression: [bII, bVI, bvii, iv]
   weight: 4
-- progression: [bIII, iv, i, II]
+- progression: [bVI, bvii, iv, V]
   weight: 4
-- progression: [iv, i, II, V]
+- progression: [bvii, iv, V, I]
   weight: 4
 - progression: [I, iv, V]
   weight: 4
@@ -1456,15 +1432,19 @@
   weight: 4
 - progression: [iv, I, iv, V]
   weight: 4
-- progression: [IV, i, IV, bVI]
+- progression: [bVII, bII, I]
   weight: 4
-- progression: [i, IV, bVI, V]
+- progression: [I, iv, bVII]
   weight: 4
-- progression: [IV, bVI, V, i]
+- progression: [bVII, iv, bVII, bII]
   weight: 4
-- progression: [bVI, V, i, IV]
+- progression: [iv, bVII, bII, I]
   weight: 4
-- progression: [V, i, IV, i]
+- progression: [bVII, bII, I, iv]
+  weight: 4
+- progression: [bII, I, iv, bVII]
+  weight: 4
+- progression: [I, iv, bVII, iv]
   weight: 4
 - progression: [IV, I, iii]
   weight: 4
@@ -1476,19 +1456,21 @@
   weight: 4
 - progression: [vi, V, IV, iii]
   weight: 4
+- progression: [bVII, bVI, iv]
+  weight: 4
 - progression: [ii, iii, vi]
   weight: 4
-- progression: [bVI, bIII, i]
+- progression: [bII, bVI, iv]
   weight: 4
-- progression: [IV, bVI, bIII, i]
+- progression: [bVII, bII, bVI, iv]
   weight: 4
-- progression: [bVI, bIII, i, IV]
+- progression: [bII, bVI, iv, bVII]
   weight: 4
 - progression: [IV, I, IV, iii]
   weight: 4
 - progression: [I, IV, iii, vi]
   weight: 4
-- progression: [i, bVI, bVII, bVI]
+- progression: [iv, bII, bIII, bII]
   weight: 4
 - progression: [IV, V, bIII]
   weight: 4
@@ -1496,9 +1478,11 @@
   weight: 4
 - progression: [IV, V, bIII, ii]
   weight: 4
+- progression: [I, bIII, bVII]
+  weight: 4
 - progression: [ii, vi, iii]
   weight: 4
-- progression: [IV, bVI, v]
+- progression: [bVII, bII, i]
   weight: 4
 - progression: [III, vi, I]
   weight: 4
@@ -1512,13 +1496,15 @@
   weight: 4
 - progression: [V, vi, ii]
   weight: 4
-- progression: [bII, bIII, bVII]
+- progression: [bV, bVI, bIII]
   weight: 4
-- progression: [bII, bIII, bVII, I]
+- progression: [bV, bVI, bIII, IV]
   weight: 4
-- progression: [bvii, biii, iv]
+- progression: [bii, bv, bvi]
   weight: 4
-- progression: [biii, iv, bvii]
+- progression: [bv, bvi, bii]
+  weight: 4
+- progression: [V, I, bVII]
   weight: 4
 - progression: [IV, V, I, bVII]
   weight: 4
@@ -1534,7 +1520,9 @@
   weight: 4
 - progression: [II, ii, V, I]
   weight: 4
-- progression: [bVI, i, bVI, bVII]
+- progression: [IV, bII, bIII, IV]
+  weight: 4
+- progression: [bII, iv, bII, bIII]
   weight: 4
 - progression: [bVI, V, I]
   weight: 4
@@ -1546,9 +1534,9 @@
   weight: 4
 - progression: [vi, ii, IV, I]
   weight: 4
-- progression: [bV, bVI, bIII]
+- progression: [VII, bII, bVI]
   weight: 4
-- progression: [bVI, bIII, bV]
+- progression: [bII, bVI, VII]
   weight: 4
 - progression: [III, IV, V]
   weight: 4
@@ -1560,15 +1548,15 @@
   weight: 4
 - progression: [V, I, ii, I]
   weight: 4
-- progression: [v, bVII, iv]
+- progression: [i, bIII, bvii]
   weight: 4
-- progression: [bVII, iv, V]
+- progression: [bIII, bvii, I]
   weight: 4
-- progression: [I, bIII, v, bVII]
+- progression: [IV, bVI, i, bIII]
   weight: 4
-- progression: [bIII, v, bVII, iv]
+- progression: [bVI, i, bIII, bvii]
   weight: 4
-- progression: [v, bVII, iv, V]
+- progression: [i, bIII, bvii, I]
   weight: 4
 - progression: [iii, IV, bVII]
   weight: 4
@@ -1606,45 +1594,41 @@
   weight: 4
 - progression: [IV, V, I, iii]
   weight: 4
-- progression: [bII, bV, bVI]
+- progression: [bVI, bII, bii]
   weight: 4
-- progression: [bV, bVI, bII]
+- progression: [bII, bii, bVI]
   weight: 4
-- progression: [bIII, bVI, bvi]
+- progression: [bVI, bII, bii, bVI]
   weight: 4
-- progression: [bVI, bvi, bIII]
-  weight: 4
-- progression: [bIII, bVI, bvi, bIII]
-  weight: 4
-- progression: [I, bVII, bIII]
+- progression: [IV, bIII, bVI]
   weight: 4
 - progression: [I, III, vi]
   weight: 4
 - progression: [vi, I, IV, I]
   weight: 4
-- progression: [bVII, i, bIII]
+- progression: [bIII, iv, bVI]
   weight: 4
-- progression: [IV, bVII, i, bIII]
+- progression: [bVII, bIII, iv, bVI]
   weight: 4
-- progression: [bVII, i, bIII, IV]
+- progression: [bIII, iv, bVI, bVII]
   weight: 4
-- progression: [i, bIII, IV, bVII]
+- progression: [iv, bVI, bVII, bIII]
   weight: 4
-- progression: [bIII, IV, bVII, i]
+- progression: [bVI, bVII, bIII, iv]
   weight: 4
 - progression: [I, IV, vi, IV]
   weight: 4
-- progression: [bvii, bIII, i]
+- progression: [biii, bVI, iv]
   weight: 4
-- progression: [bIII, i, bvii]
+- progression: [bVI, iv, biii]
   weight: 4
-- progression: [bVI, bvii, bIII, i]
+- progression: [bII, biii, bVI, iv]
   weight: 4
-- progression: [bvii, bIII, i, bvii]
+- progression: [biii, bVI, iv, biii]
   weight: 4
-- progression: [bIII, i, bvii, bIII]
+- progression: [bVI, iv, biii, bVI]
   weight: 4
-- progression: [i, bVI, bVII, bIII]
+- progression: [iv, bII, bIII, bVI]
   weight: 4
 - progression: [V, bVII, I]
   weight: 4
@@ -1654,11 +1638,13 @@
   weight: 4
 - progression: [v, I, v, bVII]
   weight: 4
-- progression: [bII, iv, biii]
+- progression: [bIII, bII, bVI]
   weight: 4
-- progression: [iv, biii, bV]
+- progression: [III, bvi, bv]
   weight: 4
-- progression: [bII, iv, biii, bV]
+- progression: [bvi, bv, VI]
+  weight: 4
+- progression: [III, bvi, bv, VI]
   weight: 4
 - progression: [I, iii, ii]
   weight: 4
@@ -1674,19 +1660,23 @@
   weight: 4
 - progression: [iv, I, VI, ii]
   weight: 4
+- progression: [bVII, I, bVI]
+  weight: 4
 - progression: [I, bVII, I, bVI]
   weight: 4
-- progression: [v, bIII, v, bVII]
-  weight: 4
 - progression: [i, bVI, i, bIII]
+  weight: 4
+- progression: [iv, bII, iv, bVI]
   weight: 4
 - progression: [vi, IV, V, iii]
   weight: 4
 - progression: [IV, V, iii, V]
   weight: 4
-- progression: [bVII, bVI, iv]
+- progression: [iv, bvii, I, iv]
   weight: 4
-- progression: [i, bVII, bVI, iv]
+- progression: [bIII, bII, bvii]
+  weight: 4
+- progression: [iv, bIII, bII, bvii]
   weight: 4
 - progression: [vi, ii, bVII]
   weight: 4
@@ -1698,7 +1688,7 @@
   weight: 4
 - progression: [ii, iii, ii, I]
   weight: 4
-- progression: [i, bVI, bVII, iv]
+- progression: [iv, bII, bIII, bvii]
   weight: 4
 - progression: [I, VII, III]
   weight: 4
@@ -1720,11 +1710,13 @@
   weight: 4
 - progression: [v, I, IV, iii]
   weight: 4
-- progression: [i, bIII, IV, i]
+- progression: [I, bVI, IV]
   weight: 4
-- progression: [bIII, IV, i, bIII]
+- progression: [iv, bVI, bVII, iv]
   weight: 4
-- progression: [IV, i, bIII, IV]
+- progression: [bVI, bVII, iv, bVI]
+  weight: 4
+- progression: [bVII, iv, bVI, bVII]
   weight: 4
 - progression: [bVI, bII, bIII, bVI]
   weight: 4
@@ -1732,23 +1724,23 @@
   weight: 4
 - progression: [I, V, II, VI]
   weight: 4
-- progression: [bVII, iv, bVII, i]
+- progression: [bIII, bvii, bIII, iv]
   weight: 4
-- progression: [iv, bVII, i, bVII]
+- progression: [bvii, bIII, iv, bIII]
   weight: 4
-- progression: [bVII, i, bVII, iv]
+- progression: [bIII, iv, bIII, bvii]
   weight: 4
-- progression: [i, bVII, iv, bVII]
+- progression: [iv, bIII, bvii, bIII]
   weight: 4
 - progression: [II, V, II, I]
   weight: 4
 - progression: [II, I, V, I]
   weight: 4
-- progression: [bVI, v, IV]
+- progression: [bII, i, bVII]
   weight: 4
-- progression: [bVII, bIII, bVI, bIII]
+- progression: [bIII, bVI, bII, bVI]
   weight: 4
-- progression: [bVI, bIII, bVII, bIII]
+- progression: [bII, bVI, bIII, bVI]
   weight: 4
 - progression: [IV, V, II]
   weight: 4
@@ -1756,19 +1748,19 @@
   weight: 4
 - progression: [vi, I, vi, IV]
   weight: 4
-- progression: [I, bIII, v, i]
+- progression: [IV, bVI, i, iv]
   weight: 4
-- progression: [bVII, bVI, bVII, bIII]
+- progression: [v, I, bIII]
   weight: 4
-- progression: [bVII, bIII, bVII, bVI]
+- progression: [bVI, bIII, bVII]
   weight: 4
-- progression: [IV, v, I]
+- progression: [bIII, bVII, bVI]
   weight: 4
-- progression: [I, bIII, IV, v]
+- progression: [bIII, bII, bIII, bVI]
   weight: 4
-- progression: [bIII, IV, v, I]
+- progression: [bIII, bVI, bIII, bII]
   weight: 4
-- progression: [IV, v, I, bIII]
+- progression: [IV, bVI, bVII]
   weight: 4
 - progression: [V, vi, II]
   weight: 4
@@ -1776,6 +1768,8 @@
   weight: 4
 - progression: [V, vi, II, V]
   weight: 4
+- progression: [bVI, IV, I]
+  weight: 3
 - progression: [II, V, iii, VI]
   weight: 3
 - progression: [VI, IV, ii]
@@ -1794,19 +1788,17 @@
   weight: 3
 - progression: [ii, iii, IV, iii]
   weight: 3
-- progression: [iv, i, bVII]
+- progression: [bvii, iv, bIII]
   weight: 3
-- progression: [V, i, bVII]
+- progression: [I, iv, bIII]
   weight: 3
-- progression: [iv, i, bVII, bVI]
+- progression: [bvii, iv, bIII, bII]
   weight: 3
 - progression: [IV, I, iii, vi]
   weight: 3
-- progression: [i, biii, bVII]
+- progression: [i, IV, bIII]
   weight: 3
-- progression: [bVII, IV, i, bVII]
-  weight: 3
-- progression: [IV, i, bVII, IV]
+- progression: [iv, bvi, bIII]
   weight: 3
 - progression: [iii, II, bVII]
   weight: 3
@@ -1818,13 +1810,13 @@
   weight: 3
 - progression: [I, bIII, bVII, IV]
   weight: 3
-- progression: [bVI, v, bIII]
+- progression: [bII, i, bVI]
   weight: 3
-- progression: [v, bIII, i]
+- progression: [i, bVI, iv]
   weight: 3
-- progression: [bVI, v, bIII, i]
+- progression: [bII, i, bVI, iv]
   weight: 3
-- progression: [v, bIII, i, IV]
+- progression: [i, bVI, iv, bVII]
   weight: 3
 - progression: [I, bIII, IV, V]
   weight: 3
@@ -1837,6 +1829,10 @@
 - progression: [I, ii, iii, IV]
   weight: 3
 - progression: [iii, IV, V, I]
+  weight: 3
+- progression: [bVII, IV, i]
+  weight: 3
+- progression: [IV, i, bVII]
   weight: 3
 - progression: [ii, V, IV]
   weight: 3
@@ -1860,15 +1856,19 @@
   weight: 3
 - progression: [vi, ii, I]
   weight: 3
-- progression: [bVII, I, iv]
+- progression: [bIII, IV, bvii]
   weight: 3
-- progression: [bVII, I, iv, v]
+- progression: [IV, bvii, i]
+  weight: 3
+- progression: [bIII, IV, bvii, i]
   weight: 3
 - progression: [IV, bVI, V, I]
   weight: 3
 - progression: [bVI, V, I, vi]
   weight: 3
 - progression: [vi, V, i]
+  weight: 3
+- progression: [V, i, IV]
   weight: 3
 - progression: [i, IV, I]
   weight: 3
@@ -1928,11 +1928,11 @@
   weight: 3
 - progression: [III, V, II]
   weight: 3
-- progression: [i, bVI, iv]
+- progression: [iv, bII, bvii]
   weight: 3
 - progression: [iii, IV, V, IV]
   weight: 3
-- progression: [bVII, i, iv, bVII]
+- progression: [bIII, iv, bvii, bIII]
   weight: 3
 - progression: [iii, I, II]
   weight: 3
@@ -1948,39 +1948,43 @@
   weight: 3
 - progression: [IV, VI, ii, V]
   weight: 3
-- progression: [bVII, bIII, v]
+- progression: [bIII, bVI, i]
   weight: 3
-- progression: [bIII, bVII, bIII, v]
+- progression: [bVI, bIII, bVI, i]
   weight: 3
 - progression: [I, V, III]
   weight: 3
 - progression: [VI, I, V, II]
   weight: 3
-- progression: [ii, i, bVII]
+- progression: [v, iv, bIII]
   weight: 3
-- progression: [i, ii, i, bVII]
+- progression: [iv, v, iv, bIII]
   weight: 3
-- progression: [ii, i, bVII, bVI]
+- progression: [v, iv, bIII, bII]
   weight: 3
-- progression: [i, bVII, bVI, bIII]
+- progression: [iv, bIII, bII, bVI]
   weight: 3
-- progression: [bVII, bVI, bIII, bVII]
+- progression: [bIII, bII, bVI, bIII]
   weight: 3
-- progression: [bVI, bIII, bVII, bVI]
+- progression: [bII, bVI, bIII, bII]
+  weight: 3
+- progression: [i, IV, iv]
   weight: 3
 - progression: [I, i, IV, iv]
   weight: 3
-- progression: [bVI, bIII, bVI, i]
+- progression: [bII, bVI, bII, iv]
   weight: 3
-- progression: [bVI, i, bVI, bIII]
+- progression: [bII, iv, bII, bVI]
   weight: 3
-- progression: [v, i, bVI, v]
+- progression: [i, iv, bII, i]
   weight: 3
 - progression: [V, IV, bIII]
   weight: 3
 - progression: [I, IV, bVII, v]
   weight: 3
-- progression: [bIII, bVII, bIII, bVI]
+- progression: [bVI, bIII, bVI, bII]
+  weight: 3
+- progression: [bIII, bVI, bII, bIII]
   weight: 3
 - progression: [vi, bVI, V]
   weight: 3
@@ -2008,13 +2012,13 @@
   weight: 3
 - progression: [vi, IV, iii, I]
   weight: 3
-- progression: [I, v, iv]
+- progression: [IV, i, bvii]
   weight: 3
-- progression: [I, v, iv, bVI]
+- progression: [IV, i, bvii, bII]
   weight: 3
-- progression: [i, bIII, i, bVI]
+- progression: [iv, bVI, iv, bII]
   weight: 3
-- progression: [bIII, i, bVI, bVII]
+- progression: [bVI, iv, bII, bIII]
   weight: 3
 - progression: [IV, bVII, VI]
   weight: 3
@@ -2028,21 +2032,23 @@
   weight: 3
 - progression: [I, III, IV, II]
   weight: 3
-- progression: [II, bII, I]
+- progression: [bVII, VI, bVI]
   weight: 3
-- progression: [bII, I, bIII]
+- progression: [VI, bVI, VII]
   weight: 3
-- progression: [bIII, II, bII, I]
+- progression: [VII, bVII, VI, bVI]
   weight: 3
-- progression: [II, bII, I, bIII]
+- progression: [bVII, VI, bVI, VII]
   weight: 3
-- progression: [bII, I, bIII, II]
+- progression: [VI, bVI, VII, bVII]
   weight: 3
-- progression: [i, iv, bVII, bIII]
+- progression: [iv, bvii, bIII, bVI]
   weight: 3
-- progression: [iv, bVII, bIII, bVII]
+- progression: [bvii, bIII, bVI, bIII]
   weight: 3
-- progression: [bIII, i, iv, i]
+- progression: [bVI, iv, bvii, iv]
+  weight: 3
+- progression: [I, bIII, v]
   weight: 3
 - progression: [bIII, v, I]
   weight: 3
@@ -2050,7 +2056,7 @@
   weight: 3
 - progression: [IV, bIII, IV, I]
   weight: 3
-- progression: [bVII, i, bVII, IV]
+- progression: [bIII, iv, bIII, bVII]
   weight: 3
 - progression: [I, iv, IV]
   weight: 3
@@ -2062,11 +2068,11 @@
   weight: 3
 - progression: [vi, bVII, V]
   weight: 3
-- progression: [bIII, bVI, iv]
+- progression: [bVI, bII, bvii]
   weight: 3
-- progression: [bVI, iv, bVII]
+- progression: [bII, bvii, bIII]
   weight: 3
-- progression: [bIII, bVI, iv, bVII]
+- progression: [bVI, bII, bvii, bIII]
   weight: 3
 - progression: [iii, IV, V, iii]
   weight: 2
@@ -2080,6 +2086,8 @@
   weight: 2
 - progression: [IV, vi, bVII, IV]
   weight: 2
+- progression: [bII, bVII, IV]
+  weight: 2
 - progression: [v, IV, iv]
   weight: 2
 - progression: [iv, I, II]
@@ -2092,21 +2100,21 @@
   weight: 2
 - progression: [iv, I, II, V]
   weight: 2
-- progression: [i, v, ii]
+- progression: [iv, i, v]
   weight: 2
-- progression: [bII, bVI, bIII]
+- progression: [bV, bII, bVI]
   weight: 2
-- progression: [ii, bVII, i, v]
+- progression: [v, bIII, iv, i]
   weight: 2
-- progression: [bVII, i, v, ii]
+- progression: [bIII, iv, i, v]
   weight: 2
-- progression: [i, v, ii, bVII]
+- progression: [iv, i, v, bIII]
   weight: 2
-- progression: [bVI, bII, bVI, bIII]
+- progression: [bII, bV, bII, bVI]
   weight: 2
-- progression: [v, i, bIII]
+- progression: [i, iv, bVI]
   weight: 2
-- progression: [i, bIII, v]
+- progression: [iv, bVI, i]
   weight: 2
 - progression: [iii, VI, II]
   weight: 2
@@ -2124,13 +2132,15 @@
   weight: 2
 - progression: [vi, V, iii, IV]
   weight: 2
-- progression: [v, iv, V]
+- progression: [i, bvii, I]
   weight: 2
-- progression: [bVI, v, iv, V]
+- progression: [bII, i, bvii, I]
   weight: 2
-- progression: [v, i, IV]
+- progression: [IV, bIII, i]
   weight: 2
-- progression: [bVII, v, i, IV]
+- progression: [i, iv, bVII]
+  weight: 2
+- progression: [bIII, i, iv, bVII]
   weight: 2
 - progression: [IV, iii, vi, ii]
   weight: 2
@@ -2158,7 +2168,11 @@
   weight: 2
 - progression: [IV, iii, ii, vi]
   weight: 2
-- progression: [biii, i, biii, bVII]
+- progression: [bvi, iv, bvi, bIII]
+  weight: 2
+- progression: [bIII, bVII, iv, bIII]
+  weight: 2
+- progression: [bVII, iv, bIII, bVII]
   weight: 2
 - progression: [iii, II, V]
   weight: 2
@@ -2186,21 +2200,21 @@
   weight: 2
 - progression: [I, ii, vi, iii]
   weight: 2
-- progression: [i, IV, bVI, v]
+- progression: [iv, bVII, bII, i]
   weight: 2
-- progression: [IV, bVI, v, bIII]
+- progression: [bVII, bII, i, bVI]
   weight: 2
 - progression: [vi, bVII, I]
   weight: 2
-- progression: [iv, bVI, bVII, bIII]
+- progression: [bvii, bII, bIII, bVI]
   weight: 2
-- progression: [iv, bVII, V]
+- progression: [bvii, bIII, I]
   weight: 2
-- progression: [i, iv, bVII, iv]
+- progression: [iv, bvii, bIII, bvii]
   weight: 2
-- progression: [bVII, iv, bVII, V]
+- progression: [bIII, bvii, bIII, I]
   weight: 2
-- progression: [iv, bVII, V, i]
+- progression: [bvii, bIII, I, iv]
   weight: 2
 - progression: [I, IV, III]
   weight: 2
@@ -2220,23 +2234,23 @@
   weight: 2
 - progression: [I, ii, V, IV]
   weight: 2
-- progression: [bVI, bVII, bII]
+- progression: [bII, bIII, bV]
   weight: 2
-- progression: [bVII, bII, bIII]
+- progression: [bIII, bV, bVI]
   weight: 2
-- progression: [bVII, bVI, bVII, bII]
+- progression: [bIII, bII, bIII, bV]
   weight: 2
-- progression: [bVI, bVII, bII, bIII]
+- progression: [bII, bIII, bV, bVI]
   weight: 2
-- progression: [bVII, bII, bIII, bVII]
+- progression: [bIII, bV, bVI, bIII]
   weight: 2
-- progression: [bVII, I, bII]
+- progression: [bIII, IV, bV]
   weight: 2
-- progression: [bIII, bVII, I, bII]
+- progression: [bVI, bIII, IV, bV]
   weight: 2
-- progression: [iv, bvii, biii, iv]
+- progression: [bvi, bii, bv, bvi]
   weight: 2
-- progression: [bvii, biii, iv, bvii]
+- progression: [bii, bv, bvi, bii]
   weight: 2
 - progression: [iv, I, V]
   weight: 2
@@ -2246,25 +2260,25 @@
   weight: 2
 - progression: [I, V, iii, VI]
   weight: 2
-- progression: [V, i, v]
+- progression: [I, iv, i]
   weight: 2
-- progression: [bVI, V, i, V]
+- progression: [bII, I, iv, I]
   weight: 2
-- progression: [i, V, i, v]
+- progression: [iv, I, iv, i]
   weight: 2
-- progression: [V, i, v, bVI]
+- progression: [I, iv, i, bII]
   weight: 2
-- progression: [bVI, V, i, iv]
+- progression: [bII, I, iv, bvii]
   weight: 2
-- progression: [V, i, iv, i]
+- progression: [I, iv, bvii, iv]
   weight: 2
-- progression: [bIII, bV, bVI, bIII]
+- progression: [bVI, VII, bII, bVI]
   weight: 2
-- progression: [bV, bVI, bIII, bV]
+- progression: [VII, bII, bVI, VII]
   weight: 2
-- progression: [bVI, bIII, bV, bVI]
+- progression: [bII, bVI, VII, bII]
   weight: 2
-- progression: [iv, bVI, bVII, I]
+- progression: [bvii, bII, bIII, IV]
   weight: 2
 - progression: [V, i, IV, I]
   weight: 2
@@ -2282,17 +2296,23 @@
   weight: 2
 - progression: [VI, II, III]
   weight: 2
-- progression: [i, IV, iv, i]
+- progression: [iv, bVII, bvii, iv]
   weight: 2
-- progression: [IV, iv, i, IV]
+- progression: [bVII, bvii, iv, bVII]
   weight: 2
-- progression: [iv, i, IV, iv]
+- progression: [bvii, iv, bVII, bvii]
   weight: 2
-- progression: [VII, bV, bII]
+- progression: [II, VI, III]
   weight: 2
-- progression: [III, VII, bV, bII]
+- progression: [VI, III, VII]
   weight: 2
-- progression: [VII, bV, bII, bVI]
+- progression: [III, VII, VI]
+  weight: 2
+- progression: [V, II, VI, III]
+  weight: 2
+- progression: [II, VI, III, VII]
+  weight: 2
+- progression: [VI, III, VII, VI]
   weight: 2
 - progression: [iii, ii, IV, iii]
   weight: 2
@@ -2302,11 +2322,13 @@
   weight: 2
 - progression: [vi, III, V, II]
   weight: 2
-- progression: [bIII, i, bVI, iv]
+- progression: [bVI, iv, bII, bvii]
   weight: 2
-- progression: [bII, bIII, IV]
+- progression: [bII, bV, bVI]
   weight: 2
-- progression: [bVI, bII, bIII, IV]
+- progression: [bV, bVI, bVII]
+  weight: 2
+- progression: [bII, bV, bVI, bVII]
   weight: 2
 - progression: [ii, iii, ii, V]
   weight: 2
@@ -2324,15 +2346,15 @@
   weight: 2
 - progression: [III, vi, ii, V]
   weight: 2
-- progression: [i, bVI, bIII, bVII]
+- progression: [iv, bII, bVI, bIII]
   weight: 2
-- progression: [bvi, bIII, bVI]
+- progression: [bii, bVI, bII]
   weight: 2
-- progression: [I, bVII, bIII, bVII]
+- progression: [IV, bIII, bVI, bIII]
   weight: 2
-- progression: [bVII, bIII, bVII, I]
+- progression: [bIII, bVI, bIII, IV]
   weight: 2
-- progression: [bVII, I, bVII, bIII]
+- progression: [bIII, IV, bIII, bVI]
   weight: 2
 - progression: [I, vi, II, IV]
   weight: 2
@@ -2342,13 +2364,15 @@
   weight: 2
 - progression: [III, vi, I, IV]
   weight: 2
-- progression: [i, IV, bVII, bIII]
+- progression: [bVII, bIII, bVI]
   weight: 2
-- progression: [IV, bVII, bIII, bVII]
+- progression: [iv, bVII, bIII, bVI]
   weight: 2
-- progression: [bVII, bIII, bVII, i]
+- progression: [bVII, bIII, bVI, bIII]
   weight: 2
-- progression: [bIII, bVII, i, iv]
+- progression: [bIII, bVI, bIII, iv]
+  weight: 2
+- progression: [bVI, bIII, iv, bvii]
   weight: 2
 - progression: [iii, VI, V]
   weight: 2
@@ -2376,23 +2400,23 @@
   weight: 2
 - progression: [I, V, vi, bVII]
   weight: 2
-- progression: [bVI, bVII, i, iv]
+- progression: [bII, bIII, iv, bvii]
   weight: 2
-- progression: [bVII, i, iv, bVI]
+- progression: [bIII, iv, bvii, bII]
   weight: 2
 - progression: [I, vi, iii, IV]
   weight: 2
 - progression: [I, ii, I, V]
   weight: 2
-- progression: [biii, bV, bII]
+- progression: [bv, VI, III]
   weight: 2
-- progression: [bV, bII, iv]
+- progression: [VI, III, bvi]
   weight: 2
-- progression: [iv, biii, bV, bII]
+- progression: [bvi, bv, VI, III]
   weight: 2
-- progression: [biii, bV, bII, iv]
+- progression: [bv, VI, III, bvi]
   weight: 2
-- progression: [bV, bII, iv, biii]
+- progression: [VI, III, bvi, bv]
   weight: 2
 - progression: [VI, ii, I]
   weight: 2
@@ -2404,19 +2428,19 @@
   weight: 2
 - progression: [ii, I, iii, ii]
   weight: 2
-- progression: [bIII, bVI, i, bVI]
+- progression: [bVI, bII, iv, bII]
   weight: 2
-- progression: [i, bVI, bIII, bVI]
+- progression: [iv, bII, bVI, bII]
   weight: 2
 - progression: [vi, bVII, vi, bVI]
   weight: 2
-- progression: [bVI, v, i, bVI]
+- progression: [bII, i, iv, bII]
   weight: 2
-- progression: [i, bVI, v, i]
+- progression: [iv, bII, i, iv]
   weight: 2
-- progression: [bVI, iv, v]
+- progression: [bII, bvii, i]
   weight: 2
-- progression: [bVI, iv, v, i]
+- progression: [bII, bvii, i, iv]
   weight: 2
 - progression: [IV, V, IV, bIII]
   weight: 2
@@ -2424,9 +2448,9 @@
   weight: 2
 - progression: [IV, bIII, IV, V]
   weight: 2
-- progression: [iv, V, i, iv]
+- progression: [bvii, I, iv, bvii]
   weight: 2
-- progression: [V, i, iv, V]
+- progression: [I, iv, bvii, I]
   weight: 2
 - progression: [VI, IV, bVII]
   weight: 2
@@ -2436,25 +2460,25 @@
   weight: 2
 - progression: [VI, IV, bVII, VII]
   weight: 2
-- progression: [bVI, iv, i]
+- progression: [bII, bvii, iv]
   weight: 2
-- progression: [bVII, bVI, iv, i]
+- progression: [bIII, bII, bvii, iv]
   weight: 2
-- progression: [bVI, iv, i, bVII]
+- progression: [bII, bvii, iv, bIII]
   weight: 2
 - progression: [vi, II, bVII]
   weight: 2
 - progression: [I, vi, II, bVII]
   weight: 2
-- progression: [bVII, bVI, V, i]
+- progression: [bIII, bII, I, iv]
   weight: 2
-- progression: [bVI, V, i, bVII]
+- progression: [bII, I, iv, bIII]
   weight: 2
-- progression: [V, i, bVII, bVI]
+- progression: [I, iv, bIII, bII]
   weight: 2
-- progression: [i, bVII, bIII]
+- progression: [iv, bIII, bVI]
   weight: 2
-- progression: [i, bVII, bIII, bVII]
+- progression: [iv, bIII, bVI, bIII]
   weight: 2
 - progression: [IV, V, I, III]
   weight: 2
@@ -2473,8 +2497,6 @@
 - progression: [iii, I, vi, IV]
   weight: 2
 - progression: [bII, bIII, bVI, bII]
-  weight: 2
-- progression: [bIII, bVI, bII, bIII]
   weight: 2
 - progression: [II, VI, I]
   weight: 2
@@ -2498,17 +2520,17 @@
   weight: 2
 - progression: [IV, I, vi, bVII]
   weight: 2
-- progression: [v, IV, bVI]
+- progression: [i, bVII, bII]
   weight: 2
-- progression: [bVI, bIII, IV]
+- progression: [bII, bVI, bVII]
   weight: 2
-- progression: [i, bVI, bIII, IV]
+- progression: [iv, bII, bVI, bVII]
   weight: 2
-- progression: [bVI, bIII, IV, i]
+- progression: [bII, bVI, bVII, iv]
   weight: 2
 - progression: [iii, vi, I, IV]
   weight: 2
-- progression: [bVI, bVII, v]
+- progression: [bII, bIII, i]
   weight: 2
 - progression: [ii, V, vi, ii]
   weight: 2
@@ -2518,49 +2540,75 @@
   weight: 2
 - progression: [I, bIII, v, I]
   weight: 2
-- progression: [v, i, I]
+- progression: [i, iv, IV]
   weight: 2
-- progression: [i, I, bIII]
+- progression: [iv, IV, bVI]
   weight: 2
-- progression: [bIII, v, i, I]
+- progression: [bVI, i, iv, IV]
   weight: 2
-- progression: [v, i, I, bIII]
+- progression: [i, iv, IV, bVI]
   weight: 2
-- progression: [i, I, bIII, v]
+- progression: [iv, IV, bVI, i]
   weight: 2
 - progression: [IV, I, V, III]
   weight: 2
+- progression: [bVII, bVI, bIII, bVII]
+  weight: 2
+- progression: [bVI, bIII, bVII, bVI]
+  weight: 2
+- progression: [bIII, bVII, bVI, bIII]
+  weight: 2
 - progression: [vi, IV, bVII, I]
+  weight: 2
+- progression: [bIII, IV, v]
+  weight: 2
+- progression: [IV, v, I]
+  weight: 2
+- progression: [I, bIII, IV, v]
+  weight: 2
+- progression: [bIII, IV, v, I]
+  weight: 2
+- progression: [IV, v, I, bIII]
   weight: 2
 - progression: [v, I, bIII, IV]
   weight: 2
-- progression: [iv, bVII, VII]
+- progression: [bVII, i, IV]
   weight: 2
-- progression: [bVII, VII, i]
+- progression: [i, IV, bVI]
   weight: 2
-- progression: [VII, i, v]
+- progression: [IV, bVI, bVII, i]
   weight: 2
-- progression: [v, iv, bVII, VII]
+- progression: [bVI, bVII, i, IV]
   weight: 2
-- progression: [iv, bVII, VII, i]
+- progression: [bVII, i, IV, bVI]
   weight: 2
-- progression: [bVII, VII, i, v]
+- progression: [bvii, bIII, III]
   weight: 2
-- progression: [VII, i, v, iv]
+- progression: [bIII, III, iv]
+  weight: 2
+- progression: [III, iv, i]
+  weight: 2
+- progression: [i, bvii, bIII, III]
+  weight: 2
+- progression: [bvii, bIII, III, iv]
+  weight: 2
+- progression: [bIII, III, iv, i]
+  weight: 2
+- progression: [III, iv, i, bvii]
   weight: 2
 - progression: [vi, iii, IV, ii]
   weight: 2
-- progression: [bIII, bVII, i, IV]
+- progression: [bVI, bIII, iv, bVII]
   weight: 2
 - progression: [ii, vi, iii, IV]
   weight: 2
-- progression: [i, iv, V, iv]
+- progression: [iv, bvii, I, bvii]
   weight: 2
-- progression: [bIII, iv, V]
+- progression: [bVI, bvii, I]
   weight: 2
-- progression: [i, bIII, iv, bIII]
+- progression: [iv, bVI, bvii, bVI]
   weight: 2
-- progression: [iv, bIII, iv, V]
+- progression: [bvii, bVI, bvii, I]
   weight: 2
 - progression: [v, IV, iii]
   weight: 1
@@ -2568,21 +2616,17 @@
   weight: 1
 - progression: [v, IV, iii, ii]
   weight: 1
-- progression: [IV, I, bVI]
+- progression: [bVII, IV, bII]
+  weight: 1
+- progression: [IV, bII, bVII]
   weight: 1
 - progression: [I, bIII, bVI]
   weight: 1
 - progression: [bIII, bVI, I]
   weight: 1
-- progression: [v, bVII, i, v]
+- progression: [i, bIII, iv, i]
   weight: 1
-- progression: [bVII, i, v, bVII]
-  weight: 1
-- progression: [II, VI, V]
-  weight: 1
-- progression: [II, V, II, VI]
-  weight: 1
-- progression: [V, II, VI, V]
+- progression: [bIII, iv, i, bIII]
   weight: 1
 - progression: [III, V, vii]
   weight: 1
@@ -2606,49 +2650,53 @@
   weight: 1
 - progression: [ii, I, V, I]
   weight: 1
-- progression: [iv, V, I]
+- progression: [bvii, I, IV]
   weight: 1
-- progression: [i, v, bVI, v]
+- progression: [iv, i, bII, i]
   weight: 1
-- progression: [v, bVI, v, iv]
+- progression: [i, bII, i, bvii]
   weight: 1
-- progression: [v, iv, V, I]
+- progression: [i, bvii, I, IV]
   weight: 1
 - progression: [I, V, ii, iii]
   weight: 1
-- progression: [v, iv, i]
+- progression: [i, bvii, iv]
   weight: 1
-- progression: [bVI, v, iv, i]
+- progression: [bII, i, bvii, iv]
   weight: 1
-- progression: [v, iv, i, bVII]
+- progression: [i, bvii, iv, bIII]
   weight: 1
-- progression: [v, iv, V, i]
+- progression: [i, bvii, I, iv]
   weight: 1
-- progression: [iv, V, i, bVII]
+- progression: [bvii, I, iv, bIII]
   weight: 1
-- progression: [iv, v, bIII]
+- progression: [bvii, i, bVI]
   weight: 1
-- progression: [bVII, iv, v, bIII]
+- progression: [bIII, bvii, i, bVI]
   weight: 1
-- progression: [iv, v, bIII, IV]
+- progression: [bvii, i, bVI, bVII]
   weight: 1
-- progression: [v, bIII, IV, i]
+- progression: [i, bVI, bVII, iv]
   weight: 1
-- progression: [bIII, IV, i, bVII]
+- progression: [bVI, bVII, iv, bIII]
   weight: 1
-- progression: [IV, i, bVII, iv]
+- progression: [bVII, iv, bIII, bvii]
   weight: 1
-- progression: [v, i, IV, bVII]
+- progression: [bVII, bIII, i]
   weight: 1
-- progression: [i, IV, bVII, v]
+- progression: [i, iv, bVII, bIII]
   weight: 1
-- progression: [IV, bVII, v, i]
+- progression: [iv, bVII, bIII, i]
+  weight: 1
+- progression: [bVII, bIII, i, iv]
   weight: 1
 - progression: [ii, iii, vi, IV]
   weight: 1
-- progression: [bVII, i, iv, v]
+- progression: [bvii, i, IV]
   weight: 1
-- progression: [i, iv, v, bVI]
+- progression: [bIII, iv, bvii, i]
+  weight: 1
+- progression: [iv, bvii, i, bII]
   weight: 1
 - progression: [I, IV, V, bvi]
   weight: 1
@@ -2660,17 +2708,17 @@
   weight: 1
 - progression: [ii, IV, V, bIII]
   weight: 1
-- progression: [biii, i, bIII]
+- progression: [bvi, iv, bVI]
   weight: 1
-- progression: [bIII, i, biii]
+- progression: [bVI, iv, bvi]
   weight: 1
-- progression: [i, biii, i, bIII]
+- progression: [iv, bvi, iv, bVI]
   weight: 1
-- progression: [biii, i, bIII, i]
+- progression: [bvi, iv, bVI, iv]
   weight: 1
-- progression: [i, bIII, i, biii]
+- progression: [iv, bVI, iv, bvi]
   weight: 1
-- progression: [bIII, i, biii, bVII]
+- progression: [bVI, iv, bvi, bIII]
   weight: 1
 - progression: [iii, IV, I, IV]
   weight: 1
@@ -2696,39 +2744,49 @@
   weight: 1
 - progression: [IV, I, iii, VI]
   weight: 1
-- progression: [IV, bIII, bVI]
+- progression: [IV, bVII, bVI]
   weight: 1
-- progression: [bVI, bII, bVII]
+- progression: [bVII, bVI, bII]
   weight: 1
-- progression: [I, IV, bIII, bVI]
+- progression: [bVI, bII, bV]
   weight: 1
-- progression: [IV, bIII, bVI, bIII]
+- progression: [bII, bV, bIII]
   weight: 1
-- progression: [bVI, bIII, bVI, bII]
+- progression: [IV, bVII, bVI, bII]
   weight: 1
-- progression: [bIII, bVI, bII, bVII]
+- progression: [bVII, bVI, bII, bVI]
   weight: 1
-- progression: [bIII, bVII, iv]
+- progression: [bII, bVI, bII, bV]
   weight: 1
-- progression: [bVII, bIII, bVII, iv]
+- progression: [bVI, bII, bV, bIII]
   weight: 1
-- progression: [bIII, bVII, iv, bVI]
+- progression: [bVI, bIII, bvii]
   weight: 1
-- progression: [II, bVII, V]
+- progression: [bIII, bVI, bIII, bvii]
   weight: 1
-- progression: [bVII, IV, bVI]
+- progression: [bVI, bIII, bvii, bII]
   weight: 1
-- progression: [IV, bVI, I]
+- progression: [V, bIII, I]
   weight: 1
-- progression: [II, bVII, V, bVII]
+- progression: [bIII, bVII, bII]
   weight: 1
-- progression: [bVII, V, bVII, IV]
+- progression: [bVII, bII, IV]
   weight: 1
-- progression: [V, bVII, IV, bVI]
+- progression: [V, bIII, I, bIII]
   weight: 1
-- progression: [bVII, IV, bVI, I]
+- progression: [bIII, I, bIII, bVII]
   weight: 1
-- progression: [IV, bVI, I, bVI]
+- progression: [I, bIII, bVII, bII]
+  weight: 1
+- progression: [bIII, bVII, bII, IV]
+  weight: 1
+- progression: [bVII, bII, IV, bII]
+  weight: 1
+- progression: [i, bVII, IV, i]
+  weight: 1
+- progression: [bVII, IV, i, bVII]
+  weight: 1
+- progression: [IV, i, bVII, IV]
   weight: 1
 - progression: [III, vi, II, IV]
   weight: 1
@@ -2738,7 +2796,7 @@
   weight: 1
 - progression: [vi, ii, IV, V]
   weight: 1
-- progression: [biii, iv, bvii, biii]
+- progression: [bv, bvi, bii, bv]
   weight: 1
 - progression: [I, iv, I, V]
   weight: 1
@@ -2760,7 +2818,7 @@
   weight: 1
 - progression: [I, IV, ii, IV]
   weight: 1
-- progression: [V, I, bVII, I]
+- progression: [I, IV, bIII, IV]
   weight: 1
 - progression: [V, IV, ii]
   weight: 1
@@ -2768,7 +2826,9 @@
   weight: 1
 - progression: [V, IV, ii, IV]
   weight: 1
-- progression: [bVI, bvii, bIII, bVI]
+- progression: [bVII, ii, bIII]
+  weight: 1
+- progression: [bII, biii, bVI, bII]
   weight: 1
 - progression: [II, V, I, VI]
   weight: 1
@@ -2806,29 +2866,27 @@
   weight: 1
 - progression: [I, IV, bv]
   weight: 1
-- progression: [i, bVI, iv, v]
+- progression: [iv, bII, bvii, i]
   weight: 1
-- progression: [iv, v, i, bVI]
+- progression: [bvii, i, iv, bII]
   weight: 1
-- progression: [iv, i, V]
+- progression: [bvii, iv, I]
   weight: 1
-- progression: [i, V, iv]
+- progression: [iv, I, bvii]
   weight: 1
-- progression: [V, iv, i]
+- progression: [I, bvii, iv]
   weight: 1
-- progression: [i, iv, i, V]
+- progression: [iv, bvii, iv, I]
   weight: 1
-- progression: [iv, i, V, iv]
+- progression: [bvii, iv, I, bvii]
   weight: 1
-- progression: [i, V, iv, i]
+- progression: [iv, I, bvii, iv]
   weight: 1
-- progression: [i, bIII, bVII]
+- progression: [iv, bVI, bIII]
   weight: 1
-- progression: [bVI, i, bIII, bVII]
+- progression: [bII, iv, bVI, bIII]
   weight: 1
-- progression: [i, bIII, bVII, bIII]
-  weight: 1
-- progression: [bVII, bIII, bVI, bVII]
+- progression: [iv, bVI, bIII, bVI]
   weight: 1
 - progression: [I, IV, iii, IV]
   weight: 1
@@ -2858,13 +2916,13 @@
   weight: 1
 - progression: [vi, VII, iii, V]
   weight: 1
-- progression: [bIII, iv, bVII]
+- progression: [bVI, bvii, bIII]
   weight: 1
-- progression: [iv, bIII, iv, bVII]
+- progression: [bvii, bVI, bvii, bIII]
   weight: 1
-- progression: [bIII, iv, bVII, iv]
+- progression: [bVI, bvii, bIII, bvii]
   weight: 1
-- progression: [iv, bVI, bIII]
+- progression: [bvii, bII, bVI]
   weight: 1
 - progression: [I, i, iv]
   weight: 1
@@ -2876,11 +2934,11 @@
   weight: 1
 - progression: [V, I, bVI]
   weight: 1
-- progression: [bVI, v, IV, bVI]
+- progression: [bII, i, bVII, bII]
   weight: 1
-- progression: [v, IV, bVI, v]
+- progression: [i, bVII, bII, i]
   weight: 1
-- progression: [IV, bVI, v, IV]
+- progression: [bVII, bII, i, bVII]
   weight: 1
 - progression: [vi, II, I]
   weight: 1
@@ -2906,15 +2964,21 @@
   weight: 1
 - progression: [v, I, bIII, v]
   weight: 1
+- progression: [bIII, bVII, i]
+  weight: 1
+- progression: [i, IV, bIII, bVII]
+  weight: 1
+- progression: [IV, bIII, bVII, i]
+  weight: 1
 - progression: [V, ii, I]
   weight: 1
 - progression: [I, V, ii, I]
   weight: 1
 - progression: [II, V, I, V]
   weight: 1
-- progression: [bVII, i, IV, bVII]
+- progression: [bIII, iv, bVII, bIII]
   weight: 1
-- progression: [IV, bVII, i, IV]
+- progression: [bVII, bIII, iv, bVII]
   weight: 1
 - progression: [IV, iv, I, V]
   weight: 1
