@@ -94,7 +94,6 @@ run-album:
 # Process Billboard dataset
 process-billboard:
 	$(RUN) python3 scripts/process_mcgill_dataset.py
-
 # Helper target to show current platform
 show-platform:
 	@echo "Current platform: $(DOCKER_PLATFORM)"

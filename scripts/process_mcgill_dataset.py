@@ -327,7 +327,7 @@ def save_yaml(data, filename):
 @click.option(
     "--output-dir",
     type=click.Path(),
-    default="constants/user",
+    default="constants/mcgill_billboard",
     help="Directory to save the generated YAML files",
 )
 @click.option(
