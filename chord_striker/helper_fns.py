@@ -1,13 +1,14 @@
 from pychord import Chord
 from pychord.constants.scales import FLATTED_SCALE, SHARPED_SCALE, SCALE_VAL_DICT
-from chord_striker.load_constants import CHORD_CHANGE_PROBS
+from chord_striker.load_constants import CHORD_CHANGE_PROBS, STRUCTURE_PARAMS
 from random import choices
 
 
 def sample_weights_dict(d):
     """
     A function to sample a dictionary of weights, where the keys are the possible values
-    and the values are the weights.
+    and the values are the weights. Weights are raised to the power of the weirdness factor
+    to make common choices more likely and rare choices less likely.
     """
 
     # check that all weights are positive
@@ -20,6 +21,10 @@ def sample_weights_dict(d):
     # get keys and weights
     keys = list(d.keys())
     weights = list(d.values())
+
+    # Apply weirdness factor (defaults to 1.0 if not set)
+    weirdness = STRUCTURE_PARAMS.get("weirdness", 1.0)
+    weights = [w**weirdness for w in weights]
 
     # sample
     return choices(keys, weights=weights)[0]
