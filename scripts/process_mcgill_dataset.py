@@ -104,8 +104,8 @@ def parse_chord(chord_str, key):
             print(f"Warning: Dropping anything after first bracket in {chord_str}")
             ext = ext.split("(")[0]
 
-        # If ext is "maj", "maj6" or "maj13", drop the "maj"
-        if ext in ["maj", "maj6", "maj13"]:
+        # If ext is "maj" or "maj6", drop the "maj"
+        if ext in ["maj", "maj6"]:
             ext = ext.replace("maj", "")
 
         # If ext contains "min", replace with "m"
