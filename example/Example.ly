@@ -2,6 +2,8 @@
 
 \include "../lilypond_assets/slash_symbol.ly"
 
+\include "../lilypond_assets/chord_extensions.ly"
+
 \header {
   title = "Example"
   tagline = ""
@@ -11,10 +13,10 @@
   oddFooterMarkup = \markup { \small \fill-line { \null \right-align { "Example.pdf" } } }
   evenFooterMarkup = \markup { \small \fill-line { \null \right-align { "Example.pdf" } } }
 }
-tempo = 131
+tempo = 164
 
 tempoBlock = {
-  \tempo 4 = 131
+  \tempo 4 = 164
   \override Score.MetronomeMark.padding = #-6
 }
 
@@ -24,7 +26,7 @@ tempoBlock = {
   \line {
     \normal-text {  
       \note-by-number #2 #0 #1  
-      \hspace #0.4 = \hspace #0.4 131
+      \hspace #0.4 = \hspace #0.4 164
     }
   }
 }
@@ -41,7 +43,7 @@ tempoBlock = {
   }
 
   \header {
-    piece = "Intro"
+    piece = "Verse 1"
   }
 
   \include "../lilypond_assets/chord_chart_bar_lines.ly"
@@ -55,7 +57,7 @@ tempoBlock = {
   }
 
   \header {
-    piece = "Verse 1"
+    piece = "Chorus 1"
   }
 
   \include "../lilypond_assets/chord_chart_bar_lines.ly"
@@ -69,7 +71,7 @@ tempoBlock = {
   }
 
   \header {
-    piece = "Chorus 1"
+    piece = "Postchorus 1"
   }
 
   \include "../lilypond_assets/chord_chart_bar_lines.ly"
@@ -111,7 +113,7 @@ tempoBlock = {
   }
 
   \header {
-    piece = "Verse 3"
+    piece = "Postchorus 2"
   }
 
   \include "../lilypond_assets/chord_chart_bar_lines.ly"
@@ -139,7 +141,7 @@ tempoBlock = {
   }
 
   \header {
-    piece = "Verse 4"
+    piece = "Postchorus 3"
   }
 
   \include "../lilypond_assets/chord_chart_bar_lines.ly"
@@ -150,20 +152,6 @@ tempoBlock = {
 
   {
     \chords {\chordsBAAA}
-  }
-
-  \header {
-    piece = "Chorus 4"
-  }
-
-  \include "../lilypond_assets/chord_chart_bar_lines.ly"
-
-}
-
-\score {
-
-  {
-    \chords {\chordsBAAB}
   }
 
   \header {
@@ -185,11 +173,10 @@ tempoBlock = {
     \chords {\chordsBBA}
     \chords {\chordsBBB}
     \chords {\chordsBAAA}
-    \chords {\chordsBAAB}
   }
 
   \midi {
-    \tempo 4 = 131
+    \tempo 4 = 164
 
   \context {
       \Score

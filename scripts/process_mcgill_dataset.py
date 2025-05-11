@@ -333,6 +333,16 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
         },
     }
 
+    # Filter out measures < 4 and > 32 for verses and choruses
+    for section in ["Verse", "Chorus"]:
+        if section in structure_stats["measure_distributions"]:
+            # Only keep powers of 2 between 4 and 32
+            structure_stats["measure_distributions"][section] = {
+                k: v
+                for k, v in structure_stats["measure_distributions"][section].items()
+                if 4 <= k <= 32
+            }
+
     # Load default structure parameters
     default_params_path = Path("constants/defaults/structure_params.yaml")
     with open(default_params_path, "r") as f:
@@ -452,6 +462,19 @@ def parse_salami(file):
         num_measures = sum(
             l.count("|") - 1 for l in content[section_line:last_section_line]
         )
+
+        # Ensure verse and chorus lengths are between 4 and 32 measures
+        if section_type.lower() in ["verse", "chorus"]:
+            # Round to nearest power of 2 between 4 and 32
+            if num_measures < 4:
+                num_measures = 4
+            elif num_measures > 32:
+                num_measures = 32
+            else:
+                # Find nearest power of 2
+                powers = [4, 8, 16, 32]
+                num_measures = min(powers, key=lambda x: abs(x - num_measures))
+
         song_structure.append((section_type, num_measures))
 
         # Parse the chords relative to the tonic

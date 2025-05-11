@@ -37,7 +37,6 @@ def chord_converter(chord: Chord, note_duration: int = None) -> str:
 
     Returns:
         A string which can be interpreted as a chord in Lilypond.
-
     """
 
     # get relevant attributes
@@ -196,6 +195,11 @@ class ChordChart:
         # allow slash symbol to be included inline
         self.__lilypond_file.writelines(
             [f'\n\n\\include "{os.path.join(rel_path_to_ref, "slash_symbol.ly")}"']
+        )
+
+        # Include chord extensions configuration
+        self.__lilypond_file.writelines(
+            [f'\n\n\\include "{os.path.join(rel_path_to_ref, "chord_extensions.ly")}"']
         )
 
         # Add song name as title in the header

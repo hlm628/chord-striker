@@ -192,7 +192,9 @@ def chord_parser(chord: "str", key: str):
     if chord.islower() and chord != "vii":
         if not extension:  # No extension, add 'm'
             extension = "m"
-        elif not any(x in extension for x in ["m", "sus"]):  # Has extension but not minor or sus
+        elif not any(
+            x in extension for x in ["m", "sus"]
+        ):  # Has extension but not minor or sus
             extension = "m" + extension
     elif chord == "vii" and not extension and not "sus" in extension:
         extension = "m7b5"
