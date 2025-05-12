@@ -26,4 +26,3 @@ six>=1.13.0
 Unidecode>=1.1.1
 click>=8.0.0
 pytest>=7.0.0
-pdfrw>=0.4.0

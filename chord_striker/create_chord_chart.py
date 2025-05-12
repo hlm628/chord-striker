@@ -4,8 +4,6 @@ from pychord import Chord
 from numpy import diff
 import os
 import shutil
-from pdfrw import PdfReader, PdfWriter
-from datetime import datetime
 
 
 def lilypond_accidental(sharp_or_flat: str) -> str:
@@ -540,15 +538,15 @@ class ChordChart:
 
             # Set environment variables for deterministic output
             env = os.environ.copy()
-            env['LILYPOND_DATADIR'] = '/usr/share/lilypond/current'
-            env['LILYPOND_VERSION'] = self.__get_lilypond_version()
-            env['SOURCE_DATE_EPOCH'] = '1736640000'  # 2025-01-12 00:00:00 UTC
+            env["LILYPOND_DATADIR"] = "/usr/share/lilypond/current"
+            env["LILYPOND_VERSION"] = self.__get_lilypond_version()
+            env["SOURCE_DATE_EPOCH"] = "1736640000"  # 2025-01-12 00:00:00 UTC
 
             # Run lilypond with just the filename (not the full path)
             result = run(
                 ["lilypond", os.path.basename(self.__lilypond_filename)],
                 capture_output=True,
-                env=env
+                env=env,
             )
 
             return result, pdf_path, midi_path
