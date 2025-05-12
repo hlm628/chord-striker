@@ -220,6 +220,24 @@ class ChordChart:
                 # Right-align both odd and even footers
                 f'\n  oddFooterMarkup = \\markup {{ \\small \\fill-line {{ \\null \\right-align {{ "{pdf_filename}" }} }} }}',
                 f'\n  evenFooterMarkup = \\markup {{ \\small \\fill-line {{ \\null \\right-align {{ "{pdf_filename}" }} }} }}',
+                # Add PDF metadata configuration
+                '\n  #(set-paper-size "a4")',
+                "\n  #(define fonts",
+                "\n    (set-global-fonts",
+                '\n     #:music "emmentaler"',
+                '\n     #:brace "emmentaler"',
+                '\n     #:roman "DejaVu Serif"',
+                '\n     #:sans "DejaVu Sans"',
+                '\n     #:typewriter "DejaVu Sans Mono"',
+                "\n     #:factor (/ staff-height pt 20)",
+                "\n    ))",
+                '\n  #(set-default-paper-size "a4")',
+                "\n  #(set-global-staff-size 20)",
+                "\n  #(define-markup-command (timestamp layout props text) (markup?)",
+                "\n    (interpret-markup layout props",
+                "\n     #{",
+                "\n       \\markup \\null",
+                "\n     #}))",
                 "\n}",
             ]
         )

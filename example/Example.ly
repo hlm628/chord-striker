@@ -12,6 +12,23 @@
 \paper {
   oddFooterMarkup = \markup { \small \fill-line { \null \right-align { "Example.pdf" } } }
   evenFooterMarkup = \markup { \small \fill-line { \null \right-align { "Example.pdf" } } }
+  #(set-paper-size "a4")
+  #(define fonts
+    (set-global-fonts
+     #:music "emmentaler"
+     #:brace "emmentaler"
+     #:roman "DejaVu Serif"
+     #:sans "DejaVu Sans"
+     #:typewriter "DejaVu Sans Mono"
+     #:factor (/ staff-height pt 20)
+    ))
+  #(set-default-paper-size "a4")
+  #(set-global-staff-size 20)
+  #(define-markup-command (timestamp layout props text) (markup?)
+    (interpret-markup layout props
+     #{
+       \markup \null
+     #}))
 }
 tempo = 164
 
