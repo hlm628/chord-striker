@@ -4,6 +4,8 @@ from pychord import Chord
 from numpy import diff
 import os
 import shutil
+from pdfrw import PdfReader, PdfWriter
+from datetime import datetime
 
 
 def lilypond_accidental(sharp_or_flat: str) -> str:
@@ -220,24 +222,6 @@ class ChordChart:
                 # Right-align both odd and even footers
                 f'\n  oddFooterMarkup = \\markup {{ \\small \\fill-line {{ \\null \\right-align {{ "{pdf_filename}" }} }} }}',
                 f'\n  evenFooterMarkup = \\markup {{ \\small \\fill-line {{ \\null \\right-align {{ "{pdf_filename}" }} }} }}',
-                # Add PDF metadata configuration
-                '\n  #(set-paper-size "a4")',
-                "\n  #(define fonts",
-                "\n    (set-global-fonts",
-                '\n     #:music "emmentaler"',
-                '\n     #:brace "emmentaler"',
-                '\n     #:roman "DejaVu Serif"',
-                '\n     #:sans "DejaVu Sans"',
-                '\n     #:typewriter "DejaVu Sans Mono"',
-                "\n     #:factor (/ staff-height pt 20)",
-                "\n    ))",
-                '\n  #(set-default-paper-size "a4")',
-                "\n  #(set-global-staff-size 20)",
-                "\n  #(define-markup-command (timestamp layout props text) (markup?)",
-                "\n    (interpret-markup layout props",
-                "\n     #{",
-                "\n       \\markup \\null",
-                "\n     #}))",
                 "\n}",
             ]
         )
@@ -531,6 +515,24 @@ class ChordChart:
                 ["lilypond", os.path.basename(self.__lilypond_filename)],
                 capture_output=True,
             )
+
+            # Post-process the PDF to standardize metadata
+            if os.path.exists(pdf_path):
+                # Read the PDF
+                reader = PdfReader(pdf_path)
+                
+                # Create a new PDF with standardized metadata
+                writer = PdfWriter()
+                writer.addpages(reader.pages)
+                
+                # Set standardized metadata
+                writer.trailer.Info.CreationDate = "(D:20250512000000)"
+                writer.trailer.Info.ModDate = "(D:20250512000000)"
+                writer.trailer.Info.Producer = "Chord Striker"
+                writer.trailer.Info.Creator = "Chord Striker"
+                
+                # Write the modified PDF
+                writer.write(pdf_path)
 
             return result, pdf_path, midi_path
         finally:
