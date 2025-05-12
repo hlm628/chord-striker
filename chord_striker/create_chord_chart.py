@@ -222,6 +222,34 @@ class ChordChart:
                 # Right-align both odd and even footers
                 f'\n  oddFooterMarkup = \\markup {{ \\small \\fill-line {{ \\null \\right-align {{ "{pdf_filename}" }} }} }}',
                 f'\n  evenFooterMarkup = \\markup {{ \\small \\fill-line {{ \\null \\right-align {{ "{pdf_filename}" }} }} }}',
+                # Add deterministic configuration
+                '\n  #(set-paper-size "a4")',
+                '\n  #(set-default-paper-size "a4")',
+                "\n  #(set-global-staff-size 20)",
+                "\n  #(define fonts",
+                "\n    (set-global-fonts",
+                '\n     #:music "emmentaler"',
+                '\n     #:brace "emmentaler"',
+                '\n     #:roman "DejaVu Serif"',
+                '\n     #:sans "DejaVu Sans"',
+                '\n     #:typewriter "DejaVu Sans Mono"',
+                "\n     #:factor (/ staff-height pt 20)",
+                "\n    ))",
+                "\n  #(define-markup-command (timestamp layout props text) (markup?)",
+                "\n    (interpret-markup layout props",
+                "\n     #{",
+                "\n       \\markup \\null",
+                "\n     #}))",
+                "\n  #(define-markup-command (copyright layout props text) (markup?)",
+                "\n    (interpret-markup layout props",
+                "\n     #{",
+                "\n       \\markup \\null",
+                "\n     #}))",
+                "\n  #(define-markup-command (title layout props text) (markup?)",
+                "\n    (interpret-markup layout props",
+                "\n     #{",
+                "\n       \\markup \\null",
+                "\n     #}))",
                 "\n}",
             ]
         )
@@ -510,29 +538,18 @@ class ChordChart:
             # Change to the output directory
             os.chdir(output_dir)
 
+            # Set environment variables for deterministic output
+            env = os.environ.copy()
+            env['LILYPOND_DATADIR'] = '/usr/share/lilypond/current'
+            env['LILYPOND_VERSION'] = self.__get_lilypond_version()
+            env['SOURCE_DATE_EPOCH'] = '1736640000'  # 2025-01-12 00:00:00 UTC
+
             # Run lilypond with just the filename (not the full path)
             result = run(
                 ["lilypond", os.path.basename(self.__lilypond_filename)],
                 capture_output=True,
+                env=env
             )
-
-            # Post-process the PDF to standardize metadata
-            if os.path.exists(pdf_path):
-                # Read the PDF
-                reader = PdfReader(pdf_path)
-                
-                # Create a new PDF with standardized metadata
-                writer = PdfWriter()
-                writer.addpages(reader.pages)
-                
-                # Set standardized metadata
-                writer.trailer.Info.CreationDate = "(D:20250512000000)"
-                writer.trailer.Info.ModDate = "(D:20250512000000)"
-                writer.trailer.Info.Producer = "Chord Striker"
-                writer.trailer.Info.Creator = "Chord Striker"
-                
-                # Write the modified PDF
-                writer.write(pdf_path)
 
             return result, pdf_path, midi_path
         finally:
