@@ -7,3 +7,10 @@ output/
 constants/user/
 data/
 constants/mcgill_billboard/
+# virtual environments
+.venv/
+venv/
+.test-venv/
+.env
+*.pyc
+*.pyo

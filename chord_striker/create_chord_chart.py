@@ -147,7 +147,9 @@ class ChordChart:
         self.__lilypond_chords_file = open(self.__lilypond_chords_filename, "w+")
 
         # Store path to reference files
-        self.__ref_files_dir = "lilypond_assets"
+        from chord_striker._resources import get_lilypond_assets_dir
+
+        self.__ref_files_dir = str(get_lilypond_assets_dir())
 
         # add file header
         self.__add_file_header()
