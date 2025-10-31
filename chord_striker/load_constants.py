@@ -1,6 +1,6 @@
 from random import choices
 import yaml
-from pathlib import Path
+from chord_striker._resources import get_constants_dir
 
 ALLOWED_SYMBOLS = ["I", "II", "III", "IV", "V", "VI", "VII"]
 ALLOWED_SYMBOLS = ALLOWED_SYMBOLS + [c.lower() for c in ALLOWED_SYMBOLS]
@@ -25,10 +25,7 @@ def load_constants(constants_dir=None):
     global STRUCTURE_PARAMS, CHORD_CHANGE_PROBS, KEY_PROBABILITIES, KEYS
 
     # Determine the constants directory to use
-    if constants_dir is None:
-        constants_dir = Path("constants/defaults")
-    else:
-        constants_dir = Path(constants_dir)
+    constants_dir = get_constants_dir(constants_dir)
 
     # Load structure parameters
     structure_params_path = constants_dir / "structure_params.yaml"
@@ -85,10 +82,7 @@ class ExtensionSelector:
         self.__ext_dict = dict()
 
         # Determine the constants directory to use
-        if constants_dir is None:
-            constants_dir = Path("constants/defaults")
-        else:
-            constants_dir = Path(constants_dir)
+        constants_dir = get_constants_dir(constants_dir)
 
         # Load extensions
         ext_path = constants_dir / "chord_extensions.yaml"
@@ -184,15 +178,10 @@ class FamousCPSelector:
         self.__cp_dict = dict()
 
         # Determine the constants directory to use
-        if constants_dir is None:
-            constants_dir = Path("constants/defaults")
-        else:
-            constants_dir = Path(constants_dir)
+        constants_dir = get_constants_dir(constants_dir)
 
         # Load famous chord progressions
         cp_path = constants_dir / "famous_chord_progressions.yaml"
-        if not cp_path.exists():
-            cp_path = Path("constants/defaults/famous_chord_progressions.yaml")
 
         with open(cp_path, "r") as f:
             cp_candidates = yaml.safe_load(f)
