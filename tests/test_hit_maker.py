@@ -1,4 +1,3 @@
-import pytest
 import os
 from chord_striker.hit_maker import create_song, create_album
 

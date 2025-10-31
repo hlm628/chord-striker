@@ -1,6 +1,5 @@
 import networkx as nx
 from random import choices
-import pydot
 
 
 class ProbDAG:
@@ -78,12 +77,18 @@ class ProbDAG:
 
                 if not isinstance(p, (int, float)):
                     raise ValueError(
-                        "probability must be a real number between 0 (exclusive) and 1 (inclusive)"
+                        (
+                            "probability must be a real number between 0 "
+                            "(exclusive) and 1 (inclusive)"
+                        )
                     )
 
                 if p < 0 or p > 1:
                     raise ValueError(
-                        "probability must be a real number between 0 (exclusive) and 1 (inclusive)"
+                        (
+                            "probability must be a real number between 0 "
+                            "(exclusive) and 1 (inclusive)"
+                        )
                     )
 
                 outgoing_probabilities.append(p)
@@ -91,9 +96,10 @@ class ProbDAG:
             # now check outgoing probabilities sum to 1:
             if round(sum(outgoing_probabilities), 5) != 1:
                 raise ValueError(
-                    "outgoing probabilities from node {} must sum to 1; instead they sum to {}".format(
-                        node, sum(outgoing_probabilities)
-                    )
+                    (
+                        "outgoing probabilities from node {} must sum to 1; "
+                        "instead they sum to {}"
+                    ).format(node, sum(outgoing_probabilities))
                 )
 
         # if all tests have been based, this is our graph object
@@ -104,7 +110,8 @@ class ProbDAG:
         self.__sink = possible_sink
 
     def get_node_attributes(self, attr):
-        """Method of getting a dictionary of format node:value where node[attr] = value."""
+        """Method of getting a dictionary of format node:value where
+        node[attr] = value."""
 
         if not isinstance(attr, str):
             raise TypeError("attr must be a string")
@@ -113,14 +120,15 @@ class ProbDAG:
 
         for node in self.__graph.nodes:
             node_attributes = self.__graph.nodes[node]
-            if not attr in node_attributes:
+            if attr not in node_attributes:
                 raise ValueError("node {} has no value for key {}".format(node, attr))
             attr_dict[node] = node_attributes[attr]
 
         return attr_dict
 
     def get_random_path(self):
-        """A method to pick a random path through the graph, using the probabilities assigned to edges."""
+        """A method to pick a random path through the graph, using the
+        probabilities assigned to edges."""
 
         path = [self.__source]
 
@@ -134,9 +142,10 @@ class ProbDAG:
             ]
 
             # split into the nodes themselves and their probabilities
-            successor_nodes, successor_probs = [s[0] for s in successors], [
-                s[1] for s in successors
-            ]
+            successor_nodes, successor_probs = (
+                [s[0] for s in successors],
+                [s[1] for s in successors],
+            )
 
             # sample
             current_node = choices(successor_nodes, weights=successor_probs)[0]

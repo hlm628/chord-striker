@@ -8,14 +8,18 @@ def chord_nc_equality(chord_nc_1, chord_nc_2):
     """
     An auxillary function to get around a quirk of the Chord class equality method.
 
-    This is written to only return a result (True/False) if both arguments are Chord types, but we also want a result if one or both arguments are None types.
+    This is written to only return a result (True/False) if both arguments
+    are Chord types, but we also want a result if one or both arguments are
+    None types.
 
     Parameters:
         chord_nc_1: Either a Chord or a None object.
         chord_nc_2: Either a Chord or a None object.
     """
 
-    if type(chord_nc_1) != type(chord_nc_2):
+    if not isinstance(chord_nc_1, type(chord_nc_2)) and not isinstance(
+        chord_nc_2, type(chord_nc_1)
+    ):
         return False
 
     else:
@@ -37,7 +41,7 @@ def true_transpose(chord, current_key: chr, new_key: chr):
     if not (chord is None or isinstance(chord, Chord)):
         raise TypeError("chord must be either Chord or None object")
 
-    if not current_key in KEYS or not new_key in KEYS:
+    if current_key not in KEYS or new_key not in KEYS:
         raise ValueError("One of the keys supplied is invalid")
 
     # convert to indices
@@ -80,26 +84,29 @@ class Section:
             name (str): Name for the section.
             variation(int): (Optional) Variation number for this section.
             time_signature (str): The time signature. Currently only 4/4 is supported.
-            key (str): The key of this section (inter-section modulation is not currently supported).
+            key (str): The key of this section (inter-section modulation
+                is not currently supported).
             num_measures (int): The number of measures in the section.
-            units_per_beat (int): The smallest recorded time unit, measured as subdivisions of a beat in the given time signature. This is 0-indexed.
+            units_per_beat (int): The smallest recorded time unit, measured
+                as subdivisions of a beat in the given time signature.
+                This is 0-indexed.
             final_section (bool): Whether this is the final section in the piece.
 
         """
 
-        if name != None and not isinstance(name, str):
+        if name is not None and not isinstance(name, str):
             raise TypeError("name must be a string")
 
-        if variation != None and not isinstance(variation, int):
+        if variation is not None and not isinstance(variation, int):
             raise TypeError("variation must be an int")
 
         allowed_time_signatures = ["4/4"]  # TODO: add more time signatures
-        if not time_signature in allowed_time_signatures:
+        if time_signature not in allowed_time_signatures:
             raise ValueError(
                 "time_signature must be one of: {}.".format(allowed_time_signatures)
             )
 
-        if not key in KEYS:
+        if key not in KEYS:
             raise ValueError("key must be supplied")
 
         if not isinstance(num_measures, int):
@@ -145,24 +152,29 @@ class Section:
             measure (int): The measure in which to add the chord (using 1-indexing).
             beat (int): The beat in the measure at which to add the chord (1-indexed).
             unit (int): The unit in the beat at which to add the chord (1-indexed).
-            absolute_unit (int): This only applies if the previous three parameters are all None. In this case an absolute unit can be specified for adding the chord at.
+            absolute_unit (int): This only applies if the previous three
+                parameters are all None. In this case an absolute unit can
+                be specified for adding the chord at.
 
 
         """
         if not isinstance(chord, Chord):
             raise TypeError("chord must be a Chord object")
 
-        if measure != None:
+        if measure is not None:
             # check measure provided is allowed
             if not isinstance(measure, int):
                 raise TypeError("measure must be an int")
             if not (measure >= 1 and measure <= self.num_measures):
                 raise ValueError(
-                    "measure must be between 1 and the number of measures in the section"
+                    (
+                        "measure must be between 1 and the number of "
+                        "measures in the section"
+                    )
                 )
 
             # default beat value is 1
-            if beat == None:
+            if beat is None:
                 beat = 1
             # else, check beat value is allowed
             else:
@@ -174,7 +186,7 @@ class Section:
                     )
 
             # default unit value is 1
-            if unit == None:
+            if unit is None:
                 unit = 1
             # else, check unit value is allowed
             else:
@@ -192,9 +204,12 @@ class Section:
             )
 
         else:
-            if absolute_unit == None:
+            if absolute_unit is None:
                 raise ValueError(
-                    "You must provide some indication of where you want the chord added!"
+                    (
+                        "You must provide some indication of where you want "
+                        "the chord added!"
+                    )
                 )
 
             if not isinstance(absolute_unit, int):
@@ -202,12 +217,18 @@ class Section:
 
             if not (absolute_unit >= 0 or absolute_unit < self.total_units):
                 raise ValueError(
-                    "absolute_unit must be between 0 and the total number of units in the measure (exclusive)"
+                    (
+                        "absolute_unit must be between 0 and the total "
+                        "number of units in the measure (exclusive)"
+                    )
                 )
 
-            if beat != None or unit != None:
+            if beat is not None or unit is not None:
                 raise Warning(
-                    "You have provided a beat/unit but not a measure. Is this what you intended?"
+                    (
+                        "You have provided a beat/unit but not a measure. "
+                        "Is this what you intended?"
+                    )
                 )
 
         # add the new chord in the desired position
@@ -230,7 +251,6 @@ class Section:
         self.final_section = True
 
     def truncate(self, start_measure: int, end_measure: int):
-
         if (
             start_measure < 0
             or end_measure < 0
@@ -239,7 +259,10 @@ class Section:
             or start_measure >= end_measure
         ):
             raise ValueError(
-                "start/end measures must be legitimate measure numbers and start measure must preceed end measure"
+                (
+                    "start/end measures must be legitimate measure numbers "
+                    "and start measure must preceed end measure"
+                )
             )
 
         self.num_measures = (end_measure - start_measure) + 1
@@ -277,9 +300,11 @@ class Section:
 
     def __slashes_needed(self, compressed_chord_progression=None):
         """
-        Helper function which determines, for each measure, if slashes will be needed to render chord charts.
+        Helper function which determines, for each measure, if slashes
+        will be needed to render chord charts.
         Parameters:
-            compressed_chord_progression(list): The compressed chord progression, supplied by the main print method.
+            compressed_chord_progression(list): The compressed chord
+                progression, supplied by the main print method.
         """
 
         # get all chord change indices
@@ -292,14 +317,14 @@ class Section:
             )
         ]
 
-        ## see if chord changes evenly divide each measure; if so, we will not need any "/" symbols
+        ## see if chord changes evenly divide each measure; if so, we
+        ## will not need any "/" symbols
 
         # this involves looping through measures
 
         slashes_needed_all = []
 
         for measure in range(1, self.num_measures + 1):
-
             # restrict to those in the current measure
             compressed_units_per_measure = (
                 len(compressed_chord_progression) // self.num_measures
@@ -349,9 +374,12 @@ class Section:
 
         Parameters:
             measure (int): The measure to print (1-indexing).
-            compressed_chord_progression (list): The compressed chord progression, supplied by the main print method.
-            chord_length (int): The space which should be allowed for chord strings, determined by the main print method.
-            slashes_needed (bool): Logical indicating whether slashes are needed for this measure, provided by print method.
+            compressed_chord_progression (list): The compressed chord
+                progression, supplied by the main print method.
+            chord_length (int): The space which should be allowed for
+                chord strings, determined by the main print method.
+            slashes_needed (bool): Logical indicating whether slashes are
+                needed for this measure, provided by print method.
         """
 
         print_str = ""
@@ -438,7 +466,8 @@ class Section:
 
     def __slasher(self, index_list: list, n: int = 8):
         """
-        A helper function which adds a slash position to a possible list of chord change indices.
+        A helper function which adds a slash position to a possible list
+        of chord change indices.
 
         Args:
             index_list: A subset of k*n + [0,1,..,n-1] for some k.
@@ -470,7 +499,7 @@ class Section:
 
             if (
                 (n // 4 in index_list_shifted) or (3 * n // 4 in index_list_shifted)
-            ) and not (n // 2 in index_list_shifted):
+            ) and n // 2 not in index_list_shifted:
                 index_list_shifted.append(n // 2)
                 index_list_shifted.sort()
 
@@ -497,12 +526,13 @@ class Section:
 
             # split in 2
             m = n // 2
-            lower, upper = [i for i in index_list if i % n < m], [
-                i for i in index_list if i % n >= m
-            ]
+            lower, upper = (
+                [i for i in index_list if i % n < m],
+                [i for i in index_list if i % n >= m],
+            )
 
             # special case
-            if (len(lower) >= 2 or len(upper) >= 1) and not (min(lower) + m in upper):
+            if (len(lower) >= 2 or len(upper) >= 1) and min(lower) + m not in upper:
                 upper.append(min(lower) + m)
 
             # recurse
@@ -510,10 +540,12 @@ class Section:
 
     def __get_slash_indices(self, index_list):
         """
-        A function which figures out the index of all points where slashes should be inserted.
+        A function which figures out the index of all points where slashes
+        should be inserted.
 
         Args:
-            index_list: A list of indices between 0 (inclusive) and self.total_units (exclusive).
+            index_list: A list of indices between 0 (inclusive) and
+                self.total_units (exclusive).
         """
         units_per_measure = self.total_units // self.num_measures
 
@@ -542,10 +574,12 @@ class Section:
 
     def __largest_possible_beat_multiple(self, CC_indices=None):
         """
-        Helper function which determines the largest possible multiple of a beat that we can divide the chord chart into.
+        Helper function which determines the largest possible multiple
+        of a beat that we can divide the chord chart into.
 
         Parameters:
-            CC_indices (list): The list of all chord change indices, supplied by main print method.
+            CC_indices (list): The list of all chord change indices,
+                supplied by main print method.
         """
 
         # possible multiples of beat
@@ -560,7 +594,8 @@ class Section:
             i for i in range(1, self.units_per_beat + 1) if self.units_per_beat % i == 0
         ]
 
-        # starting with the possible multiple, we see how much we can condense our chart spacing
+        # starting with the possible multiple, we see how much we can
+        # condense our chart spacing
         simplify_test = False
         simplify_type = "multiple"
         simplify_factor = max(possible_multiples) + 1
@@ -568,7 +603,6 @@ class Section:
         while not simplify_test and (
             simplify_type == "multiple" or simplify_factor > 1
         ):
-
             if simplify_factor == 1:
                 simplify_type = "subdivision"
                 simplify_factor = max(possible_subdivisions)
@@ -610,9 +644,7 @@ class Section:
 
         # add "N.C." if appropriate
         for c in self.chord_progression:
-            if chord_nc_equality(c, None) and not (
-                "N.C." in all_possible_chords_strings
-            ):
+            if chord_nc_equality(c, None) and "N.C." not in all_possible_chords_strings:
                 all_possible_chords_strings.append("N.C.")
 
         # now get the max chord string length we may have to print
@@ -620,7 +652,8 @@ class Section:
             [len(chord_str) for chord_str in all_possible_chords_strings]
         )
 
-        ##  what is the most basic multiple/subdivision of the beat we can get away with printing?
+        ##  what is the most basic multiple/subdivision of the beat we can
+        ## get away with printing?
 
         # get all chord change indices
         chord_change_indices = [
@@ -653,7 +686,9 @@ class Section:
         # we also want to know whether slashes will be required in each measure
         slashes_needed_all = self.__slashes_needed(compressed_chord_progression)
 
-        # if different chords occur in adjacent blocks of the compressed progression, or slashes will be required, we need to extend the max chord string length by 1 to allow for white space
+        # if different chords occur in adjacent blocks of the compressed
+        # progression, or slashes will be required, we need to extend the
+        # max chord string length by 1 to allow for white space
         compressed_chord_change_indices = [
             i
             for i in range(len(compressed_chord_progression))
@@ -666,13 +701,14 @@ class Section:
         if (
             len(compressed_chord_change_indices) > 1
             and min(np.diff(compressed_chord_change_indices)) == 1
-        ) or max(slashes_needed_all) == True:
+        ) or max(slashes_needed_all):
             max_chord_string_length += 1
 
         # it must also be at least 2
         max_chord_string_length = max(max_chord_string_length, 2)
 
-        # now we can print the chord chart, measure-by-measure (see helper function above)
+        # now we can print the chord chart, measure-by-measure (see helper
+        # function above)
         for measure in range(self.num_measures):
             print_str += "|" + self.__print_measure(
                 measure + 1,
@@ -711,7 +747,7 @@ class Section:
         else:
             concat_name = "{}_{}".format(self.name, another_section.name)
 
-            if self.variation == None:
+            if self.variation is None:
                 concat_variation = 1
             else:
                 concat_variation = self.variation + 1

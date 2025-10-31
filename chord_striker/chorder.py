@@ -3,7 +3,7 @@ from random import choices, choice
 from copy import copy
 from scipy.stats import poisson
 import numpy as np
-from pychord import Chord, note_to_chord
+from pychord import Chord
 from chord_striker.helper_fns import accidental_fixer, substitute, bernoulli_trial
 from chord_striker.load_constants import (
     CHORD_CHANGE_PROBS,
@@ -18,7 +18,6 @@ from chord_striker.load_constants import (
 def sample_measure_cc_locations(
     num_beats: int, units_per_beat: int, num_changes: float
 ):
-
     # give 100 times the weight to down beats, 20 times to upbeats
     measure_weights = [
         1
@@ -51,8 +50,11 @@ def choose_change_locations(
     A function which decides where to place the chords in the section.
 
     Parameters:
-        section (Section): An empty section. If this is not empty, it will be overwritten!
-        chords_per_measure (float): The average number of chords we want per measure. This is actually the mean of a Poisson distribution that determines how many chords to ascribe to a given measure.
+        section (Section): An empty section. If this is not empty,
+            it will be overwritten!
+        chords_per_measure (float): The average number of chords we want
+            per measure. This is actually the mean of a Poisson distribution
+            that determines how many chords to ascribe to a given measure.
     """
 
     # list of number of changes in each measure
@@ -108,7 +110,8 @@ class Chorder:
         # sample
         new_chord = choices(chords, weights=probs)[0]
 
-        # if this is the last chord, we may revert to a 'perfect cadence' (choose the V chord) with 50% likelihood
+        # if this is the last chord, we may revert to a 'perfect cadence'
+        # (choose the V chord) with 50% likelihood
         if self.__last_chord and choice([True, False]):
             new_chord = "V"
 
@@ -129,7 +132,8 @@ def chord_progression_selector(section: Section):
     # choose chords
     chords = []
 
-    # decide whether or not to use famous CP - this can happen if there are 3/4 changes or 12 measures
+    # decide whether or not to use famous CP - this can happen if there are
+    # 3/4 changes or 12 measures
     if section.num_measures == 12 and bernoulli_trial(
         STRUCTURE_PARAMS["famous_chord_progressions_probs"]["blues"]
     ):
@@ -175,7 +179,7 @@ def chord_progression_selector(section: Section):
 
 def chord_parser(chord: "str", key: str):
     # Check if chord is in allowed symbols
-    if not chord in ALLOWED_SYMBOLS:
+    if chord not in ALLOWED_SYMBOLS:
         raise ValueError(f"chord is not valid: {chord}")
 
     # generate chord extensions with probability
@@ -196,7 +200,7 @@ def chord_parser(chord: "str", key: str):
             x in extension for x in ["m", "sus"]
         ):  # Has extension but not minor or sus
             extension = "m" + extension
-    elif chord == "vii" and not extension and not "sus" in extension:
+    elif chord == "vii" and not extension and "sus" not in extension:
         extension = "m7b5"
 
     # Get the scale degree (1-7) relative to the key
@@ -254,7 +258,6 @@ def invert(py_chord: Chord, key: str):
 
 
 def parse_chord_selections(section: Section, change_indices: list, chords: list):
-
     if len(change_indices) != len(chords):
         raise ValueError("number of change indices and chords to change to must agree")
 
@@ -302,7 +305,8 @@ class ChordProgressionSelector:
 
     def get_variation(self, var: int = 0, allow_double: bool = False, key: str = None):
         if var in self.__var_dict:
-            # check 'allow double' flag is consistent with that is already stored in the dict
+            # check 'allow double' flag is consistent with that already
+            # stored in the dict
             if allow_double != self.__var_dict[var]["allow_double"]:
                 raise ValueError("allow double flag is not correct for this variation")
 
@@ -337,7 +341,6 @@ class ChordProgressionSelector:
                     alter_weights[0] = 2
 
                     if variation_type == "remove":
-
                         # cannot remove first chord
                         alter_index = choices(
                             list(range(1, n)), weights=alter_weights[1:]
@@ -358,7 +361,6 @@ class ChordProgressionSelector:
                         )
 
                     else:
-
                         # cannot remove first chord
                         alter_index = choices(list(range(n)), weights=alter_weights)[0]
 
@@ -390,7 +392,7 @@ class ChordProgressionSelector:
                 available_indices = [
                     i
                     for i in range(new_section.total_units)
-                    if not i in self.__change_indices
+                    if i not in self.__change_indices
                 ]
                 measure_weights = [
                     1
@@ -431,7 +433,8 @@ class ChordProgressionSelector:
                 )
 
             else:
-                # something has gone wrong - but this will fail when creating the following dict...
+                # something has gone wrong - but this will fail when
+                # creating the following dict...
                 pass
 
             # add this variation to dictionary

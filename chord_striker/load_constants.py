@@ -1,6 +1,5 @@
 from random import choices
 import yaml
-import os
 from pathlib import Path
 
 ALLOWED_SYMBOLS = ["I", "II", "III", "IV", "V", "VI", "VII"]
@@ -16,11 +15,12 @@ KEYS = []
 
 def load_constants(constants_dir=None):
     """
-    Load constants from YAML files. If constants_dir is provided, it will look for files there,
-    otherwise uses constants/defaults.
+    Load constants from YAML files. If constants_dir is provided, it
+    will look for files there, otherwise uses constants/defaults.
 
     Args:
-        constants_dir: Optional directory containing custom YAML files. If None, uses constants/defaults.
+        constants_dir: Optional directory containing custom YAML files.
+            If None, uses constants/defaults.
     """
     global STRUCTURE_PARAMS, CHORD_CHANGE_PROBS, KEY_PROBABILITIES, KEYS
 
@@ -54,7 +54,7 @@ def load_constants(constants_dir=None):
         # check that keys are C-B in order
         KEYS = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
         for key in KEYS:
-            if not key in KEY_PROBABILITIES:
+            if key not in KEY_PROBABILITIES:
                 raise KeyError(f"key {key} not found in key probabilities")
             if not isinstance(KEY_PROBABILITIES[key], (int, float)):
                 raise TypeError(f"key {key} must be a float")
@@ -100,12 +100,17 @@ class ExtensionSelector:
 
         # check that all keys are valid
         for key in proposed_extensions.keys():
-            if not key in ALLOWED_SYMBOLS:
+            if key not in ALLOWED_SYMBOLS:
                 raise ValueError(
-                    "key must be one of I, II, III, IV, V, VI, VII, i, ii, iii, iv, v, vi, vii, optionally with a prefix of 'b'"
+                    (
+                        "key must be one of I, II, III, IV, V, VI, VII, "
+                        "i, ii, iii, iv, v, vi, vii, optionally with a "
+                        "prefix of 'b'"
+                    )
                 )
 
-            # check that value is a dictionary, where keys are strings and values are floats in [0,1]
+            # check that value is a dictionary, where keys are strings
+            # and values are floats in [0,1]
             if not isinstance(proposed_extensions[key], dict):
                 raise TypeError("value must be a dictionary")
             if not all(isinstance(k, str) for k in proposed_extensions[key].keys()):
@@ -120,7 +125,8 @@ class ExtensionSelector:
         # Initialize all allowed symbols with default extensions
         for symbol in ALLOWED_SYMBOLS:
             if symbol.startswith("b"):
-                # For flat chords, use the same extensions as their non-flat counterparts
+                # For flat chords, use the same extensions as their
+                # non-flat counterparts
                 base_symbol = symbol[1:]
                 if base_symbol in proposed_extensions:
                     # Filter out power chords
@@ -202,7 +208,7 @@ class FamousCPSelector:
             raise TypeError("progression must be a list")
 
         for elt in progression:
-            if not (elt in ALLOWED_SYMBOLS):
+            if elt not in ALLOWED_SYMBOLS:
                 raise ValueError("chord progression must contain chords!")
 
         if not isinstance(weight, (int, float)):
@@ -220,13 +226,13 @@ class FamousCPSelector:
 
         new_data = (progression, weight)
 
-        if not n in self.__cp_dict:
+        if n not in self.__cp_dict:
             self.__cp_dict[n] = []
 
         self.__cp_dict[n].append(new_data)
 
     def get_prog(self, key):
-        if not key in self.__cp_dict:
+        if key not in self.__cp_dict:
             raise KeyError("key must be one of 3,4,'12 bar blues'")
 
         possible_CPs = self.__cp_dict[key]

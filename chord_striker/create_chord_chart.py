@@ -1,9 +1,7 @@
-from chord_striker.section import Section
 from subprocess import run
 from pychord import Chord
 from numpy import diff
 import os
-import shutil
 
 
 def lilypond_accidental(sharp_or_flat: str) -> str:
@@ -92,10 +90,13 @@ class ChordChart:
     chord structure to be viewed in a readable PDF.
 
     Args:
-        song_sections: A list of song sections, as returned by the parse_song_structure function.
+        song_sections: A list of song sections, as returned by the
+            parse_song_structure function.
         song_tempo: The tempo of the song.
-        song_name: The name of the song, to be used in output Lilypond file.
-        display_format: The manner in which song sections should be displayed in the score.
+        song_name: The name of the song, to be used in output
+            Lilypond file.
+        display_format: The manner in which song sections should be
+            displayed in the score.
         output_dir: Directory to save output files (default: 'tmp')
         ly_path: Custom path for the Lilypond file (overrides output_dir and song_name)
     """
@@ -115,7 +116,7 @@ class ChordChart:
         self.__song_name = song_name
 
         # check valid format supplied
-        if not self.__format in ["inline"]:
+        if self.__format not in ["inline"]:
             raise ValueError(f"{self.__format} is not a valid format")
 
         # Set up file paths
@@ -146,7 +147,6 @@ class ChordChart:
         self.__lilypond_chords_file = open(self.__lilypond_chords_filename, "w+")
 
         # Store path to reference files
-        script_dir = os.path.dirname(os.path.abspath(__file__))
         self.__ref_files_dir = "lilypond_assets"
 
         # add file header
@@ -218,8 +218,14 @@ class ChordChart:
             [
                 "\n\n\\paper {",
                 # Right-align both odd and even footers
-                f'\n  oddFooterMarkup = \\markup {{ \\small \\fill-line {{ \\null \\right-align {{ "{pdf_filename}" }} }} }}',
-                f'\n  evenFooterMarkup = \\markup {{ \\small \\fill-line {{ \\null \\right-align {{ "{pdf_filename}" }} }} }}',
+                (
+                    f"\n  oddFooterMarkup = \\markup {{ \\small \\fill-line "
+                    f'{{ \\null \\right-align {{ "{pdf_filename}" }} }} }}'
+                ),
+                (
+                    f"\n  evenFooterMarkup = \\markup {{ \\small \\fill-line "
+                    f'{{ \\null \\right-align {{ "{pdf_filename}" }} }} }}'
+                ),
                 # Add deterministic configuration
                 '\n  #(set-paper-size "a4")',
                 '\n  #(set-default-paper-size "a4")',
@@ -295,7 +301,8 @@ class ChordChart:
     def __get_section_counts(self):
         """
         A helpful function to figure how many of each section are in the song.
-        This can be used to remove the "1" from sui generis sections, for example, in the printed score.
+        This can be used to remove the "1" from sui generis sections,
+        for example, in the printed score.
         """
         section_names = {section["name"] for section in self.__song_sections}
 
@@ -327,14 +334,15 @@ class ChordChart:
 
     def __generate_section_chord_progression(self, section_idx: int):
         """
-        A function which takes a section and adds the corresponding chord progression to the
-        Lilypond chords file, with the name "chords" + section_encoding.
+        A function which takes a section and adds the corresponding
+        chord progression to the Lilypond chords file, with the name
+        "chords" + section_encoding.
 
         Args:
             section_idx: The index of the section in self.__song_sections.
         """
         # check index
-        if not section_idx in list(range(len(self.__song_sections))):
+        if section_idx not in list(range(len(self.__song_sections))):
             raise ValueError("Provided section index not valid")
 
         # encode index in 'A/B binary' format
@@ -361,13 +369,15 @@ class ChordChart:
         units_per_beat = section.units_per_beat
         units_per_measure = beats_per_measure * units_per_beat
 
-        # get indices of either chord changes or 'slashes', and the lengths of these changes
+        # get indices of either chord changes or 'slashes', and the
+        # lengths of these changes
         chord_change_positions = [
             i for i in range(len(chord_changes)) if chord_changes[i] is not None
         ]
         chord_lengths = diff(chord_change_positions + [section.total_units]).tolist()
 
         # add chords to file
+        chord = None  # Track previous chord for slash handling
         for i in range(len(chord_change_positions)):
             # initialize new line
             chord_line = "\n  "
@@ -384,6 +394,8 @@ class ChordChart:
                         "There is something strange in the chord progression"
                     )
                 # use the chord from last time
+                if chord is None:
+                    raise ValueError("Cannot use slash at first chord position")
                 new_chord = chord
                 # print slash in output
                 chord_line += "\\chordSlash "
@@ -396,7 +408,10 @@ class ChordChart:
             # this should have required no rounding
             if lilypond_chord_length != (units_per_measure / chord_length):
                 raise ValueError(
-                    "Something has gone wrong with chord lengths \n Check the way slashes are being added"
+                    (
+                        "Something has gone wrong with chord lengths \n "
+                        "Check the way slashes are being added"
+                    )
                 )
 
             # get chord in Lilypond format
@@ -423,7 +438,7 @@ class ChordChart:
             section_idx: The index of the section in self.__song_sections.
         """
         # check index
-        if not section_idx in list(range(len(self.__song_sections))):
+        if section_idx not in list(range(len(self.__song_sections))):
             raise ValueError("Provided section index not valid")
 
         # encode index in 'A/B binary' format
@@ -470,7 +485,10 @@ class ChordChart:
             # add bar line rendering instructions
             self.__lilypond_file.writelines(
                 [
-                    f'\n\n  \\include "{os.path.join(rel_path_to_ref, "chord_chart_bar_lines.ly")}"'
+                    (
+                        f'\n\n  \\include "'
+                        f'{os.path.join(rel_path_to_ref, "chord_chart_bar_lines.ly")}"'
+                    )
                 ]
             )
 
@@ -538,8 +556,9 @@ class ChordChart:
 
             # Set environment variables for deterministic output
             env = os.environ.copy()
-            env["LILYPOND_DATADIR"] = "/usr/share/lilypond/current"
-            env["LILYPOND_VERSION"] = self.__get_lilypond_version()
+            lilypond_version = self.__get_lilypond_version()
+            env["LILYPOND_DATADIR"] = f"/usr/share/lilypond/{lilypond_version}"
+            env["LILYPOND_VERSION"] = lilypond_version
             env["SOURCE_DATE_EPOCH"] = "1736640000"  # 2025-01-12 00:00:00 UTC
 
             # Run lilypond with just the filename (not the full path)

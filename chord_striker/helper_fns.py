@@ -6,9 +6,10 @@ from random import choices
 
 def sample_weights_dict(d):
     """
-    A function to sample a dictionary of weights, where the keys are the possible values
-    and the values are the weights. Weights are raised to the power of the weirdness factor
-    to make common choices more likely and rare choices less likely.
+    A function to sample a dictionary of weights, where the keys are the
+    possible values and the values are the weights. Weights are raised
+    to the power of the weirdness factor to make common choices more
+    likely and rare choices less likely.
     """
 
     # check that all weights are positive
@@ -47,12 +48,13 @@ def bernoulli_trial(p):
 
 def fix_accidental(note: str, key: str):
     """
-    A function which ensures accidentals are being used correctly within the current key.
+    A function which ensures accidentals are being used correctly
+    within the current key.
     """
     # check key
     possible_keys = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
 
-    if not key in possible_keys:
+    if key not in possible_keys:
         raise ValueError(f"Key supplied ({key}) is not valid")
 
     ## check whether we are dealing with a sharp or flat key
@@ -92,7 +94,7 @@ def accidental_fixer(chord: Chord, key: str):
     chord_name = chord_name.replace(chord.root, correct_root, 1)
 
     # if there is a slash root, replace this too
-    if chord.on != None:
+    if chord.on is not None:
         correct_on = fix_accidental(chord.on, key)
         chord_name = chord_name.replace(chord.on, correct_on, 1)
 
@@ -102,15 +104,16 @@ def accidental_fixer(chord: Chord, key: str):
 
 def substitute(prev_chord, current_chord, next_chord=None):
     """
-    A function to substitute a chord with another chord, based on the previous and next chords.
-    The function uses a dictionary of probabilities to determine the most likely chord to substitute.
+    A function to substitute a chord with another chord, based on the
+    previous and next chords. The function uses a dictionary of
+    probabilities to determine the most likely chord to substitute.
     """
 
     all_possible_chords = list(CHORD_CHANGE_PROBS.keys())
 
-    if next_chord == None:
+    if next_chord is None:
         possible_chords = [
-            c for c in all_possible_chords if not c in [None, current_chord, prev_chord]
+            c for c in all_possible_chords if c not in [None, current_chord, prev_chord]
         ]
         weights = [CHORD_CHANGE_PROBS[prev_chord][c] for c in possible_chords]
 
@@ -120,7 +123,7 @@ def substitute(prev_chord, current_chord, next_chord=None):
         possible_chords = [
             c
             for c in all_possible_chords
-            if not c in [None, current_chord, prev_chord, next_chord]
+            if c not in [None, current_chord, prev_chord, next_chord]
         ]
         weights = [
             CHORD_CHANGE_PROBS[c][next_chord] * CHORD_CHANGE_PROBS[prev_chord][c]

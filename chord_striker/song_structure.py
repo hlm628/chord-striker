@@ -2,9 +2,7 @@ import networkx as nx
 from chord_striker.section import Section
 from chord_striker.probabilistic_dag import ProbDAG
 from random import choices
-from math import log
 import numpy as np
-from datetime import datetime
 from chord_striker.chorder import ChordProgressionSelector
 from chord_striker.load_constants import KEYS, KEY_PROBABILITIES, STRUCTURE_PARAMS
 from chord_striker.helper_fns import sample_weights_dict, bernoulli_trial
@@ -20,16 +18,15 @@ class SongKey:
         self.__key = initial_key
 
         # if a key is given, check it is valid
-        if initial_key != None:
-            if not (initial_key in KEYS):
+        if initial_key is not None:
+            if initial_key not in KEYS:
                 raise ValueError(f"key supplied is not valid. Must be one of: {KEYS}")
         # if no key is given, we randomly select one
-        if initial_key == None:
+        if initial_key is None:
             # initial key chosen at random
             self.__key = sample_weights_dict(KEY_PROBABILITIES)
 
     def key_change(self, num_steps: int = None):
-
         # number of steps to transpose can be given or left to chance
         if not isinstance(num_steps, int):
             num_steps = sample_weights_dict(STRUCTURE_PARAMS["transpose_steps_probs"])
@@ -51,7 +48,9 @@ def get_tempo(
     tempo_variation: int = STRUCTURE_PARAMS["tempo_variation"],
 ) -> int:
     """
-    Function which randomly picks a tempo for the song by truncating a log-normal distribution (chosen so that ~99% of tempos are between the range specified).
+    Function which randomly picks a tempo for the song by truncating a
+    log-normal distribution (chosen so that ~99% of tempos are between
+    the range specified).
     """
 
     # check that min and max tempo are valid
@@ -184,8 +183,8 @@ def song_structure_graph(num_choruses, prechorus, postchorus, bridge_solo_order)
     # then add verse/chorus cycles
 
     for i in range(1, num_choruses + 1):
-
-        # go to verse unless we are in the first or final iteration (may skip straight to prechorus/chorus)
+        # go to verse unless we are in the first or final iteration
+        # (may skip straight to prechorus/chorus)
         if i == 1:
             if prechorus:
                 G.add_weighted_edges_from(
@@ -299,7 +298,8 @@ def song_structure_graph(num_choruses, prechorus, postchorus, bridge_solo_order)
         else:
             G.add_weighted_edges_from([(f"Verse {i}", f"Chorus {i}", 1)], weight="p")
 
-        # go to prechorus if prechoruses exist and we are not approaching the final chorus
+        # go to prechorus if prechoruses exist and we are not approaching
+        # the final chorus
         if prechorus and i < num_choruses:
             G.add_weighted_edges_from(
                 [
@@ -367,7 +367,8 @@ def song_structure_graph(num_choruses, prechorus, postchorus, bridge_solo_order)
                 weight="p",
             )
 
-        # possible key change at this point ("Truck Driver's gear change") - probability increases as we approach final chorus
+        # possible key change at this point ("Truck Driver's gear change")
+        # - probability increases as we approach final chorus
         G.add_weighted_edges_from(
             [
                 (
@@ -529,7 +530,8 @@ def base_section_length(n: int):
 
 def measures_assign():
     """
-    A function which decides how long each section should be. Note: some sections may not actually appear in the song.
+    A function which decides how long each section should be. Note: some
+    sections may not actually appear in the song.
     """
 
     # initialize dict
@@ -554,15 +556,24 @@ def parse_song_structure(song_structure: list = None, initial_key: str = None):
             )
         if not isinstance(elt[0], str):
             raise TypeError(
-                "every element of song_structure should have a string in the first position"
+                (
+                    "every element of song_structure should have a string "
+                    "in the first position"
+                )
             )
         if not isinstance(elt[1], dict):
             raise TypeError(
-                "every element of song_structure should have a dict in the second position"
+                (
+                    "every element of song_structure should have a dict "
+                    "in the second position"
+                )
             )
         if list(elt[1].keys()) != ["event_type"]:
             raise ValueError(
-                "every element of song_structure should include a dict specifying event_type"
+                (
+                    "every element of song_structure should include a dict "
+                    "specifying event_type"
+                )
             )
 
     ## parse sections with key changes
@@ -600,7 +611,7 @@ def parse_song_structure(song_structure: list = None, initial_key: str = None):
             # get section name by ignoring # (eg. 'Verse 4' becomes 'Verse')
             section_name = elt[0].split(" ")[0]
 
-            if not section_name in generators:
+            if section_name not in generators:
                 section_measures = song_section_lengths[section_name]
                 section_kernel_length = base_section_length(section_measures)
 

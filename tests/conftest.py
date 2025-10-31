@@ -1,7 +1,5 @@
 import pytest
-import os
 import shutil
-from chord_striker.hit_maker import create_song, create_album
 
 
 @pytest.fixture

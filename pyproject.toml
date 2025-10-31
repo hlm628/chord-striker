@@ -1,0 +1,26 @@
+# Ruff config {{{
+[tool.ruff.lint]
+select = [
+    # Pyflakes
+    "F",
+    # pycodestyle
+    "E",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Disable some checks in tests
+"tests/**/*.py" = [
+    "S101",    # asserts allowed in tests
+    "ARG",     # Unused function args -> fixtures nevertheless are functionally relevant
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "lf"
+
+# https://docs.astral.sh/ruff/formatter/#docstring-formatting
+docstring-code-format = true
+docstring-code-line-length = 88
+# }}}

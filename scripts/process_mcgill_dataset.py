@@ -1,17 +1,12 @@
 #!/usr/bin/env python3
 
-import os
-import json
 import requests
-import zipfile
 from collections import defaultdict
 from pathlib import Path
 import yaml
 import tarfile
-from chord_striker.load_constants import KEYS, ALLOWED_SYMBOLS
+from chord_striker.load_constants import KEYS
 from pychord import Chord
-from chord_striker.chorder import chord_parser
-import re
 import click
 import pandas as pd
 
@@ -112,14 +107,14 @@ def parse_chord(chord_str, key):
         if "min" in ext:
             ext = ext.replace("min", "m")
 
-    except:
+    except Exception:
         print(f"Warning: Invalid chord format: {chord_str}")
         return None, None
 
     try:
         # Parse to PyChord
-        chord = Chord(root + ext)
-    except:
+        _ = Chord(root + ext)  # Verify parsing works
+    except Exception:
         print(f"Warning: Extension not recognised by PyChord: {chord_str}")
         return None, None
 
@@ -232,7 +227,7 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
             mode_stats[mode] += 1
 
             # look for famous chord progressions
-            if len(section) >= 3 and not (None, None) in section:
+            if len(section) >= 3 and (None, None) not in section:
                 # Check for repeated 3 or 4 chord sequences
                 for seq_len in [3, 4]:
                     if len(section) >= seq_len * 2:  # Need at least 2 repetitions
@@ -259,7 +254,9 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
                                         progressions.append(
                                             {"progression": list(seq), "weight": 1}
                                         )
-                                    break  # Stop looking for more repetitions of this sequence
+                                    # Stop looking for more repetitions of
+                                    # this sequence
+                                    break
 
             # now look for transitions
             first_chord = section[0]
@@ -298,14 +295,14 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
     print("\nMode Statistics:")
     print(f"Total sections analyzed: {total_sections}")
     for mode, count in sorted(mode_stats.items(), key=lambda x: x[1], reverse=True):
-        print(f"{mode}: {count} ({count/total_sections*100:.1f}%)")
+        print(f"{mode}: {count} ({count / total_sections * 100:.1f}%)")
 
     # Print key statistics
     total_songs = sum(key_stats.values())
     print("\nKey Statistics:")
     print(f"Total songs analyzed: {total_songs}")
     for key, count in sorted(key_stats.items(), key=lambda x: x[1], reverse=True):
-        print(f"{key}: {count} ({count/total_songs*100:.1f}%)")
+        print(f"{key}: {count} ({count / total_songs * 100:.1f}%)")
 
     # Calculate and print song structure statistics
     print("\nSong Structure Statistics:")
@@ -321,7 +318,9 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
     structure_stats = {
         "measure_distributions": {
             section.capitalize(): {
-                2**i: sum(1 for l in lengths if 2**i <= l < 2 ** (i + 1))
+                2**i: sum(
+                    1 for length_val in lengths if 2**i <= length_val < 2 ** (i + 1)
+                )
                 for i in range(6)  # This will cover lengths 1, 2, 4, 8, 16, 32
             }
             for section, lengths in section_lengths.items()
@@ -408,9 +407,9 @@ def parse_salami(file):
         content = f.readlines()
 
     # Collapse all spaces to single spaces and remove the first word
-    content = [" ".join(l.split()[1:]) for l in content]
+    content = [" ".join(line.split()[1:]) for line in content]
 
-    tonic_lines = [idx for idx, l in enumerate(content) if l.startswith("tonic:")]
+    tonic_lines = [idx for idx, line in enumerate(content) if line.startswith("tonic:")]
     if len(tonic_lines) == 0:
         raise ValueError("No tonic line found")
     # convert into dict with line number and tonic
@@ -421,7 +420,9 @@ def parse_salami(file):
 
     # lines where sections begin contain a pipe, but do not start with them
     section_lines = [
-        idx for idx, l in enumerate(content) if "|" in l and not l.startswith("|")
+        idx
+        for idx, line in enumerate(content)
+        if "|" in line and not line.startswith("|")
     ]
 
     # init a list of sections
@@ -445,7 +446,7 @@ def parse_salami(file):
             if "|" in line:
                 chords_line = line.split("|")[1:-1]
                 # also split on spaces
-                chords_line = [l.split() for l in chords_line]
+                chords_line = [line_part.split() for line_part in chords_line]
                 # flatten
                 chords_line = sum(chords_line, [])
                 # filter out empty strings, dots, and pauses
@@ -460,7 +461,7 @@ def parse_salami(file):
         section_type = content[section_line].split("|")[0].split(", ")[1]
         # get the number of measures by counting the number of "|" in the section lines
         num_measures = sum(
-            l.count("|") - 1 for l in content[section_line:last_section_line]
+            line.count("|") - 1 for line in content[section_line:last_section_line]
         )
 
         # Ensure verse and chorus lengths are between 4 and 32 measures
@@ -556,7 +557,8 @@ def save_yaml(data, filename):
                 if key != "start":  # Skip 'start' as it's already handled
                     value = data[key]
                     if isinstance(value, dict):
-                        # Sort the inner dictionary by value (weight) in descending order
+                        # Sort the inner dictionary by value (weight) in
+                        # descending order
                         sorted_data[key] = dict(
                             sorted(value.items(), key=lambda x: x[1], reverse=True)
                         )
@@ -597,7 +599,10 @@ def save_yaml(data, filename):
     "--last-year",
     type=int,
     default=None,
-    help="Last year to include in the dataset (inclusive). If None, includes all years up to present.",
+    help=(
+        "Last year to include in the dataset (inclusive). If None, "
+        "includes all years up to present."
+    ),
 )
 def main(input_dir, output_dir, download, first_year, last_year):
     """
@@ -608,7 +613,8 @@ def main(input_dir, output_dir, download, first_year, last_year):
         output_dir: Directory to save the processed data
         download: Whether to download the dataset if it doesn't exist
         first_year: First year to include in the dataset (inclusive)
-        last_year: Last year to include in the dataset (inclusive). If None, includes all years up to present.
+        last_year: Last year to include in the dataset (inclusive).
+            If None, includes all years up to present.
     """
     if download:
         download_mcgill_dataset(input_dir)
