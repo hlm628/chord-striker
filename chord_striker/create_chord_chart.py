@@ -179,6 +179,38 @@ class ChordChart:
 
         return lilypond_version
 
+    def __get_lilypond_datadir(self) -> str:
+        """
+        Get the Lilypond data directory path.
+        Tries multiple common locations for different installation methods.
+
+        Returns:
+            Path to Lilypond data directory, or None if not found.
+        """
+        lilypond_version = self.__get_lilypond_version()
+
+        # Common paths to try
+        possible_paths = [
+            f"/usr/share/lilypond/{lilypond_version}",  # Linux/Debian
+            (
+                f"/usr/local/Cellar/lilypond/{lilypond_version}/share/lilypond"
+            ),  # macOS Homebrew
+            (
+                f"/usr/local/share/lilypond/{lilypond_version}"
+            ),  # macOS/Homebrew alternative
+            (
+                f"/opt/homebrew/Cellar/lilypond/{lilypond_version}/share/lilypond"
+            ),  # macOS Apple Silicon
+        ]
+
+        # Try to find existing directory
+        for path in possible_paths:
+            if os.path.exists(path) and os.path.isdir(path):
+                return path
+
+        # If none found, return None and let Lilypond use defaults
+        return None
+
     def __add_file_header(self):
         """
         Add header to Lilypond file, with basic song info and configuration.
@@ -559,7 +591,10 @@ class ChordChart:
             # Set environment variables for deterministic output
             env = os.environ.copy()
             lilypond_version = self.__get_lilypond_version()
-            env["LILYPOND_DATADIR"] = f"/usr/share/lilypond/{lilypond_version}"
+            lilypond_datadir = self.__get_lilypond_datadir()
+
+            if lilypond_datadir:
+                env["LILYPOND_DATADIR"] = lilypond_datadir
             env["LILYPOND_VERSION"] = lilypond_version
             env["SOURCE_DATE_EPOCH"] = "1736640000"  # 2025-01-12 00:00:00 UTC
 

@@ -85,10 +85,10 @@ If installed as a package, use the `chord-striker` command:
 
 ```bash
 # Generate a single song
-chord-striker --key C --tempo 120 --song-name "My Song" --seed 42
+chord-striker --key C --tempo 120 --song_name "My Song" --seed 42
 
 # Generate an album (multiple songs)
-chord-striker --album --album-tracks 10
+chord-striker --num_songs 10
 
 # See all options
 chord-striker --help
