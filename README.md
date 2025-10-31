@@ -27,7 +27,7 @@ Chord Striker uses probability and music theory to generate song structures.
 
 There are a number of parameters that can be modified to change the sound of the generated songs. These are stored in YAML files in the `constants` directory. When running from source, the package will first look for custom parameters in the subdirectory `constants/user`, falling back to the defaults in `constants/defaults` if none are found. When installed as a package, it uses the built-in default constants, but you can still specify a custom directory of parameters when calling the functions directly. Experimenting with these is a good way to impart your own style onto the generated songs.
 
-The default chord transition probabilities and extension weights are derived from the [McGill Billboard dataset](https://ddmal.music.mcgill.ca/research/The_McGill_Billboard_Project_(Chord_Analysis_Dataset)). The code for processing this dataset can be found in `scripts/process_mcgill_dataset.py`, and there is a makefile target to run it: `make process-billboard`.
+The default chord transition probabilities and extension weights are derived from the [McGill Billboard dataset](https://ddmal.ca/research/The_McGill_Billboard_Project_(Chord_Analysis_Dataset)/). The code for processing this dataset can be found in `scripts/process_mcgill_dataset.py`, and there is a makefile target to run it: `make process-billboard`.
 
 ## Installation
 
