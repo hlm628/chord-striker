@@ -633,7 +633,12 @@ class ChordChart:
                 text=True,
             )
 
-            # Check if Lilypond compilation succeeded
+            # Check if PDF and MIDI files were actually created
+            # Sometimes Lilypond exits with code 0 but doesn't create all files
+            pdf_exists = os.path.exists(pdf_path)
+            midi_exists = os.path.exists(midi_path)
+
+            # If compilation failed, raise error with details
             if result.returncode != 0:
                 error_msg = (
                     f"Lilypond compilation failed with return code {result.returncode}"
@@ -642,6 +647,28 @@ class ChordChart:
                     error_msg += f"\nLilypond stderr:\n{result.stderr}"
                 if result.stdout:
                     error_msg += f"\nLilypond stdout:\n{result.stdout}"
+                raise RuntimeError(error_msg)
+
+            # Check if required files were generated
+            if not pdf_exists:
+                error_msg = f"PDF file was not generated at {pdf_path}"
+                if result.stderr:
+                    error_msg += f"\nLilypond stderr:\n{result.stderr}"
+                if result.stdout:
+                    error_msg += f"\nLilypond stdout:\n{result.stdout}"
+                # List files in output directory for debugging
+                files_in_dir = os.listdir(output_dir)
+                error_msg += f"\nFiles in output directory: {files_in_dir}"
+                raise RuntimeError(error_msg)
+
+            if not midi_exists:
+                error_msg = f"MIDI file was not generated at {midi_path}"
+                if result.stderr:
+                    error_msg += f"\nLilypond stderr:\n{result.stderr}"
+                if result.stdout:
+                    error_msg += f"\nLilypond stdout:\n{result.stdout}"
+                files_in_dir = os.listdir(output_dir)
+                error_msg += f"\nFiles in output directory: {files_in_dir}"
                 raise RuntimeError(error_msg)
 
             return result, pdf_path, midi_path
