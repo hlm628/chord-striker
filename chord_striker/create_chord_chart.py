@@ -631,7 +631,19 @@ class ChordChart:
                 ],
                 capture_output=True,
                 env=env,
+                text=True,
             )
+
+            # Check if Lilypond compilation succeeded
+            if result.returncode != 0:
+                error_msg = (
+                    f"Lilypond compilation failed with return code {result.returncode}"
+                )
+                if result.stderr:
+                    error_msg += f"\nLilypond stderr:\n{result.stderr}"
+                if result.stdout:
+                    error_msg += f"\nLilypond stdout:\n{result.stdout}"
+                raise RuntimeError(error_msg)
 
             return result, pdf_path, midi_path
         finally:
