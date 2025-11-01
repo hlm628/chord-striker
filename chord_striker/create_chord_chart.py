@@ -164,6 +164,9 @@ class ChordChart:
         self.__lilypond_file.close()
         self.__lilypond_chords_file.close()
 
+    # Cache lilypond version to avoid repeated calls
+    _lilypond_version_cache = None
+
     def __get_lilypond_version(self) -> str:
         """
         A helper function to extract the current version of Lilypond.
@@ -171,13 +174,23 @@ class ChordChart:
         Returns:
             The version of Lilypond currently installed.
         """
+        # Use cached version if available
+        if ChordChart._lilypond_version_cache is not None:
+            return ChordChart._lilypond_version_cache
+
         # call the version via system command
         lilypond_response = run(["lilypond", "-v"], capture_output=True)
 
         # convert to string and extract version
         lilypond_version = str(lilypond_response).split("\\n")[0].split(" ")[-1]
 
+        # Cache the result
+        ChordChart._lilypond_version_cache = lilypond_version
+
         return lilypond_version
+
+    # Cache lilypond datadir to avoid repeated lookups
+    _lilypond_datadir_cache = None
 
     def __get_lilypond_datadir(self) -> str:
         """
@@ -187,6 +200,10 @@ class ChordChart:
         Returns:
             Path to Lilypond data directory, or None if not found.
         """
+        # Use cached datadir if available
+        if ChordChart._lilypond_datadir_cache is not None:
+            return ChordChart._lilypond_datadir_cache
+
         lilypond_version = self.__get_lilypond_version()
 
         # Common paths to try
@@ -204,12 +221,16 @@ class ChordChart:
         ]
 
         # Try to find existing directory
+        result = None
         for path in possible_paths:
             if os.path.exists(path) and os.path.isdir(path):
-                return path
+                result = path
+                break
 
-        # If none found, return None and let Lilypond use defaults
-        return None
+        # Cache the result (even if None)
+        ChordChart._lilypond_datadir_cache = result
+
+        return result
 
     def __add_file_header(self):
         """
@@ -598,9 +619,16 @@ class ChordChart:
             env["LILYPOND_VERSION"] = lilypond_version
             env["SOURCE_DATE_EPOCH"] = "1736640000"  # 2025-01-12 00:00:00 UTC
 
-            # Run lilypond with just the filename (not the full path)
+            # Run lilypond with optimization flags for faster compilation
+            # --no-point-and-click: Skip point-and-click output (faster)
+            # -dno-print-pages: Don't print page numbers during compilation (faster)
             result = run(
-                ["lilypond", os.path.basename(self.__lilypond_filename)],
+                [
+                    "lilypond",
+                    "--no-point-and-click",
+                    "-dno-print-pages",
+                    os.path.basename(self.__lilypond_filename),
+                ],
                 capture_output=True,
                 env=env,
             )
