@@ -200,8 +200,12 @@ def chord_parser(chord: "str", key: str):
             x in extension for x in ["m", "sus"]
         ):  # Has extension but not minor or sus
             extension = "m" + extension
-    elif chord == "vii" and not extension and "sus" not in extension:
-        extension = "m7b5"
+    elif (
+        (chord == "vii" or chord == "bvii") and not extension and "sus" not in extension
+    ):
+        # Skip adding extension for vii chords as pychord doesn't support m7b5/m7-5
+        # The diminished quality is already implied by the vii chord itself
+        extension = ""
 
     # Get the scale degree (1-7) relative to the key
     if chord in ALLOWED_SYMBOLS:
