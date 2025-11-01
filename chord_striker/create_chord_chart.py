@@ -620,12 +620,11 @@ class ChordChart:
             env["SOURCE_DATE_EPOCH"] = "1736640000"  # 2025-01-12 00:00:00 UTC
 
             # Run lilypond with optimization flags for faster compilation
-            # --no-point-and-click: Skip point-and-click output (faster)
             # -dno-print-pages: Don't print page numbers during compilation (faster)
+            # Note: --no-point-and-click is not available in Lilypond 2.22.1
             result = run(
                 [
                     "lilypond",
-                    "--no-point-and-click",
                     "-dno-print-pages",
                     os.path.basename(self.__lilypond_filename),
                 ],
