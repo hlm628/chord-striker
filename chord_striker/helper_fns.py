@@ -8,8 +8,10 @@ def sample_weights_dict(d):
     """
     A function to sample a dictionary of weights, where the keys are the
     possible values and the values are the weights. Weights are raised
-    to the power of the weirdness factor to make common choices more
-    likely and rare choices less likely.
+    to the power of 1/weirdness factor, so that higher weirdness values
+    compress the weight distribution (making rare choices more likely)
+    and lower weirdness values amplify differences (making common choices
+    more likely).
     """
 
     # check that all weights are positive
@@ -24,8 +26,12 @@ def sample_weights_dict(d):
     weights = list(d.values())
 
     # Apply weirdness factor (defaults to 1.0 if not set)
+    # Using 1/weirdness so that higher values compress weights (more weird/uniform)
+    # and lower values amplify differences (less weird/more biased)
     weirdness = STRUCTURE_PARAMS.get("weirdness", 1.0)
-    weights = [w**weirdness for w in weights]
+    if weirdness <= 0:
+        raise ValueError("weirdness must be positive")
+    weights = [w ** (1.0 / weirdness) for w in weights]
 
     # sample
     return choices(keys, weights=weights)[0]
