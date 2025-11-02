@@ -164,9 +164,6 @@ class ChordChart:
         self.__lilypond_file.close()
         self.__lilypond_chords_file.close()
 
-    # Cache lilypond version to avoid repeated calls
-    _lilypond_version_cache = None
-
     def __get_lilypond_version(self) -> str:
         """
         A helper function to extract the current version of Lilypond.
@@ -174,63 +171,13 @@ class ChordChart:
         Returns:
             The version of Lilypond currently installed.
         """
-        # Use cached version if available
-        if ChordChart._lilypond_version_cache is not None:
-            return ChordChart._lilypond_version_cache
-
         # call the version via system command
         lilypond_response = run(["lilypond", "-v"], capture_output=True)
 
         # convert to string and extract version
         lilypond_version = str(lilypond_response).split("\\n")[0].split(" ")[-1]
 
-        # Cache the result
-        ChordChart._lilypond_version_cache = lilypond_version
-
         return lilypond_version
-
-    # Cache lilypond datadir to avoid repeated lookups
-    _lilypond_datadir_cache = None
-
-    def __get_lilypond_datadir(self) -> str:
-        """
-        Get the Lilypond data directory path.
-        Tries multiple common locations for different installation methods.
-
-        Returns:
-            Path to Lilypond data directory, or None if not found.
-        """
-        # Use cached datadir if available
-        if ChordChart._lilypond_datadir_cache is not None:
-            return ChordChart._lilypond_datadir_cache
-
-        lilypond_version = self.__get_lilypond_version()
-
-        # Common paths to try
-        possible_paths = [
-            f"/usr/share/lilypond/{lilypond_version}",  # Linux/Debian
-            (
-                f"/usr/local/Cellar/lilypond/{lilypond_version}/share/lilypond"
-            ),  # macOS Homebrew
-            (
-                f"/usr/local/share/lilypond/{lilypond_version}"
-            ),  # macOS/Homebrew alternative
-            (
-                f"/opt/homebrew/Cellar/lilypond/{lilypond_version}/share/lilypond"
-            ),  # macOS Apple Silicon
-        ]
-
-        # Try to find existing directory
-        result = None
-        for path in possible_paths:
-            if os.path.exists(path) and os.path.isdir(path):
-                result = path
-                break
-
-        # Cache the result (even if None)
-        ChordChart._lilypond_datadir_cache = result
-
-        return result
 
     def __add_file_header(self):
         """
@@ -609,67 +556,15 @@ class ChordChart:
             # Change to the output directory
             os.chdir(output_dir)
 
-            # Set environment variables for deterministic output
-            env = os.environ.copy()
-            lilypond_version = self.__get_lilypond_version()
-            lilypond_datadir = self.__get_lilypond_datadir()
-
-            if lilypond_datadir:
-                env["LILYPOND_DATADIR"] = lilypond_datadir
-            env["LILYPOND_VERSION"] = lilypond_version
-            env["SOURCE_DATE_EPOCH"] = "1736640000"  # 2025-01-12 00:00:00 UTC
-
-            # Run lilypond with optimization flags for faster compilation
-            # -dno-print-pages: Don't print page numbers during compilation (faster)
-            # Note: --no-point-and-click is not available in Lilypond 2.22.1
+            # Run lilypond
             result = run(
-                [
-                    "lilypond",
-                    "-dno-print-pages",
-                    os.path.basename(self.__lilypond_filename),
-                ],
+                ["lilypond", os.path.basename(self.__lilypond_filename)],
                 capture_output=True,
-                env=env,
-                text=True,
             )
 
-            # Check if PDF and MIDI files were actually created
-            # Sometimes Lilypond exits with code 0 but doesn't create all files
-            pdf_exists = os.path.exists(pdf_path)
-            midi_exists = os.path.exists(midi_path)
-
-            # If compilation failed, raise error with details
-            if result.returncode != 0:
-                error_msg = (
-                    f"Lilypond compilation failed with return code {result.returncode}"
-                )
-                if result.stderr:
-                    error_msg += f"\nLilypond stderr:\n{result.stderr}"
-                if result.stdout:
-                    error_msg += f"\nLilypond stdout:\n{result.stdout}"
-                raise RuntimeError(error_msg)
-
-            # Check if required files were generated
-            if not pdf_exists:
-                error_msg = f"PDF file was not generated at {pdf_path}"
-                if result.stderr:
-                    error_msg += f"\nLilypond stderr:\n{result.stderr}"
-                if result.stdout:
-                    error_msg += f"\nLilypond stdout:\n{result.stdout}"
-                # List files in output directory for debugging
-                files_in_dir = os.listdir(output_dir)
-                error_msg += f"\nFiles in output directory: {files_in_dir}"
-                raise RuntimeError(error_msg)
-
-            if not midi_exists:
-                error_msg = f"MIDI file was not generated at {midi_path}"
-                if result.stderr:
-                    error_msg += f"\nLilypond stderr:\n{result.stderr}"
-                if result.stdout:
-                    error_msg += f"\nLilypond stdout:\n{result.stdout}"
-                files_in_dir = os.listdir(output_dir)
-                error_msg += f"\nFiles in output directory: {files_in_dir}"
-                raise RuntimeError(error_msg)
+            # Convert paths to absolute for return
+            pdf_path = os.path.abspath(pdf_path)
+            midi_path = os.path.abspath(midi_path)
 
             return result, pdf_path, midi_path
         finally:
