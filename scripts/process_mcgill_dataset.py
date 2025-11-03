@@ -199,8 +199,22 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
     )
 
     # Find all salami-chords.txt files in numbered subdirectories
+    # Handle both direct structure (data_dir/*/salami_chords.txt) and
+    # nested structure (data_dir/McGill-Billboard/*/salami_chords.txt)
     chord_files = list(data_dir.glob("*/salami_chords.txt"))
-    print(f"Found {len(chord_files)} chord files to analyse")
+    # If no files found, check for nested McGill-Billboard directory
+    if len(chord_files) == 0:
+        nested_dir = data_dir / "McGill-Billboard"
+        if nested_dir.exists():
+            chord_files = list(nested_dir.glob("*/salami_chords.txt"))
+            print(
+                f"Found {len(chord_files)} chord files in nested directory: "
+                f"{nested_dir}"
+            )
+        else:
+            print(f"Found {len(chord_files)} chord files to analyse")
+    else:
+        print(f"Found {len(chord_files)} chord files to analyse")
 
     # Filter files by valid_ids if provided
     if valid_ids is not None:
@@ -209,7 +223,9 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
 
     for file in chord_files:
         print(f"Processing {file}...")
-        sections, section_modes, first_key, song_structure = parse_salami(file)
+        sections, section_modes, first_key, song_structure, sections_original = (
+            parse_salami(file)
+        )
 
         # Track the first key of each song
         if first_key is not None:
@@ -222,9 +238,16 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
                 section_lengths[section_type.lower()].append(num_measures)
                 sections_per_song[file.parent.name][section_type.lower()] += 1
 
-        for section, mode in zip(sections, section_modes):
+        for section_idx, (section, mode) in enumerate(zip(sections, section_modes)):
             # Track mode statistics
             mode_stats[mode] += 1
+
+            # Get original (non-deduplicated) section for extension counting
+            section_original = (
+                sections_original[section_idx]
+                if section_idx < len(sections_original)
+                else section
+            )
 
             # look for famous chord progressions
             if len(section) >= 3 and (None, None) not in section:
@@ -281,8 +304,9 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
                         transitions[current_chord[0]][next_chord[0]] = 0
                     transitions[current_chord[0]][next_chord[0]] += 1
 
-            # and extensions
-            for c in section:
+            # and extensions (use original section to count all occurrences,
+            # not just unique ones)
+            for c in section_original:
                 if c != (None, None) and c[1] != "":
                     if c[0] not in extensions:
                         extensions[c[0]] = {}
@@ -294,20 +318,25 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
     total_sections = sum(mode_stats.values())
     print("\nMode Statistics:")
     print(f"Total sections analyzed: {total_sections}")
-    for mode, count in sorted(mode_stats.items(), key=lambda x: x[1], reverse=True):
-        print(f"{mode}: {count} ({count / total_sections * 100:.1f}%)")
+    if total_sections > 0:
+        for mode, count in sorted(mode_stats.items(), key=lambda x: x[1], reverse=True):
+            print(f"{mode}: {count} ({count / total_sections * 100:.1f}%)")
 
     # Print key statistics
     total_songs = sum(key_stats.values())
     print("\nKey Statistics:")
     print(f"Total songs analyzed: {total_songs}")
-    for key, count in sorted(key_stats.items(), key=lambda x: x[1], reverse=True):
-        print(f"{key}: {count} ({count / total_songs * 100:.1f}%)")
+    if total_songs > 0:
+        for key, count in sorted(key_stats.items(), key=lambda x: x[1], reverse=True):
+            print(f"{key}: {count} ({count / total_songs * 100:.1f}%)")
 
     # Calculate and print song structure statistics
     print("\nSong Structure Statistics:")
     total_sections = sum(section_counts.values())
     print(f"Total sections analyzed: {total_sections}")
+    if total_sections == 0:
+        print("Warning: No sections found to analyze!")
+        return
 
     # Calculate section counts per song
     choruses_per_song = defaultdict(int)
@@ -427,6 +456,8 @@ def parse_salami(file):
 
     # init a list of sections
     sections = []
+    # Store original (non-deduplicated) sections for extension counting
+    sections_original_all = []
     section_modes = []  # Track the original mode of each section
     first_key = None  # Track the first key of the song
     song_structure = []
@@ -500,7 +531,13 @@ def parse_salami(file):
         if first_key is None:
             first_key = new_tonic
 
+        # Store original chords (before deduplication) for extension counting.
+        # We need to count all occurrences of chord+extension pairs,
+        # not just unique ones
+        sections_original = nashville_chords.copy()
+
         # drop list entries which repeat the previous entry
+        # (Only deduplicate for transitions - we want to track actual chord changes)
         nashville_chords = [
             c
             for i, c in enumerate(nashville_chords)
@@ -508,8 +545,9 @@ def parse_salami(file):
         ]
 
         sections.append(nashville_chords)
+        sections_original_all.append(sections_original)
 
-    return sections, section_modes, first_key, song_structure
+    return sections, section_modes, first_key, song_structure, sections_original_all
 
 
 def save_yaml(data, filename):
@@ -574,7 +612,7 @@ def save_yaml(data, filename):
 @click.command()
 @click.option(
     "--input-dir",
-    type=click.Path(exists=True),
+    type=click.Path(),
     default="data/McGill-Billboard",
     help="Directory containing the McGill Billboard dataset",
 )
@@ -616,8 +654,14 @@ def main(input_dir, output_dir, download, first_year, last_year):
         last_year: Last year to include in the dataset (inclusive).
             If None, includes all years up to present.
     """
+    input_dir = Path(input_dir)
     if download:
         download_mcgill_dataset(input_dir)
+    elif not input_dir.exists():
+        raise FileNotFoundError(
+            f"Input directory '{input_dir}' does not exist. "
+            "Use --download to download the dataset."
+        )
 
     # Load metadata
     metadata_path = Path("data/billboard-2.0-index.csv")

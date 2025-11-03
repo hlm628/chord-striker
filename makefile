@@ -46,7 +46,7 @@ docker-all:
 # Run command with platform detection
 RUN_TAG ?= latest
 IS_DOCKER := $(shell [ -f /.dockerenv ] && echo true || echo false)
-RUN ?= $(if $(filter true,$(IS_DOCKER)),,docker run --platform $(DOCKER_PLATFORM) -it --rm -v $(PWD):/app -w /app $(DOCKER_IMG):$(RUN_TAG))
+RUN ?= $(if $(filter true,$(IS_DOCKER)),,docker run --platform $(DOCKER_PLATFORM) --rm -v $(PWD):/app -w /app $(DOCKER_IMG):$(RUN_TAG))
 
 # Configuration for song generation
 SONG_NAME ?= Random Song

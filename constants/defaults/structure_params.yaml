@@ -87,6 +87,4 @@ famous_chord_progressions_probs:
   blues: 0.5
 invert_chord_prob: 0.08
 apply_extension_prob: 0.3
-
-# Weirdness factor for weight-based selections (1.0 = standard, higher = more unusual choices)
 weirdness: 1
