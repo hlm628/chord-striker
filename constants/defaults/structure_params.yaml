@@ -16,7 +16,7 @@ bridge_before_solo_prob: 0.5
 transpose_steps_probs:
   1: 1
   2: 1
-  7: 1
+  7: 0.5
 intro_prob: 0.95
 outro_prob: 0.9
 cheap_trick_prob: 0.005
@@ -84,7 +84,7 @@ chords_per_measure: 1.25
 famous_chord_progressions_probs:
   3: 0.3
   4: 0.6
-  blues: 0.5
+  blues: 0.4
 invert_chord_prob: 0.08
 apply_extension_prob: 0.3
 weirdness: 1
