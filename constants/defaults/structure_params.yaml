@@ -82,7 +82,7 @@ measure_distributions:
 chords_per_measure: 1.22
 famous_chord_progressions_probs:
   3: 0.3
-  4: 1
+  4: 0.6
   blues: 0.4
 invert_chord_prob: 0.08
 apply_extension_prob: 0.3
