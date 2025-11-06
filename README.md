@@ -33,7 +33,7 @@ The default chord transition probabilities are derived from the [Hook Theory](ht
 
 Key probabilities are derived from the [McGill Billboard dataset](https://ddmal.ca/research/The_McGill_Billboard_Project_(Chord_Analysis_Dataset)/). The code for processing this dataset can be found in `scripts/process_mcgill_dataset.py`, and there is a makefile target to run it: `make process-billboard`. I had hoped to use this to derive chord transition probabilities and famous progressions, but without success. Possibly there is a better way to do this.
 
-The structure parameters and extension probabilities have been picked to my taste. Feel free to experiment with these, in particular.
+The structure parameters and extension probabilities have been picked to my taste. Feel free to experiment with these in particular.
 
 ## Installation
 
