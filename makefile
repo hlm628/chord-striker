@@ -1,4 +1,4 @@
-.PHONY: docker docker-all enter test run-song run-album show-platform process-billboard
+.PHONY: docker docker-all enter test run-song run-album show-platform process-billboard process-hooktheory
 
 DOCKER_IMG ?= chord-striker
 DOCKER_TAG ?= $(shell git rev-parse --short HEAD)
@@ -95,6 +95,11 @@ run-album:
 FIRST_YEAR ?= 1967
 process-billboard:
 	$(RUN) python3 scripts/process_mcgill_dataset.py --first-year $(FIRST_YEAR)
+
+# Generate constants from Hook Theory API
+process-hooktheory: scripts/query_hooktheory.py hooktheory_credentials.yaml
+	$(RUN) python3 scripts/query_hooktheory.py --output-dir constants/hooktheory
+
 # Helper target to show current platform
 show-platform:
 	@echo "Current platform: $(DOCKER_PLATFORM)"

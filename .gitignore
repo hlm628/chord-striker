@@ -8,6 +8,7 @@ test_output/
 constants/user/
 data/
 constants/mcgill_billboard/
+constants/hooktheory/
 # virtual environments
 .venv/
 venv/
@@ -15,3 +16,5 @@ venv/
 .env
 *.pyc
 *.pyo
+# Hook Theory API credentials
+hooktheory_credentials.yaml
