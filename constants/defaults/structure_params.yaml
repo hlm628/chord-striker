@@ -2,12 +2,11 @@ min_tempo: 60
 max_tempo: 180
 tempo_variation: 100
 num_choruses_probs:
-  2: 130
-  3: 239
-  4: 144
-  5: 52
-  6: 20
-  7: 6
+  2: 20
+  3: 100
+  4: 80
+  5: 20
+  6: 2
 pre_chorus_prob: 0.3
 post_chorus_probs:
   pre_chorus_yes: 0.15
@@ -17,7 +16,7 @@ transpose_steps_probs:
   1: 1
   2: 1
   7: 0.5
-intro_prob: 0.95
+intro_prob: 0.8
 outro_prob: 0.9
 cheap_trick_prob: 0.005
 start_pre_chorus_prob: 0.01
@@ -31,59 +30,59 @@ truck_drivers_base_prob: 0.01
 bridge_base_prob: 0.4
 solo_base_prob: 0.25
 halve_final_verse_prob: 0.15
-double_final_chorus_prob: 0.15
+double_final_chorus_prob: 0.2
 measure_distributions:
   Intro:
-    1: 23
-    2: 74
-    4: 262
-    8: 259
-    16: 57
-    32: 5
+    1: 20
+    2: 50
+    4: 50
+    8: 100
+    16: 30
+    32: 3
   Verse:
-    4: 119
-    8: 965
-    16: 835
-    32: 46
-  Prechorus:
-    1: 2
-    2: 4
     4: 10
-    8: 4
+    8: 50
+    16: 100
+    32: 30
+  Prechorus:
+    1: 10
+    2: 50
+    4: 100
+    8: 70
+    16: 20
   Chorus:
-    4: 315
-    8: 1271
-    16: 437
-    32: 21
+    4: 30
+    8: 100
+    16: 30
+    32: 3
   Postchorus:
-    1: 1
-    2: 5
-    4: 5
-    8: 2
+    1: 10
+    2: 50
+    4: 100
+    8: 50
   Bridge:
-    1: 0
-    2: 13
-    4: 62
-    8: 197
-    16: 68
+    2: 5
+    4: 50
+    8: 100
+    16: 70
     32: 5
   Solo:
-    2: 1
-    4: 5
-    8: 10
-    12: 1
-    16: 2
+    2: 10
+    4: 50
+    8: 100
+    12: 10
+    16: 20
   Outro:
-    1: 11
-    2: 32
-    4: 53
-    8: 116
-    16: 75
-    32: 9
-chords_per_measure: 1.25
+    1: 20
+    2: 20
+    4: 50
+    8: 100
+    16: 30
+    32: 2
+chords_per_measure: 1.22
 famous_chord_progressions_probs:
   3: 0.3
-  4: 0.6
+  4: 1
   blues: 0.4
 invert_chord_prob: 0.08
 apply_extension_prob: 0.3
