@@ -5,6 +5,7 @@
 *__pycache__/
 output/
 test_output/
+audit_output/
 constants/user/
 data/
 constants/mcgill_billboard/

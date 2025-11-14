@@ -43,6 +43,7 @@ measure_distributions:
   Verse:
     4: 119
     8: 965
+    12: 200
     16: 835
     32: 46
   Prechorus:
@@ -53,6 +54,7 @@ measure_distributions:
   Chorus:
     4: 315
     8: 1271
+    12: 200
     16: 437
     32: 21
   Postchorus:
@@ -71,7 +73,7 @@ measure_distributions:
     2: 1
     4: 5
     8: 10
-    12: 1
+    12: 2
     16: 2
   Outro:
     1: 11

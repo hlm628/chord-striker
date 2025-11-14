@@ -374,14 +374,27 @@ def analyze_song(
         # Check if chord symbols match famous progressions
         if chord_symbols and (famous_3 is not None or blues_set is not None):
             # Check for blues progressions (12-bar)
-            if blues_set:
+            # Blues progressions are only used in 12-measure sections
+            if blues_set and section_measures == 12:
                 for blues_prog in blues_set:
+                    # Blues progressions can match at the start
+                    # Also check anywhere in the sequence
                     if len(chord_symbols) >= len(blues_prog):
                         # Check if progression starts with blues pattern
                         if tuple(chord_symbols[: len(blues_prog)]) == blues_prog:
                             stats["blues_progressions_used"] += 1
                             stats["famous_progressions_used"]["blues"] += 1
                             break
+                        # Check if blues pattern appears anywhere in the sequence
+                        for i in range(len(chord_symbols) - len(blues_prog) + 1):
+                            seq = tuple(chord_symbols[i : i + len(blues_prog)])
+                            if seq == blues_prog:
+                                stats["blues_progressions_used"] += 1
+                                stats["famous_progressions_used"]["blues"] += 1
+                                break
+                        else:
+                            continue
+                        break
 
             # Check for 3-chord and 4-chord famous progressions
             if famous_3 and len(chord_symbols) >= 3:
@@ -807,9 +820,9 @@ def create_visualizations(aggregate: dict, all_stats: list, output_dir: Path):
     categories = []
     counts = []
 
-    if "blues" in famous_progs or blues_count > 0:
-        categories.append("Blues (12-bar)")
-        counts.append(blues_count)
+    # Always show blues category, even if zero, to indicate we're checking for it
+    categories.append("Blues (12-bar)")
+    counts.append(blues_count)
     if "3-chord" in famous_progs:
         categories.append("3-chord")
         counts.append(famous_progs["3-chord"])
