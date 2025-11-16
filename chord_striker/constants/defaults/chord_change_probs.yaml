@@ -1,24 +1,24 @@
 start:
   I: 3508
-  iv: 925
   IV: 785
+  iv: 747
   V: 320
   vi: 296
-  bII: 190
   ii: 186
-  i: 132
-  bVII: 113
-  bVI: 96
-  bvii: 91
-  bIII: 91
-  II: 62
+  bII: 154
+  i: 106
+  bVII: 91
+  bVI: 78
+  bvii: 73
+  bIII: 73
   iii: 56
-  VI: 32
-  v: 31
-  VII: 16
-  III: 11
-  bV: 6
-  bvi: 5
+  II: 50
+  VI: 26
+  v: 25
+  VII: 13
+  III: 9
+  bV: 5
+  bvi: 4
   bv: 2
   vii: 2
   biii: 1
@@ -27,77 +27,77 @@ I:
   V: 2939
   vi: 1226
   ii: 1197
-  bVII: 1167
-  iv: 575
-  II: 378
+  bVII: 942
+  iv: 465
   iii: 353
-  bIII: 295
-  VI: 175
-  v: 163
-  bVI: 139
-  i: 98
-  bII: 80
-  III: 78
-  VII: 31
+  II: 305
+  bIII: 238
+  VI: 142
+  v: 132
+  bVI: 112
+  i: 79
+  bII: 65
+  III: 63
+  VII: 25
   vii: 25
-  bvii: 22
-  bV: 19
-  bii: 10
-  biii: 10
+  bvii: 18
+  bV: 15
+  bii: 8
+  biii: 8
   bvi: 1
 II:
   V: 384
   I: 212
-  VI: 143
+  VI: 116
   IV: 101
   vi: 65
   vii: 34
   ii: 27
   iii: 23
-  bVII: 23
-  bv: 19
-  v: 15
-  bII: 14
-  bIII: 10
-  III: 7
+  bVII: 19
+  bv: 15
+  v: 12
+  bII: 11
+  bIII: 8
+  III: 6
   bV: 3
   iv: 2
   bVI: 1
 III:
   vi: 232
   IV: 60
-  VI: 55
+  VI: 45
   I: 36
   V: 16
-  VII: 15
-  bii: 8
-  bII: 7
-  bvi: 6
-  bVI: 6
-  iv: 6
-  bIII: 4
+  VII: 12
+  bii: 7
+  bII: 6
+  bvi: 5
+  bVI: 5
+  iv: 5
+  bIII: 3
   bv: 2
   iii: 1
 IV:
   I: 4959
   V: 3661
-  bVII: 503
   ii: 440
+  bVII: 407
   iii: 405
   vi: 389
-  i: 352
-  bIII: 290
-  bVI: 164
-  iv: 151
-  II: 121
-  III: 83
-  bvii: 69
-  bII: 59
-  v: 47
-  VI: 28
-  bv: 26
-  bV: 17
-  bvi: 9
+  i: 284
+  bIII: 234
+  bVI: 132
+  iv: 122
+  II: 98
+  III: 67
+  bvii: 56
+  bII: 48
+  v: 38
+  VI: 23
+  bv: 21
+  bV: 13
+  bvi: 8
   VII: 2
   biii: 1
   bii: 1
@@ -107,70 +107,70 @@ V:
   vi: 574
   ii: 333
   iii: 273
-  II: 153
-  bVII: 135
-  bVI: 92
-  VI: 90
-  i: 50
-  bIII: 41
-  III: 34
-  bII: 17
-  bV: 11
-  bvi: 11
-  v: 7
+  II: 124
+  bVII: 109
+  bVI: 74
+  VI: 72
+  i: 40
+  bIII: 33
+  III: 28
+  bII: 13
+  bV: 9
+  bvi: 9
+  v: 6
   vii: 5
-  iv: 4
-  VII: 4
+  iv: 3
+  VII: 3
 VI:
-  II: 144
   ii: 126
+  II: 116
   IV: 116
   V: 53
   vi: 51
   I: 28
   vii: 27
-  III: 23
-  bVII: 18
-  bVI: 13
-  VII: 13
+  III: 19
+  bVII: 14
+  bVI: 10
+  VII: 10
   iv: 3
   bv: 2
   iii: 2
   i: 2
   bvi: 1
 VII:
-  III: 30
-  bII: 22
+  III: 25
   IV: 21
-  bii: 18
-  bV: 18
-  VI: 17
-  bVII: 15
+  bII: 18
+  bii: 14
+  bV: 14
+  VI: 13
   I: 13
   iii: 13
-  bVI: 9
-  biii: 7
-  bvii: 4
+  bVII: 12
+  bVI: 8
+  biii: 6
   V: 4
+  bvii: 3
   vi: 2
   II: 1
   ii: 1
   vii: 1
   v: 1
 bII:
-  bIII: 918
+  bIII: 741
   I: 398
-  iv: 205
-  bVI: 145
-  i: 129
-  bvii: 83
-  bV: 67
-  biii: 41
-  bii: 29
-  bVII: 27
-  bvi: 13
+  iv: 165
+  bVI: 117
+  i: 104
+  bvii: 67
+  bV: 54
+  biii: 33
+  bii: 24
+  bVII: 22
+  bvi: 10
   IV: 10
-  VII: 8
+  VII: 7
   V: 7
   ii: 2
   II: 2
@@ -178,98 +178,98 @@ bII:
   III: 1
   iii: 1
 bIII:
-  iv: 799
+  iv: 645
   IV: 519
-  bII: 426
-  bVII: 252
-  bVI: 197
+  bII: 344
+  bVII: 203
   I: 161
-  bvii: 133
-  i: 108
+  bVI: 159
+  bvii: 107
+  i: 87
   ii: 51
   V: 29
-  bV: 21
-  v: 17
-  III: 13
-  II: 12
+  bV: 17
+  v: 13
+  III: 10
+  II: 10
   iii: 7
-  biii: 4
+  biii: 3
   bvi: 2
   vi: 1
 bV:
-  bII: 48
-  VII: 33
-  bVI: 24
-  iv: 20
-  III: 14
+  bII: 39
+  VII: 27
+  bVI: 19
+  iv: 16
   V: 12
-  bIII: 10
-  bvii: 9
+  III: 11
+  bIII: 8
+  bvii: 8
   IV: 8
-  bvi: 6
-  bv: 6
+  bvi: 5
+  bv: 5
   biii: 3
   bVII: 2
   II: 2
   VI: 1
   I: 1
 bVI:
-  bIII: 327
-  bVII: 274
-  bII: 223
-  iv: 137
-  bvii: 126
+  bIII: 264
+  bVII: 221
+  bII: 180
+  iv: 110
+  bvii: 102
   V: 92
   I: 70
   IV: 61
-  i: 59
-  v: 18
-  VII: 18
-  bV: 15
-  VI: 14
-  bvi: 8
+  i: 48
+  v: 14
+  VII: 14
+  bV: 12
+  VI: 11
   vi: 8
-  biii: 7
-  bii: 6
+  bvi: 7
+  biii: 6
+  bii: 5
   ii: 2
   vii: 1
 bVII:
   IV: 1177
   I: 735
-  bIII: 214
-  iv: 174
-  bVI: 99
+  bIII: 173
+  iv: 141
   V: 94
+  bVI: 80
   vi: 77
-  bII: 60
-  i: 60
-  VI: 47
-  v: 46
-  bvii: 40
-  VII: 22
+  bII: 48
+  i: 48
+  VI: 38
+  v: 37
+  bvii: 32
   ii: 22
-  bii: 22
+  VII: 18
+  bii: 18
   iii: 6
-  biii: 4
+  biii: 3
   bV: 3
 bii:
-  VII: 25
-  biii: 19
-  v: 12
-  bv: 11
-  bVI: 11
+  VII: 20
+  biii: 15
+  v: 10
+  bv: 9
+  bVI: 9
   V: 5
-  iv: 5
+  iv: 4
   vii: 4
   ii: 3
   IV: 2
   bV: 1
 biii:
-  bVI: 65
-  bII: 16
+  bVI: 52
   ii: 14
-  iv: 12
-  bVII: 4
+  bII: 13
+  iv: 10
+  bVII: 3
   III: 3
   bIII: 2
   bV: 2
@@ -277,41 +277,41 @@ biii:
 bv:
   V: 25
   I: 21
-  bvi: 9
-  VI: 9
-  VII: 7
-  bII: 6
-  iv: 5
-  III: 4
+  bvi: 8
+  VI: 8
+  VII: 6
+  bII: 5
+  iv: 4
+  III: 3
   ii: 2
   bV: 1
   i: 1
 bvi:
   vi: 17
-  bII: 13
-  bvii: 12
-  bii: 12
-  iv: 10
-  bIII: 7
-  bv: 7
-  bV: 6
+  bII: 10
+  bvii: 10
+  bii: 10
+  iv: 8
+  bIII: 6
+  bv: 6
+  bV: 5
   V: 5
   I: 4
   III: 2
   v: 1
 bvii:
-  iv: 252
-  i: 180
-  bII: 177
-  bIII: 138
-  bVI: 106
+  iv: 203
+  i: 145
+  bII: 142
+  bIII: 111
   I: 106
+  bVI: 86
   IV: 37
-  bVII: 20
-  biii: 18
-  bV: 12
-  bvi: 9
-  v: 8
+  bVII: 16
+  biii: 14
+  bV: 10
+  bvi: 8
+  v: 7
   bii: 1
   VII: 1
   V: 1
@@ -319,18 +319,18 @@ bvii:
   vi: 1
 i:
   IV: 451
-  iv: 194
-  bII: 174
-  bvii: 126
-  bVI: 72
+  iv: 157
+  bII: 141
+  bvii: 102
+  bVI: 58
   I: 57
-  bIII: 55
-  bVII: 51
   ii: 49
+  bIII: 45
+  bVII: 41
   V: 17
-  v: 17
+  v: 13
   vi: 11
-  II: 10
+  II: 8
   vii: 7
   bV: 2
   bii: 2
@@ -340,16 +340,16 @@ ii:
   I: 642
   IV: 585
   iii: 225
-  bVII: 146
   vi: 130
-  III: 54
-  iv: 34
-  VI: 29
-  i: 23
-  bIII: 14
-  bII: 10
-  biii: 7
-  bVI: 4
+  bVII: 118
+  III: 44
+  iv: 28
+  VI: 24
+  i: 19
+  bIII: 11
+  bII: 8
+  biii: 6
+  bVI: 3
   II: 3
   bvii: 3
   v: 2
@@ -359,36 +359,36 @@ iii:
   vi: 343
   V: 179
   I: 98
-  VI: 74
-  II: 41
-  III: 17
-  bVII: 15
-  bv: 8
+  VI: 60
+  II: 33
+  III: 13
+  bVII: 12
   vii: 8
-  iv: 6
-  v: 5
+  bv: 7
+  iv: 5
+  v: 4
   bIII: 3
   biii: 3
   VII: 2
 iv:
-  bII: 652
-  bIII: 645
-  bvii: 429
+  bII: 526
+  bIII: 521
   I: 356
-  bVI: 279
-  bVII: 243
-  i: 187
+  bvii: 347
+  bVI: 225
+  bVII: 197
+  i: 151
   V: 60
-  v: 43
+  v: 35
   IV: 26
-  bV: 24
-  bvi: 17
-  biii: 12
-  III: 11
+  bV: 19
+  bvi: 13
+  biii: 10
+  III: 9
   ii: 5
-  bv: 4
   iii: 4
   vii: 4
+  bv: 3
   vi: 3
   VII: 2
   II: 2
@@ -396,14 +396,14 @@ iv:
 v:
   I: 210
   IV: 114
-  bVI: 31
-  bVII: 17
+  bVI: 25
   ii: 16
-  II: 9
-  bIII: 7
-  iv: 6
-  VI: 6
-  bvii: 4
+  bVII: 13
+  II: 8
+  bIII: 6
+  iv: 5
+  VI: 5
+  bvii: 3
   i: 3
   V: 3
   vi: 2
@@ -414,28 +414,28 @@ vi:
   ii: 416
   I: 395
   iii: 352
-  II: 239
-  bVII: 114
-  III: 67
-  bVI: 30
-  v: 24
-  VI: 18
+  II: 193
+  bVII: 92
+  III: 54
+  bVI: 25
+  v: 19
   vii: 18
-  iv: 11
-  bIII: 8
-  bv: 5
-  VII: 5
+  VI: 14
+  iv: 9
+  bIII: 7
+  bv: 4
+  VII: 4
   bii: 3
   bII: 1
   bvi: 1
 vii:
   iii: 27
-  II: 24
   V: 23
   vi: 20
-  III: 12
+  II: 19
+  III: 10
   I: 10
-  bii: 4
+  bii: 3
   VI: 2
   i: 2
   bIII: 2
