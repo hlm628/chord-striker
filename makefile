@@ -1,4 +1,5 @@
-.PHONY: docker docker-all enter test run-song run-album show-platform process-billboard process-hooktheory
+.PHONY: docker docker-all enter test run-song run-album show-platform process-billboard fetch-hooktheory
+.PHONY: generate-constants audit-songs
 
 DOCKER_IMG ?= chord-striker
 DOCKER_TAG ?= $(shell git rev-parse --short HEAD)
@@ -99,6 +100,18 @@ process-billboard:
 # Generate constants from Hook Theory API
 process-hooktheory: scripts/query_hooktheory.py hooktheory_credentials.yaml
 	$(RUN) python3 scripts/query_hooktheory.py --output-dir constants/hooktheory
+
+# Audit song generation statistics
+AUDIT_NUM_SONGS ?= 1000
+AUDIT_SEED ?= 42
+AUDIT_OUTPUT ?=
+AUDIT_OUTPUT_DIR ?= audit_output
+audit-songs: scripts/audit_songs.py
+	$(RUN) python3 scripts/audit_songs.py \
+		--num-songs $(AUDIT_NUM_SONGS) \
+		--seed $(AUDIT_SEED) \
+		--output-dir $(AUDIT_OUTPUT_DIR) \
+		$(if $(AUDIT_OUTPUT),--output $(AUDIT_OUTPUT),)
 
 # Helper target to show current platform
 show-platform:

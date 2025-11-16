@@ -244,6 +244,34 @@ pre-commit install
 pre-commit run --all-files
 ```
 
+### Song Generation Audit
+
+The `audit_songs.py` script generates multiple songs and collects statistical information about the distribution of various song characteristics, including:
+
+- Song length (total measures)
+- Number of sections
+- Key changes
+- Non-diatonic chord usage
+- Tempo distribution
+- Runtime distribution
+- Most common keys and chord extensions
+- Famous chord progression prevalence
+
+This is useful for understanding how parameter changes affect the generated songs. The script generates visualizations and summary statistics.
+
+```bash
+# Run audit with default parameters (1000 songs, seed 42)
+make audit-songs
+
+# Customize the number of songs and seed
+make audit-songs AUDIT_NUM_SONGS=500 AUDIT_SEED=123
+
+# See all options
+python3 scripts/audit_songs.py --help
+```
+
+The audit output (graphs and statistics) is saved to the `audit_output/` directory by default.
+
 ### Building for All Platforms
 
 To build Docker images for both ARM64 and AMD64:
