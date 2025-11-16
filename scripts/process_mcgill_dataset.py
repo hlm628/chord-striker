@@ -372,7 +372,9 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
             }
 
     # Load default structure parameters
-    default_params_path = Path("constants/defaults/structure_params.yaml")
+    from chord_striker._resources import get_constants_dir
+    constants_dir = get_constants_dir()
+    default_params_path = constants_dir / "structure_params.yaml"
     with open(default_params_path, "r") as f:
         default_params = yaml.safe_load(f)
 

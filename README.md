@@ -27,7 +27,7 @@ Chord Striker uses probability and music theory to generate song structures.
 - Then each section is populated with chord progressions. These are generated in one of two ways: either by sampling from a list of pre-defined "famous" chord progressions, or from a Markov chain that models how chords transition between one another. The details can be found in `chord_striker/chorder.py`. Repetitions of sections may have small variations (e.g. a chord change, an added chord, or a different length).
 - Finally, the resulting song structure is exported to Lilypond, which converts it into a PDF chord chart and accompanying MIDI file.
 
-There are a number of parameters that can be modified to change the sound of the generated songs. These are stored in YAML files in the `constants` directory. When running from source, the package will first look for custom parameters in the subdirectory `constants/user`, falling back to the defaults in `constants/defaults` if none are found. When installed as a package, it uses the built-in default constants, but you can still specify a custom directory of parameters when calling the functions directly. Experimenting with these is a good way to impart your own style onto the generated songs.
+There are a number of parameters that can be modified to change the sound of the generated songs. These are stored in YAML files in `chord_striker/constants/defaults/`. When installed as a package, it uses these built-in default constants, but you can still specify a custom directory of parameters when calling the functions directly. Experimenting with these is a good way to impart your own style onto the generated songs.
 
 The default chord transition probabilities are derived from the [Hook Theory](https://www.hooktheory.com/) API, as well our set of famous chord progressions and their weights. The code for querying this API can be found in `scripts/query_hooktheory.py`, and there is a makefile target to run it: `make process-hooktheory`.
 
@@ -167,7 +167,7 @@ You can customise the output of `make run-song` with the following options:
 - `PRINT_GRAPH`: Whether to print the song structure graph
 - `CONSTANTS_DIR`: Directory containing custom YAML parameter files
 
-`CONSTANTS_DIR` should be a subdirectory of `constants`, and should contain the same files and schema as the `constants/defaults` directory:
+`CONSTANTS_DIR` should contain the same files and schema as `chord_striker/constants/defaults/`:
 - `structure_params.yaml`: Song structure probabilities
 - `chord_change_probs.yaml`: Chord transition probabilities
 - `key_probs.yaml`: Key probabilities
@@ -215,9 +215,8 @@ chord-striker/
 ├── example/             # Generated output
 ├── scripts/             # Utility scripts
 ├── tests/               # Test suite
-├── constants/           # Musical constants (development)
-│   ├── defaults/        # Default parameters
-│   └── user/            # Custom parameters (git-ignored)
+├── constants/           # Generated constants (e.g., from Hook Theory API)
+│   └── hooktheory/      # Hook Theory API output
 ├── pyproject.toml       # Package configuration
 └── README.md            # This file
 ```
