@@ -16,6 +16,7 @@ import random
 from numpy import random as np_random
 from collections import Counter
 import re
+import statistics
 
 try:
     import matplotlib.pyplot as plt
@@ -524,6 +525,7 @@ def collect_statistics(num_songs: int = 100, base_seed: int = 42):
     # Aggregate tempo statistics
     tempos = [s["tempo"] for s in all_stats]
     aggregate["tempo"]["mean"] = sum(tempos) / len(tempos)
+    aggregate["tempo"]["median"] = statistics.median(tempos)
     aggregate["tempo"]["min"] = min(tempos)
     aggregate["tempo"]["max"] = max(tempos)
     aggregate["tempo"]["distribution"] = Counter(tempos)
@@ -624,6 +626,7 @@ def print_statistics(aggregate: dict, all_stats: list):
     print("\n--- Tempo (BPM) ---")
     tempo_stats = aggregate["tempo"]
     print(f"  Mean: {tempo_stats['mean']:.1f} BPM")
+    print(f"  Median: {tempo_stats['median']:.1f} BPM")
     print(f"  Min: {tempo_stats['min']} BPM")
     print(f"  Max: {tempo_stats['max']} BPM")
     print("  Distribution (top 10):")

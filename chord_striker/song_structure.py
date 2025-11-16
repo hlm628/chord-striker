@@ -48,9 +48,10 @@ def get_tempo(
     tempo_variation: int = STRUCTURE_PARAMS["tempo_variation"],
 ) -> int:
     """
-    Function which randomly picks a tempo for the song by truncating a
-    log-normal distribution (chosen so that ~99% of tempos are between
-    the range specified).
+    Function which randomly picks a tempo for the song using a log-normal
+    distribution that tapers off gradually above 140 BPM.
+
+    Tempos above 140 are still possible but become progressively less likely.
     """
 
     # check that min and max tempo are valid
@@ -59,9 +60,15 @@ def get_tempo(
     if min_tempo < 0 or max_tempo < 0:
         raise ValueError("min_tempo and max_tempo must be positive")
 
-    # use min and max tempo to get mean and std of log-normal distribution
-    mean = np.log((min_tempo + max_tempo) / 2)
-    std = np.log(max_tempo / min_tempo) / 6
+    # Use a target range of 60-140 for the main distribution
+    # but allow up to max_tempo with decreasing probability
+    target_max = 140
+
+    # Adjust log-normal parameters to target median 
+    target_median = 113
+    mean = np.log(target_median)
+    # Increased std for more spread to reach up to 140
+    base_std = np.log(target_max / min_tempo) / 3.5
 
     # check that tempo variation is valid
     if not isinstance(tempo_variation, int):
@@ -70,13 +77,38 @@ def get_tempo(
         raise ValueError("tempo_variation must be positive")
 
     # use tempo variation to adjust std
-    std = std * (tempo_variation / 100)
+    std = base_std * (tempo_variation / 100)
 
-    # get tempo
+    # Use rejection sampling to allow tempos > 140 but with decreasing probability
+    max_attempts = 100
+    for _ in range(max_attempts):
+        # get tempo from log-normal distribution
+        tempo = np.random.lognormal(mean, std)
+
+        # If tempo is above 140, apply a probability penalty
+        if tempo > target_max:
+            if tempo > max_tempo:
+                # Reject if way beyond max
+                continue
+            # Calculate penalty: probability decreases exponentially above 140
+            # At 140: prob = 1.0, at 180: prob ≈ 0.1
+            excess = tempo - target_max
+            max_excess = max_tempo - target_max
+            # Exponential decay: prob = exp(-k * excess)
+            # Want prob(180) ≈ 0.1, so k ≈ 2.3 / 40 ≈ 0.0575
+            k = 2.3 / max_excess if max_excess > 0 else 1.0
+            prob = np.exp(-k * excess)
+            if np.random.random() > prob:
+                continue  # Reject this sample
+
+        # Clamp to valid range and round
+        tempo = max(min_tempo, min(tempo, max_tempo))
+        tempo = int(round(tempo))
+        return tempo
+
+    # Fallback: if rejection sampling fails, just clamp to target range
     tempo = np.random.lognormal(mean, std)
-    # truncate to range
-    tempo = max(min_tempo, min(tempo, max_tempo))
-    # round to nearest integer
+    tempo = max(min_tempo, min(tempo, target_max))
     tempo = int(round(tempo))
     return tempo
 
