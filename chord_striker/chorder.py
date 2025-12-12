@@ -57,6 +57,15 @@ def choose_change_locations(
             that determines how many chords to ascribe to a given measure.
     """
 
+    # Check if we should force one chord per measure
+    if bernoulli_trial(STRUCTURE_PARAMS.get("force_one_chord_per_measure_prob", 0.2)):
+        # Force exactly one chord per measure at the start of each measure
+        units_per_measure = section.total_units // section.num_measures
+        change_indices = [
+            units_per_measure * meas for meas in range(section.num_measures)
+        ]
+        return change_indices
+
     # list of number of changes in each measure
     change_vec = poisson.rvs(chords_per_measure, size=section.num_measures)
 

@@ -80,6 +80,7 @@ measure_distributions:
     16: 30
     32: 2
 chords_per_measure: 1.22
+force_one_chord_per_measure_prob: 0.2
 famous_chord_progressions_probs:
   3: 0.3
   4: 0.6
