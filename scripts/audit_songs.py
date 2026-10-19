@@ -111,6 +111,7 @@ def parse_song_structure_with_symbols(song_structure, initial_key=None):
     from chord_striker.helper_fns import bernoulli_trial
 
     song_key = SongKey(initial_key)
+    minor = bernoulli_trial(STRUCTURE_PARAMS["minor_prob"])
     song_section_lengths = measures_assign()
     sections = []
     generators = {}
@@ -145,7 +146,7 @@ def parse_song_structure_with_symbols(song_structure, initial_key=None):
                 )
 
                 generators[section_name] = {
-                    "generator": ChordProgressionSelector(section_kernel),
+                    "generator": ChordProgressionSelector(section_kernel, minor),
                     "variations": variation_assign(
                         section_measures // section_kernel_length
                     ),
@@ -230,9 +231,9 @@ def parse_song_structure_with_symbols(song_structure, initial_key=None):
         if section["final_section"]:
             this_section.make_final_section()
             if bernoulli_trial(STRUCTURE_PARAMS["end_on_tonic_prob"]):
-                this_section.end_on_tonic()
+                this_section.end_on_tonic(minor)
                 if section["chord_symbols"]:
-                    section["chord_symbols"][-1] = "I"
+                    section["chord_symbols"][-1] = "vi" if minor else "I"
 
         section["section"] = this_section
 

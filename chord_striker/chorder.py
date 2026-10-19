@@ -6,6 +6,7 @@ from pychord import Chord
 from chord_striker.helper_fns import accidental_fixer, substitute, bernoulli_trial
 from chord_striker.load_constants import (
     CHORD_CHANGE_PROBS,
+    MINOR_CHORD_CHANGE_PROBS,
     CHORD_EXTENSIONS,
     FAMOUS_CHORD_PROGRESSIONS,
     STRUCTURE_PARAMS,
@@ -107,9 +108,15 @@ def choose_change_locations(section: Section, chords_per_measure: float = None):
 
 class Chorder:
     def __init__(
-        self, prev_chord=None, last_chord=False, chord_change_probs=CHORD_CHANGE_PROBS
+        self,
+        prev_chord=None,
+        last_chord=False,
+        chord_change_probs=CHORD_CHANGE_PROBS,
+        minor=False,
     ):
         self.__chord_change_probs = chord_change_probs
+        # whether the song is centred on the relative minor (vi)
+        self.__minor = minor
 
         # the chord preceeding this one (affects probabilities)
         self.__prev_chord = prev_chord
@@ -124,15 +131,23 @@ class Chorder:
         chords = [c for c in self.__chord_change_probs[self.__prev_chord]]
         probs = [self.__chord_change_probs[self.__prev_chord][c] for c in chords]
 
+        # pull progressions back towards the song's tonic (I, or vi for a
+        # song centred on the relative minor), as real songs keep returning
+        # home rather than wandering
+        tonic = "vi" if self.__minor else "I"
+        gravity = STRUCTURE_PARAMS.get("tonic_gravity", 1)
+        probs = [p * gravity if c == tonic else p for c, p in zip(chords, probs)]
+
         # sample
         new_chord = choices(chords, weights=probs)[0]
 
-        # if this is the last chord, we may finish on a V (a half cadence,
-        # leading back into the next section)
+        # if this is the last chord, we may finish on the dominant (a half
+        # cadence, leading back into the next section): V, or III for a song
+        # centred on the relative minor (e.g. E major leading back to A minor)
         if self.__last_chord and bernoulli_trial(
             STRUCTURE_PARAMS["section_end_dominant_prob"]
         ):
-            new_chord = "V"
+            new_chord = "III" if self.__minor else "V"
 
         return new_chord
 
@@ -143,7 +158,25 @@ class Chorder:
         return self.__this_chord
 
 
-def chord_progression_selector(section: Section):
+def start_on_tonic(progression: list, minor: bool = False):
+    """
+    Rotate a looping progression to start on the song's tonic, if it contains
+    it: I, or vi for a song centred on the relative minor (e.g. vi-IV-I-V
+    becomes I-V-vi-IV in a major song, and I-V-vi-IV becomes vi-IV-I-V in a
+    minor one).
+    """
+    tonic = "vi" if minor else "I"
+    if tonic not in progression:
+        return progression
+    idx = progression.index(tonic)
+    return progression[idx:] + progression[:idx]
+
+
+def chord_progression_selector(section: Section, minor: bool = False):
+    """
+    Choose the chord changes for a section. If minor is True, the song is
+    centred on the relative minor (vi) rather than the major tonic (I).
+    """
     # decide where to place chord changes + get number of changes
     change_indices = choose_change_locations(section)
     num_changes = len(change_indices)
@@ -153,8 +186,12 @@ def chord_progression_selector(section: Section):
 
     # decide whether or not to use famous CP - this can happen if there are
     # 3/4 changes or 12 measures
-    if section.num_measures == 12 and bernoulli_trial(
-        STRUCTURE_PARAMS["famous_chord_progressions_probs"]["blues"]
+    if (
+        not minor
+        and section.num_measures == 12
+        and bernoulli_trial(
+            STRUCTURE_PARAMS["famous_chord_progressions_probs"]["blues"]
+        )
     ):
         # get chords
         chords = FAMOUS_CHORD_PROGRESSIONS.get_prog("12 bar blues")
@@ -176,12 +213,14 @@ def chord_progression_selector(section: Section):
         STRUCTURE_PARAMS["famous_chord_progressions_probs"][3]
     ):
         base_prog = FAMOUS_CHORD_PROGRESSIONS.get_prog(3)
+        base_prog = start_on_tonic(base_prog, minor)
         times = num_changes // 3
         chords = (base_prog * times)[:num_changes]
     elif num_changes % 4 == 0 and bernoulli_trial(
         STRUCTURE_PARAMS["famous_chord_progressions_probs"][4]
     ):
         base_prog = FAMOUS_CHORD_PROGRESSIONS.get_prog(4)
+        base_prog = start_on_tonic(base_prog, minor)
         times = num_changes // 4
         chords = (base_prog * times)[:num_changes]
     else:
@@ -189,7 +228,12 @@ def chord_progression_selector(section: Section):
         this_chord = None
         for i in range(num_changes):
             this_chord = Chorder(
-                prev_chord=this_chord, last_chord=(i == (num_changes - 1))
+                prev_chord=this_chord,
+                last_chord=(i == (num_changes - 1)),
+                chord_change_probs=(
+                    MINOR_CHORD_CHANGE_PROBS if minor else CHORD_CHANGE_PROBS
+                ),
+                minor=minor,
             ).new_chord()
             chords.append(this_chord)
 
@@ -305,10 +349,13 @@ def parse_chord_selections(section: Section, change_indices: list, chords: list)
 
 
 class ChordProgressionSelector:
-    def __init__(self, section: Section):
+    def __init__(self, section: Section, minor: bool = False):
         self.__section = section
+        self.__chord_change_probs = (
+            MINOR_CHORD_CHANGE_PROBS if minor else CHORD_CHANGE_PROBS
+        )
         self.__change_indices, self.__chords_nashville = chord_progression_selector(
-            self.__section
+            self.__section, minor
         )
 
         self.__base_chords = [
@@ -404,7 +451,10 @@ class ChordProgressionSelector:
                             prev_chord = self.__chords_nashville[alter_index - 1]
 
                         new_chord = substitute(
-                            prev_chord, self.__chords_nashville[alter_index], next_chord
+                            prev_chord,
+                            self.__chords_nashville[alter_index],
+                            next_chord,
+                            self.__chord_change_probs,
                         )
                         # parse
                         new_chord = chord_parser(new_chord, new_section.key)
@@ -447,7 +497,9 @@ class ChordProgressionSelector:
                 else:
                     next_chord = self.__chords_nashville[alter_index]
 
-                new_chord = substitute(prev_chord, None, next_chord)
+                new_chord = substitute(
+                    prev_chord, None, next_chord, self.__chord_change_probs
+                )
                 new_chord = chord_parser(new_chord, new_section.key)
 
                 new_chords = (

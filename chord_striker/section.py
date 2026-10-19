@@ -250,12 +250,20 @@ class Section:
     def make_final_section(self):
         self.final_section = True
 
-    def end_on_tonic(self):
-        """Replace the final chord of the section with the tonic chord."""
-        if self.chord_progression[-1].root == self.key:
+    def end_on_tonic(self, minor: bool = False):
+        """
+        Replace the final chord of the section with the tonic chord: I, or
+        vi if the song is centred on the relative minor.
+        """
+        if minor:
+            tonic = accidental_fixer(
+                Chord.from_note_index(6, "m", self.key + "maj"), self.key
+            )
+        else:
+            tonic = Chord(self.key)
+        if self.chord_progression[-1].root == tonic.root:
             return
         last = str(self.chord_progression[-1])
-        tonic = Chord(self.key)
         idx = self.total_units - 1
         while idx >= 0 and str(self.chord_progression[idx]) == last:
             self.chord_progression[idx] = tonic

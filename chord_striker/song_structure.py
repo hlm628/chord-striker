@@ -634,6 +634,9 @@ def parse_song_structure(song_structure: list = None, initial_key: str = None):
     # figure out keys
     song_key = SongKey(initial_key)
 
+    # decide whether the song is centred on the relative minor (vi) of its key
+    minor = bernoulli_trial(STRUCTURE_PARAMS["minor_prob"])
+
     # store lengths of various song sections
     song_section_lengths = measures_assign()
 
@@ -676,7 +679,7 @@ def parse_song_structure(song_structure: list = None, initial_key: str = None):
                 )
 
                 generators[section_name] = {
-                    "generator": ChordProgressionSelector(section_kernel),
+                    "generator": ChordProgressionSelector(section_kernel, minor),
                     "variations": variation_assign(
                         section_measures // section_kernel_length
                     ),
@@ -755,7 +758,7 @@ def parse_song_structure(song_structure: list = None, initial_key: str = None):
         if section["final_section"]:
             this_section.make_final_section()
             if bernoulli_trial(STRUCTURE_PARAMS["end_on_tonic_prob"]):
-                this_section.end_on_tonic()
+                this_section.end_on_tonic(minor)
 
         section["section"] = this_section
 

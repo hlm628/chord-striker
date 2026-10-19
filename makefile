@@ -102,7 +102,8 @@ process-hooktheory: scripts/query_hooktheory.py hooktheory_credentials.yaml
 	$(RUN) python3 scripts/query_hooktheory.py --output-dir constants/hooktheory
 
 # Blend chord change probabilities from Hook Theory and the Billboard dataset
-# into the package defaults (run process-hooktheory and process-billboard first)
+# into the package defaults, for major songs and for songs centred on the
+# relative minor (run process-hooktheory and process-billboard first)
 HOOKTHEORY_WEIGHT ?= 0.5
 BILLBOARD_WEIGHT ?= 0.5
 blend-chord-probs: scripts/blend_chord_change_probs.py
@@ -111,6 +112,11 @@ blend-chord-probs: scripts/blend_chord_change_probs.py
 		--source constants/mcgill_billboard/chord_change_probs.yaml $(BILLBOARD_WEIGHT) \
 		--start-from constants/mcgill_billboard/chord_change_probs.yaml \
 		--output chord_striker/constants/defaults/chord_change_probs.yaml
+	$(RUN) python3 scripts/blend_chord_change_probs.py \
+		--source constants/hooktheory/chord_change_probs.yaml $(HOOKTHEORY_WEIGHT) \
+		--source constants/mcgill_billboard/chord_change_probs_minor.yaml $(BILLBOARD_WEIGHT) \
+		--start-from constants/mcgill_billboard/chord_change_probs_minor.yaml \
+		--output chord_striker/constants/defaults/chord_change_probs_minor.yaml
 
 # Audit song generation statistics
 AUDIT_NUM_SONGS ?= 1000

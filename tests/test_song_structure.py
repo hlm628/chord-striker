@@ -2,8 +2,10 @@ import random
 
 import numpy as np
 import pytest
+from pychord import Chord
 
-from chord_striker.chorder import ChordProgressionSelector
+from chord_striker.chorder import ChordProgressionSelector, start_on_tonic
+from chord_striker.helper_fns import accidental_fixer
 from chord_striker.load_constants import STRUCTURE_PARAMS, constants_override
 from chord_striker.section import Section
 from chord_striker.song_structure import generate_song_structure, parse_song_structure
@@ -77,3 +79,26 @@ def test_end_on_tonic(tmp_path):
     sections = generate_sections(2, tmp_path, {"end_on_tonic_prob": 1.0})
     last = sections[-1]["section"]
     assert last.chord_progression[-1].root == last.key
+
+
+def test_minor_song_ends_on_relative_minor(tmp_path):
+    sections = generate_sections(
+        3, tmp_path, {"minor_prob": 1.0, "end_on_tonic_prob": 1.0}
+    )
+    last = sections[-1]["section"]
+    relative_minor = accidental_fixer(
+        Chord.from_note_index(6, "m", last.key + "maj"), last.key
+    )
+    assert last.chord_progression[-1].root == relative_minor.root
+
+
+@pytest.mark.parametrize(
+    "progression, minor, expected",
+    [
+        (["vi", "IV", "I", "V"], False, ["I", "V", "vi", "IV"]),
+        (["I", "V", "vi", "IV"], True, ["vi", "IV", "I", "V"]),
+        (["IV", "V", "vi"], False, ["IV", "V", "vi"]),
+    ],
+)
+def test_start_on_tonic(progression, minor, expected):
+    assert start_on_tonic(progression, minor) == expected

@@ -22,6 +22,10 @@ MODE_MAP = {
 
 # Semitones to add to a modal tonic to get its relative major (ionian) tonic,
 # e.g. A aeolian -> C ionian is +3
+# Modes with a minor tonic; their transitions are recorded separately, so the
+# generator can use them for songs centred on the relative minor (vi)
+MINOR_MODES = {"aeolian", "dorian", "phrygian"}
+
 MODE_SEMITONE_MAP = {
     "ionian": 0,
     "dorian": 10,
@@ -170,7 +174,7 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
     data_dir = Path(data_dir)
 
     # Init dictionaries to store transitions, extensions and chord progressions
-    transitions = {}
+    transitions_by_tonality = {"major": {}, "minor": {}}
     extensions = {}
     progressions = []  # Changed to list to match YAML format
     mode_stats = {mode: 0 for mode in MODE_MAP.keys()}  # Track statistics for all modes
@@ -283,7 +287,10 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
                                     # this sequence
                                     break
 
-            # now look for transitions
+            # now look for transitions (separately for major and minor sections)
+            transitions = transitions_by_tonality[
+                "minor" if mode in MINOR_MODES else "major"
+            ]
             first_chord = section[0]
             if first_chord[0] is not None:
                 if "start" not in transitions:
@@ -390,7 +397,10 @@ def analyse_chords(data_dir, output_dir, valid_ids=None):
     # Save the results
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    save_yaml(transitions, output_dir / "chord_change_probs.yaml")
+    save_yaml(transitions_by_tonality["major"], output_dir / "chord_change_probs.yaml")
+    save_yaml(
+        transitions_by_tonality["minor"], output_dir / "chord_change_probs_minor.yaml"
+    )
     save_yaml(extensions, output_dir / "chord_extensions.yaml")
     save_yaml(progressions, output_dir / "famous_chord_progressions.yaml")
     save_yaml(key_stats, output_dir / "key_probs.yaml")
@@ -583,13 +593,12 @@ def save_yaml(data, filename):
             f.write("\n".join(formatted_data))
     else:
         # For other files, sort dictionaries by weight
-        if "chord_extensions.yaml" in str(filename) or "chord_change_probs.yaml" in str(
-            filename
-        ):
+        is_chord_change_probs = Path(filename).name.startswith("chord_change_probs")
+        if "chord_extensions.yaml" in str(filename) or is_chord_change_probs:
             # Create a new dictionary with sorted values
             sorted_data = {}
             # For chord_change_probs, put 'start' first
-            if "chord_change_probs.yaml" in str(filename):
+            if is_chord_change_probs:
                 if "start" in data:
                     sorted_data["start"] = dict(
                         sorted(data["start"].items(), key=lambda x: x[1], reverse=True)

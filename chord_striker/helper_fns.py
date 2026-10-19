@@ -108,20 +108,23 @@ def accidental_fixer(chord: Chord, key: str):
     return Chord(chord_name)
 
 
-def substitute(prev_chord, current_chord, next_chord=None):
+def substitute(prev_chord, current_chord, next_chord=None, chord_change_probs=None):
     """
     A function to substitute a chord with another chord, based on the
     previous and next chords. The function uses a dictionary of
-    probabilities to determine the most likely chord to substitute.
+    probabilities (by default the loaded chord change probabilities) to
+    determine the most likely chord to substitute.
     """
+    if chord_change_probs is None:
+        chord_change_probs = CHORD_CHANGE_PROBS
 
-    all_possible_chords = list(CHORD_CHANGE_PROBS.keys())
+    all_possible_chords = list(chord_change_probs.keys())
 
     if next_chord is None:
         possible_chords = [
             c for c in all_possible_chords if c not in [None, current_chord, prev_chord]
         ]
-        weights = [CHORD_CHANGE_PROBS[prev_chord][c] for c in possible_chords]
+        weights = [chord_change_probs[prev_chord][c] for c in possible_chords]
 
     else:
         # we use a probabilistic result:
@@ -132,8 +135,15 @@ def substitute(prev_chord, current_chord, next_chord=None):
             if c not in [None, current_chord, prev_chord, next_chord]
         ]
         weights = [
-            CHORD_CHANGE_PROBS[c][next_chord] * CHORD_CHANGE_PROBS[prev_chord][c]
+            chord_change_probs[c][next_chord] * chord_change_probs[prev_chord][c]
             for c in possible_chords
         ]
+        # if no chord links the two, just follow on from the previous chord
+        if not any(weights):
+            weights = [chord_change_probs[prev_chord][c] for c in possible_chords]
+
+    # last resort: any chord will do
+    if not any(weights):
+        weights = [1] * len(possible_chords)
 
     return choices(possible_chords, weights=weights)[0]

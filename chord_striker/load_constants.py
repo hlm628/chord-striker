@@ -14,6 +14,8 @@ KEYS = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
 # directly, so they must always be updated in place, never rebound.
 STRUCTURE_PARAMS = {}
 CHORD_CHANGE_PROBS = {}
+# transitions used for songs centred on the relative minor (vi)
+MINOR_CHORD_CHANGE_PROBS = {}
 KEY_PROBABILITIES = {}
 
 # Song generation reads the globals above and the global random state, so
@@ -24,6 +26,19 @@ _constants_lock = RLock()
 def _replace_contents(target: dict, new_values: dict):
     target.clear()
     target.update(new_values)
+
+
+def _load_chord_change_probs(path):
+    with open(path, "r") as f:
+        chord_change_probs = yaml.safe_load(f)
+    # replace "start" key with None
+    chord_change_probs[None] = chord_change_probs.pop("start")
+    # set the prob for all over chords to 0
+    for key in chord_change_probs.keys():
+        for k in ALLOWED_SYMBOLS:
+            if k not in chord_change_probs[key]:
+                chord_change_probs[key][k] = 0
+    return chord_change_probs
 
 
 def load_constants(constants_dir=None):
@@ -43,17 +58,16 @@ def load_constants(constants_dir=None):
     with open(structure_params_path, "r") as f:
         structure_params = yaml.safe_load(f)
 
-    # Load chord change probabilities
-    chord_change_probs_path = constants_dir / "chord_change_probs.yaml"
-    with open(chord_change_probs_path, "r") as f:
-        chord_change_probs = yaml.safe_load(f)
-        # replace "start" key with None
-        chord_change_probs[None] = chord_change_probs.pop("start")
-        # set the prob for all over chords to 0
-        for key in chord_change_probs.keys():
-            for k in ALLOWED_SYMBOLS:
-                if k not in chord_change_probs[key]:
-                    chord_change_probs[key][k] = 0
+    # Load chord change probabilities; the minor-song table is optional, and
+    # defaults to the main one
+    chord_change_probs = _load_chord_change_probs(
+        constants_dir / "chord_change_probs.yaml"
+    )
+    minor_path = constants_dir / "chord_change_probs_minor.yaml"
+    if minor_path.exists():
+        minor_chord_change_probs = _load_chord_change_probs(minor_path)
+    else:
+        minor_chord_change_probs = chord_change_probs
 
     # Load key probabilities
     key_probs_path = constants_dir / "key_probs.yaml"
@@ -72,6 +86,7 @@ def load_constants(constants_dir=None):
     with _constants_lock:
         _replace_contents(STRUCTURE_PARAMS, structure_params)
         _replace_contents(CHORD_CHANGE_PROBS, chord_change_probs)
+        _replace_contents(MINOR_CHORD_CHANGE_PROBS, minor_chord_change_probs)
         _replace_contents(KEY_PROBABILITIES, key_probabilities)
         CHORD_EXTENSIONS.load(constants_dir)
         FAMOUS_CHORD_PROGRESSIONS.load(constants_dir)
@@ -97,6 +112,7 @@ def constants_override(constants_dir=None, structure_params=None):
         saved = (
             dict(STRUCTURE_PARAMS),
             dict(CHORD_CHANGE_PROBS),
+            dict(MINOR_CHORD_CHANGE_PROBS),
             dict(KEY_PROBABILITIES),
             dict(vars(CHORD_EXTENSIONS)),
             dict(vars(FAMOUS_CHORD_PROGRESSIONS)),
@@ -110,9 +126,10 @@ def constants_override(constants_dir=None, structure_params=None):
         finally:
             _replace_contents(STRUCTURE_PARAMS, saved[0])
             _replace_contents(CHORD_CHANGE_PROBS, saved[1])
-            _replace_contents(KEY_PROBABILITIES, saved[2])
-            _replace_contents(vars(CHORD_EXTENSIONS), saved[3])
-            _replace_contents(vars(FAMOUS_CHORD_PROGRESSIONS), saved[4])
+            _replace_contents(MINOR_CHORD_CHANGE_PROBS, saved[2])
+            _replace_contents(KEY_PROBABILITIES, saved[3])
+            _replace_contents(vars(CHORD_EXTENSIONS), saved[4])
+            _replace_contents(vars(FAMOUS_CHORD_PROGRESSIONS), saved[5])
 
 
 def is_probability(value):

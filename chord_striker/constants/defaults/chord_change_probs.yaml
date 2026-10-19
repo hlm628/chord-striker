@@ -3,139 +3,137 @@
 #   constants/mcgill_billboard/chord_change_probs.yaml (weight 0.5)
 # 'start' row taken from constants/mcgill_billboard/chord_change_probs.yaml
 start:
-  I: 51.7
-  vi: 17.3
-  IV: 13.1
-  V: 5.5
-  ii: 3.9
-  i: 1.6
-  VI: 1.5
-  bVII: 1.5
-  iii: 1.2
-  II: 0.8
+  I: 64.3
+  IV: 13.0
+  V: 5.9
+  vi: 5.4
+  ii: 3.3
+  i: 1.9
+  bVII: 1.6
+  iii: 1.1
+  II: 0.9
+  VI: 0.6
+  v: 0.5
   bIII: 0.5
-  v: 0.4
-  iv: 0.3
-  bVI: 0.2
-  VII: 0.2
-  III: 0.1
-  bv: 0.1
+  iv: 0.4
+  bVI: 0.3
+  VII: 0.1
+  bII: 0.1
 I:
   V: 31.9
-  IV: 29.6
-  vi: 11.2
-  ii: 9.2
-  bVII: 5.3
-  iii: 4.8
-  II: 2.1
-  bIII: 1.3
-  iv: 0.8
-  bVI: 0.7
+  IV: 30.2
+  vi: 11.1
+  ii: 9.1
+  bVII: 5.6
+  iii: 4.7
+  II: 1.6
+  bIII: 1.4
+  iv: 0.9
+  bVI: 0.8
   v: 0.7
   VI: 0.7
-  vii: 0.6
-  III: 0.4
+  vii: 0.5
   i: 0.3
+  III: 0.3
   bII: 0.2
   VII: 0.1
 II:
-  V: 28.4
-  vi: 18.5
-  I: 18.1
-  IV: 14.1
-  iii: 7.6
-  ii: 4.3
-  VI: 1.8
-  III: 1.7
-  bVII: 1.4
-  vii: 1.4
-  v: 0.7
-  bv: 0.6
-  bII: 0.5
-  bIII: 0.5
-  iv: 0.3
-III:
-  vi: 48.2
-  IV: 23.0
-  V: 8.3
-  ii: 6.4
-  I: 5.2
-  VI: 4.5
-  iii: 1.5
-  VII: 0.6
+  V: 32.8
+  I: 19.6
+  vi: 14.0
+  IV: 13.9
+  iii: 6.3
+  ii: 3.6
+  vii: 1.9
+  VI: 1.9
+  bVII: 1.7
+  bv: 0.9
+  v: 0.9
+  bII: 0.8
   bIII: 0.6
-  vii: 0.5
-  II: 0.4
-  bII: 0.3
+  iv: 0.3
+  III: 0.3
+  bV: 0.1
+III:
+  vi: 43.6
+  IV: 25.7
+  V: 8.2
+  I: 7.3
+  VI: 5.8
+  ii: 5.2
+  iii: 1.3
+  bIII: 0.8
+  bII: 0.6
+  VII: 0.4
+  vii: 0.3
   bVII: 0.2
+  bv: 0.2
   v: 0.1
-  bv: 0.1
   iv: 0.1
 IV:
-  I: 37.2
-  V: 35.0
-  vi: 8.3
+  I: 39.8
+  V: 34.2
+  vi: 7.8
   ii: 5.2
-  iii: 4.8
-  bVII: 2.7
-  III: 1.5
-  i: 1.2
+  iii: 4.6
+  bVII: 2.5
+  i: 1.4
   iv: 1.1
-  bIII: 1.0
+  bIII: 1.1
   II: 0.6
   vii: 0.5
-  v: 0.4
   bVI: 0.4
+  III: 0.4
+  v: 0.3
   VI: 0.1
   bv: 0.1
 V:
-  I: 33.7
-  IV: 25.4
-  vi: 22.7
-  ii: 6.9
-  iii: 4.7
-  VI: 1.5
+  I: 37.8
+  IV: 26.2
+  vi: 19.4
+  ii: 6.7
+  iii: 4.6
   bVII: 1.4
-  II: 1.3
+  II: 1.0
   bVI: 0.6
-  III: 0.5
+  VI: 0.6
   vii: 0.5
   i: 0.3
-  bIII: 0.2
-  bV: 0.1
+  bIII: 0.3
+  III: 0.2
+  bV: 0.2
   iv: 0.1
-  v: 0.1
+  bII: 0.1
 VI:
-  IV: 23.8
-  V: 21.8
-  I: 14.9
-  ii: 14.8
-  vi: 7.2
-  iii: 6.3
-  II: 5.9
-  bVII: 1.8
-  III: 1.3
-  vii: 0.7
-  bVI: 0.6
+  IV: 25.8
+  V: 18.5
+  ii: 17.4
+  I: 10.0
+  II: 9.5
+  vi: 8.7
+  iii: 4.6
+  bVII: 1.5
+  III: 1.1
+  bVI: 0.9
+  vii: 0.9
   VII: 0.5
-  iv: 0.2
-  bIII: 0.1
-  bv: 0.1
-  i: 0.1
+  iv: 0.3
+  bv: 0.2
+  i: 0.2
 VII:
-  I: 19.6
-  V: 16.4
-  vi: 15.6
-  III: 12.9
-  IV: 10.8
-  iii: 9.1
-  bVII: 4.2
-  VI: 3.7
-  vii: 3.1
+  I: 20.3
+  vi: 16.0
+  IV: 15.3
+  V: 12.3
+  iii: 10.8
+  III: 10.5
+  bVII: 3.0
+  vii: 2.9
+  VI: 2.9
+  biii: 2.3
   i: 1.8
-  biii: 1.5
-  ii: 1.0
-  v: 0.4
+  ii: 1.2
+  v: 0.6
 bI:
   V: 17.9
   v: 11.1
@@ -154,39 +152,39 @@ bI:
   biii: 0.4
   bvii: 0.4
 bII:
-  I: 29.7
-  i: 19.7
-  bIII: 11.6
-  vi: 9.2
-  V: 6.1
+  I: 32.1
+  i: 20.4
+  bIII: 9.3
+  vi: 9.3
+  V: 6.3
   bVI: 4.9
   iv: 4.5
   ii: 4.4
   v: 3.1
-  bV: 2.3
-  II: 2.0
+  bV: 2.6
   iii: 0.4
-  bii: 0.3
-  bVII: 0.3
-  bvii: 0.3
-  biii: 0.3
-  bv: 0.3
-  III: 0.3
+  bii: 0.4
+  bVII: 0.4
+  bvii: 0.4
+  biii: 0.4
+  bv: 0.4
+  II: 0.4
+  III: 0.4
 bIII:
-  IV: 34.9
-  bVII: 15.4
-  I: 12.9
-  V: 8.7
-  ii: 7.7
-  bVI: 6.1
-  bII: 4.3
-  iv: 2.1
-  v: 2.1
-  i: 1.4
+  IV: 36.3
+  bVII: 15.1
+  I: 13.1
+  V: 8.9
+  ii: 7.8
+  bVI: 5.4
+  bII: 4.6
+  v: 2.0
+  i: 1.5
   iii: 1.2
-  II: 0.9
+  iv: 0.9
+  II: 0.8
   bvii: 0.8
-  bV: 0.7
+  bV: 0.6
   III: 0.5
   vi: 0.4
   vii: 0.1
@@ -207,60 +205,59 @@ bIV:
   bII: 0.3
   bVI: 0.3
 bV:
-  V: 23.9
-  IV: 15.8
+  V: 23.1
+  IV: 16.2
   III: 12.1
   ii: 9.7
-  bIII: 6.8
-  VII: 5.6
+  bIII: 6.9
   I: 5.4
-  iv: 5.0
-  bVI: 2.8
-  bII: 2.8
-  i: 2.5
-  v: 2.5
-  II: 1.6
-  VI: 0.8
+  iv: 5.2
+  VII: 5.2
+  bII: 2.9
+  bVI: 2.9
+  i: 2.6
+  v: 2.6
+  II: 1.7
+  VI: 0.9
   iii: 0.7
   vi: 0.7
   bVII: 0.6
   vii: 0.4
   biii: 0.4
 bVI:
-  bVII: 24.7
-  V: 22.0
-  I: 16.5
-  bIII: 9.9
-  IV: 8.4
-  vi: 5.9
-  bII: 3.9
+  bVII: 25.6
+  V: 23.1
+  I: 16.2
+  bIII: 9.3
+  IV: 8.7
+  vi: 5.2
+  bII: 3.0
   iv: 2.5
   v: 2.4
-  VI: 1.2
+  VI: 1.3
   ii: 0.7
   iii: 0.6
   i: 0.4
   bV: 0.4
-  bvii: 0.2
+  bvii: 0.1
   VII: 0.1
   vii: 0.1
   II: 0.1
 bVII:
   IV: 42.9
-  I: 26.2
-  vi: 8.7
+  I: 27.0
+  vi: 8.5
   V: 7.9
-  bIII: 3.3
-  ii: 2.9
+  bIII: 2.8
+  ii: 2.7
   v: 2.0
   vii: 1.5
-  bVI: 1.4
-  i: 1.0
+  bVI: 1.5
   VI: 0.9
-  bii: 0.4
-  VII: 0.4
+  i: 0.8
+  bii: 0.5
+  VII: 0.5
   iii: 0.3
-  bvii: 0.2
   iv: 0.1
 bi:
   V: 17.9
@@ -294,14 +291,13 @@ bii:
   VII: 1.9
   iii: 0.4
 biii:
-  ii: 36.4
+  ii: 37.9
   IV: 13.0
-  bVII: 12.3
-  bVI: 10.8
+  bVII: 12.6
+  bVI: 11.1
   V: 7.0
   I: 6.2
-  bV: 4.8
-  III: 2.3
+  bV: 5.1
   bII: 1.8
   iii: 1.0
   v: 1.0
@@ -328,32 +324,31 @@ biv:
   bII: 0.3
   bVI: 0.3
 bv:
-  V: 28.2
-  I: 17.7
-  ii: 12.4
-  IV: 11.5
-  iii: 5.4
+  V: 30.5
+  I: 22.5
+  ii: 11.1
+  IV: 9.2
+  VII: 4.9
   bIII: 4.2
-  VII: 4.1
-  iv: 3.5
+  iv: 4.2
+  III: 3.3
   i: 2.5
   v: 2.5
-  III: 2.4
   bVI: 1.2
-  bvi: 1.2
   bV: 1.0
+  iii: 0.7
   vi: 0.7
   bVII: 0.5
   vii: 0.4
   biii: 0.4
   bII: 0.4
 bvi:
-  vi: 39.5
-  I: 16.6
+  vi: 36.7
+  I: 17.8
   bVII: 14.9
-  V: 12.2
-  v: 3.8
-  bV: 3.3
+  V: 12.8
+  v: 4.1
+  bV: 3.9
   bIII: 2.9
   iv: 2.3
   IV: 2.0
@@ -366,131 +361,129 @@ bvi:
   II: 0.1
 bvii:
   IV: 49.8
-  I: 16.8
-  vi: 11.8
+  I: 18.9
+  vi: 9.1
   V: 5.9
-  bIII: 3.7
-  bVI: 2.6
+  bIII: 4.4
+  bVI: 3.3
   ii: 2.4
-  iii: 1.8
-  bV: 1.7
+  bV: 2.4
   vii: 1.5
   v: 1.0
   i: 0.7
   bVII: 0.3
+  iii: 0.1
   iv: 0.1
 i:
-  IV: 42.9
-  V: 21.3
-  ii: 8.8
-  vi: 7.6
-  I: 7.3
-  bVII: 3.7
+  IV: 44.5
+  V: 20.9
+  ii: 8.2
+  I: 7.6
+  vi: 6.9
+  bVII: 3.6
   iii: 3.2
   iv: 1.1
   vii: 1.0
-  v: 0.9
-  II: 0.7
-  bVI: 0.6
+  v: 1.0
+  II: 0.8
+  bVI: 0.4
   bIII: 0.4
-  VII: 0.2
   bii: 0.2
   biii: 0.2
 ii:
-  V: 29.0
-  IV: 18.7
-  I: 18.4
-  vi: 16.0
-  iii: 10.5
-  bVII: 2.5
-  III: 1.9
-  iv: 0.7
-  VI: 0.6
+  V: 32.1
+  I: 19.8
+  IV: 19.0
+  vi: 13.4
+  iii: 9.2
+  bVII: 3.0
+  III: 0.9
+  iv: 0.9
+  VI: 0.5
   vii: 0.4
-  v: 0.4
-  II: 0.3
   bIII: 0.3
-  i: 0.3
+  i: 0.2
   bII: 0.1
+  v: 0.1
+  biii: 0.1
 iii:
-  IV: 32.5
-  vi: 26.8
-  ii: 16.5
-  V: 11.3
-  I: 6.5
-  VI: 2.5
-  II: 1.3
-  bVII: 0.6
-  vii: 0.6
-  III: 0.4
+  IV: 32.9
+  vi: 26.0
+  ii: 17.3
+  V: 11.7
+  I: 5.9
+  VI: 2.2
+  II: 1.2
+  bVII: 0.7
+  vii: 0.5
+  III: 0.5
   bIII: 0.4
   v: 0.3
-  bv: 0.2
+  bv: 0.1
   iv: 0.1
 iv:
-  I: 56.5
-  V: 10.6
-  v: 6.1
-  ii: 5.0
-  vi: 3.7
-  bVII: 3.6
-  bIII: 2.7
-  IV: 2.6
-  iii: 2.6
-  bV: 1.8
+  I: 59.2
+  V: 11.3
+  ii: 5.1
+  v: 4.3
+  bVII: 3.8
+  vi: 3.1
+  IV: 2.8
+  iii: 2.7
+  bV: 2.1
   i: 1.7
   vii: 0.9
-  bVI: 0.6
-  VI: 0.5
-  bvii: 0.4
-  III: 0.3
-  II: 0.2
-  bII: 0.2
-v:
-  I: 38.1
-  IV: 24.8
-  vi: 16.2
-  ii: 5.9
-  bVII: 4.9
-  V: 3.8
-  iii: 2.7
-  II: 0.9
+  bIII: 0.9
   bVI: 0.7
-  VI: 0.6
-  iv: 0.4
+  bvii: 0.4
+  III: 0.4
+  II: 0.3
+  VI: 0.3
+  bII: 0.1
+v:
+  I: 36.7
+  IV: 26.1
+  vi: 15.0
+  ii: 6.3
+  bVII: 5.8
+  V: 3.6
+  iii: 2.7
+  II: 1.1
+  VI: 0.8
+  bVI: 0.5
+  iv: 0.5
   vii: 0.4
-  bIII: 0.3
-  bvii: 0.2
+  bvii: 0.3
+  bIII: 0.2
   bV: 0.2
 vi:
-  IV: 28.6
-  V: 27.0
-  I: 13.3
-  ii: 12.2
-  iii: 9.5
-  II: 4.0
-  bVII: 1.6
-  III: 1.4
-  vii: 0.9
-  bVI: 0.6
-  v: 0.3
-  VI: 0.3
-  VII: 0.2
-  i: 0.1
-vii:
-  I: 25.7
-  vi: 22.5
-  V: 18.5
-  iii: 12.0
-  III: 8.4
-  IV: 3.3
-  i: 2.4
+  IV: 29.3
+  V: 26.0
+  I: 13.6
+  ii: 11.4
+  iii: 10.3
+  II: 3.6
   bVII: 2.3
-  ii: 1.5
-  bii: 1.2
-  bIII: 0.6
+  III: 1.0
+  vii: 0.8
+  bVI: 0.7
+  v: 0.4
   VI: 0.3
-  VII: 0.3
-  bv: 0.3
-  bV: 0.3
-  bvii: 0.3
+  iv: 0.2
+  bIII: 0.1
+vii:
+  vi: 24.9
+  V: 20.5
+  I: 19.1
+  iii: 15.8
+  III: 5.6
+  IV: 3.2
+  bVII: 2.8
+  i: 2.8
+  bii: 1.9
+  bIII: 0.9
+  ii: 0.7
+  VI: 0.5
+  VII: 0.5
+  bv: 0.5
+  bvii: 0.5

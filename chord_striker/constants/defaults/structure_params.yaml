@@ -79,6 +79,8 @@ max_changes_per_measure: 2
 section_no_loop_weight: 5
 section_end_dominant_prob: 0.15
 end_on_tonic_prob: 0.35
+minor_prob: 0.17
+tonic_gravity: 2
 famous_chord_progressions_probs:
   3: 0.3
   4: 0.6
