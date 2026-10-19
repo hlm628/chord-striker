@@ -43,16 +43,23 @@ class SongKey:
 
 
 def get_tempo(
-    min_tempo: int = STRUCTURE_PARAMS["min_tempo"],
-    max_tempo: int = STRUCTURE_PARAMS["max_tempo"],
-    tempo_variation: int = STRUCTURE_PARAMS["tempo_variation"],
+    min_tempo: int = None,
+    max_tempo: int = None,
+    tempo_variation: int = None,
 ) -> int:
     """
     Function which randomly picks a tempo for the song using a log-normal
     distribution that tapers off gradually above 140 BPM.
 
     Tempos above 140 are still possible but become progressively less likely.
+    Any argument not supplied is taken from the loaded structure parameters.
     """
+    if min_tempo is None:
+        min_tempo = STRUCTURE_PARAMS["min_tempo"]
+    if max_tempo is None:
+        max_tempo = STRUCTURE_PARAMS["max_tempo"]
+    if tempo_variation is None:
+        tempo_variation = STRUCTURE_PARAMS["tempo_variation"]
 
     # check that min and max tempo are valid
     if not isinstance(min_tempo, int) or not isinstance(max_tempo, int):

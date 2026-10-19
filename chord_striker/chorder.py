@@ -1,7 +1,6 @@
 from chord_striker.section import Section
 from random import choices, choice
 from copy import copy
-from scipy.stats import poisson
 import numpy as np
 from pychord import Chord
 from chord_striker.helper_fns import accidental_fixer, substitute, bernoulli_trial
@@ -43,9 +42,7 @@ def sample_measure_cc_locations(
 
 
 # a function that chooses chord changes in section
-def choose_change_locations(
-    section: Section, chords_per_measure: float = STRUCTURE_PARAMS["chords_per_measure"]
-):
+def choose_change_locations(section: Section, chords_per_measure: float = None):
     """
     A function which decides where to place the chords in the section.
 
@@ -55,29 +52,31 @@ def choose_change_locations(
         chords_per_measure (float): The average number of chords we want
             per measure. This is actually the mean of a Poisson distribution
             that determines how many chords to ascribe to a given measure.
+            Defaults to the loaded structure parameters.
     """
+    if chords_per_measure is None:
+        chords_per_measure = STRUCTURE_PARAMS["chords_per_measure"]
 
-    # Check if we should force one chord per measure
-    if bernoulli_trial(STRUCTURE_PARAMS.get("force_one_chord_per_measure_prob", 0.2)):
-        # Force exactly one chord per measure at the start of each measure
-        units_per_measure = section.total_units // section.num_measures
-        change_indices = [
-            units_per_measure * meas for meas in range(section.num_measures)
-        ]
-        return change_indices
+    # get some essential timing info
+    units_per_measure = section.total_units // section.num_measures
+    beats_per_measure = units_per_measure // section.units_per_beat
+
+    # Sometimes force exactly one chord at the start of each measure. Only
+    # do this when that roughly matches the requested density, so that much
+    # sparser or busier settings are respected
+    if 0.5 < chords_per_measure < 1.5 and bernoulli_trial(
+        STRUCTURE_PARAMS.get("force_one_chord_per_measure_prob", 0)
+    ):
+        return [units_per_measure * meas for meas in range(section.num_measures)]
 
     # list of number of changes in each measure
-    change_vec = poisson.rvs(chords_per_measure, size=section.num_measures)
+    change_vec = np.random.poisson(chords_per_measure, size=section.num_measures)
 
     # at most four changes per measure
     change_vec = [min(4, num_changes) for num_changes in change_vec]
 
     # first measure must contain 'change' at first tick
     change_vec[0] = max(0, change_vec[0] - 1)
-
-    # get some essential timing info
-    units_per_measure = section.total_units // section.num_measures
-    beats_per_measure = units_per_measure // section.units_per_beat
 
     # initialize
     change_indices = [0]

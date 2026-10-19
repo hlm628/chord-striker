@@ -4,7 +4,7 @@ from chord_striker.song_structure import (
     parse_song_structure,
 )
 from chord_striker.create_chord_chart import ChordChart
-from chord_striker.load_constants import load_constants
+from chord_striker.load_constants import constants_override
 import random
 from numpy import random as np_random
 import click
@@ -27,6 +27,7 @@ def create_song(
     output_dir="output",
     print_graph=False,
     constants_dir=None,
+    structure_params=None,
 ):
     """
     Create a song with the given key, tempo, and seed.
@@ -39,63 +40,47 @@ def create_song(
         output_dir: Directory to save the output
         print_graph: Whether to print the song structure graph
         constants_dir: Directory containing custom YAML files for constants
+        structure_params: Dict of structure parameters to override for this
+            song only (e.g. {"weirdness": 2})
     """
-    # These are rebound below when custom constants are loaded; declaring them
-    # global keeps them from becoming unbound locals when constants_dir is None
-    global get_tempo, generate_song_structure, parse_song_structure
+    # Custom constants only apply to this song; the previous ones are
+    # restored afterwards
+    with constants_override(constants_dir, structure_params):
+        # Set the random seed if provided
+        set_seed(seed)
 
-    # Set the random seed if provided
-    set_seed(seed)
+        # Generate a random tempo if not provided
+        if tempo is None:
+            tempo = get_tempo()
 
-    # Load custom constants if provided
-    if constants_dir:
-        load_constants(constants_dir)
-        # Reload modules that import from load_constants to get new references
-        import importlib
-        import chord_striker.song_structure
-        import chord_striker.helper_fns
-        import chord_striker.chorder
-        importlib.reload(chord_striker.song_structure)
-        importlib.reload(chord_striker.helper_fns)
-        importlib.reload(chord_striker.chorder)
-        # Re-import functions to update the module-level references
-        from chord_striker.song_structure import (
-            get_tempo,
-            generate_song_structure,
-            parse_song_structure,
-        )
+        # Create song structure
+        ss = generate_song_structure(print_graph=print_graph, output_dir=output_dir)
 
-    # Generate a random tempo if not provided
-    if tempo is None:
-        tempo = get_tempo()
+        # Add chords
+        sections = parse_song_structure(ss, key)
 
-    # Create song structure
-    ss = generate_song_structure(print_graph=print_graph, output_dir=output_dir)
-
-    # Add chords
-    sections = parse_song_structure(ss, key)
-
-    # Create a chord chart; generate PDF and MIDI files in 'output_dir'
-    # with the song name
-    chord_chart = ChordChart(sections, tempo, song_name, output_dir)
-    chord_chart.generate_pdf_midi()
+        # Create a chord chart; generate PDF and MIDI files in 'output_dir'
+        # with the song name
+        chord_chart = ChordChart(sections, tempo, song_name, output_dir)
+        chord_chart.generate_pdf_midi()
 
 
 def create_album(num_songs, seeds=[], parent_dir="output", constants_dir=None):
     """
     Create an album with the specified number of songs and seeds.
     """
-    for i in range(num_songs):
-        song_name = f"{i + 1}"
-        seed = seeds[i] if i < len(seeds) else None
-        create_song(
-            key=None,
-            tempo=None,
-            seed=seed,
-            song_name=song_name,
-            output_dir=f"{parent_dir}/{song_name}",
-            constants_dir=constants_dir,
-        )
+    # Load any custom constants once for the whole album
+    with constants_override(constants_dir):
+        for i in range(num_songs):
+            song_name = f"{i + 1}"
+            seed = seeds[i] if i < len(seeds) else None
+            create_song(
+                key=None,
+                tempo=None,
+                seed=seed,
+                song_name=song_name,
+                output_dir=f"{parent_dir}/{song_name}",
+            )
 
 
 @click.command()

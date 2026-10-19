@@ -55,6 +55,7 @@ pip install -e .
 
 **Optional Dependencies:**
 - Graph visualization: `pip install chord-striker[graph]` (requires system Graphviz library)
+- Data-processing scripts in `scripts/`: `pip install chord-striker[scripts]`
 
 Once installed, you can use the `chord-striker` command-line tool from anywhere:
 
@@ -129,11 +130,20 @@ create_song(
     output_dir="output"
 )
 
-# Generate an album
+# Override individual structure parameters for one song only
+create_song(
+    key=None,
+    tempo=None,
+    seed=42,
+    song_name="Weird Song",
+    output_dir="output",
+    structure_params={"weirdness": 2, "solo_base_prob": 0.5},
+)
+
+# Generate an album (songs are written to output/1, output/2, ...)
 create_album(
-    album_name="My Album",
-    num_tracks=10,
-    output_dir="output"
+    num_songs=10,
+    parent_dir="output"
 )
 
 # Access song structure generation
@@ -192,6 +202,9 @@ pip install -e ".[dev]"
 
 # Optional: Install graph visualization dependencies
 pip install -e ".[graph]"  # Requires system Graphviz library
+
+# Optional: Install dependencies for the scripts in scripts/
+pip install -e ".[scripts]"
 ```
 
 ### Project Structure

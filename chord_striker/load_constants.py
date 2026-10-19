@@ -1,4 +1,6 @@
+from contextlib import contextmanager
 from random import choices
+from threading import RLock
 import yaml
 from chord_striker._resources import get_constants_dir
 
@@ -6,11 +8,22 @@ ALLOWED_SYMBOLS = ["I", "II", "III", "IV", "V", "VI", "VII"]
 ALLOWED_SYMBOLS = ALLOWED_SYMBOLS + [c.lower() for c in ALLOWED_SYMBOLS]
 ALLOWED_SYMBOLS = ALLOWED_SYMBOLS + ["b" + c for c in ALLOWED_SYMBOLS]
 
-# Constants will be loaded into these global variables
+KEYS = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
+
+# Constants are loaded into these global objects. Other modules import them
+# directly, so they must always be updated in place, never rebound.
 STRUCTURE_PARAMS = {}
 CHORD_CHANGE_PROBS = {}
 KEY_PROBABILITIES = {}
-KEYS = []
+
+# Song generation reads the globals above and the global random state, so
+# anything that swaps constants in and out must hold this lock throughout
+_constants_lock = RLock()
+
+
+def _replace_contents(target: dict, new_values: dict):
+    target.clear()
+    target.update(new_values)
 
 
 def load_constants(constants_dir=None):
@@ -22,41 +35,84 @@ def load_constants(constants_dir=None):
         constants_dir: Optional directory containing custom YAML files.
             If None, uses constants/defaults.
     """
-    global STRUCTURE_PARAMS, CHORD_CHANGE_PROBS, KEY_PROBABILITIES, KEYS
-
     # Determine the constants directory to use
     constants_dir = get_constants_dir(constants_dir)
 
     # Load structure parameters
     structure_params_path = constants_dir / "structure_params.yaml"
     with open(structure_params_path, "r") as f:
-        STRUCTURE_PARAMS = yaml.safe_load(f)
+        structure_params = yaml.safe_load(f)
 
     # Load chord change probabilities
     chord_change_probs_path = constants_dir / "chord_change_probs.yaml"
     with open(chord_change_probs_path, "r") as f:
-        CHORD_CHANGE_PROBS = yaml.safe_load(f)
+        chord_change_probs = yaml.safe_load(f)
         # replace "start" key with None
-        CHORD_CHANGE_PROBS[None] = CHORD_CHANGE_PROBS.pop("start")
+        chord_change_probs[None] = chord_change_probs.pop("start")
         # set the prob for all over chords to 0
-        for key in CHORD_CHANGE_PROBS.keys():
+        for key in chord_change_probs.keys():
             for k in ALLOWED_SYMBOLS:
-                if k not in CHORD_CHANGE_PROBS[key]:
-                    CHORD_CHANGE_PROBS[key][k] = 0
+                if k not in chord_change_probs[key]:
+                    chord_change_probs[key][k] = 0
 
     # Load key probabilities
     key_probs_path = constants_dir / "key_probs.yaml"
     with open(key_probs_path, "r") as f:
-        KEY_PROBABILITIES = yaml.safe_load(f)
+        key_probabilities = yaml.safe_load(f)
         # check that keys are C-B in order
-        KEYS = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
         for key in KEYS:
-            if key not in KEY_PROBABILITIES:
+            if key not in key_probabilities:
                 raise KeyError(f"key {key} not found in key probabilities")
-            if not isinstance(KEY_PROBABILITIES[key], (int, float)):
+            if not isinstance(key_probabilities[key], (int, float)):
                 raise TypeError(f"key {key} must be a float")
-            if KEY_PROBABILITIES[key] < 0:
+            if key_probabilities[key] < 0:
                 raise ValueError(f"key {key} must be non-negative")
+
+    # Only swap the new values in once everything has loaded successfully
+    with _constants_lock:
+        _replace_contents(STRUCTURE_PARAMS, structure_params)
+        _replace_contents(CHORD_CHANGE_PROBS, chord_change_probs)
+        _replace_contents(KEY_PROBABILITIES, key_probabilities)
+        CHORD_EXTENSIONS.load(constants_dir)
+        FAMOUS_CHORD_PROGRESSIONS.load(constants_dir)
+
+
+@contextmanager
+def constants_override(constants_dir=None, structure_params=None):
+    """
+    Temporarily load constants from constants_dir and/or override individual
+    structure parameters, restoring the previous constants on exit.
+
+    Holds a lock for the duration, so concurrent song generation is
+    serialized rather than mixing constants (or random state) between calls.
+
+    Args:
+        constants_dir: Optional directory containing custom YAML files.
+        structure_params: Optional dict of structure parameters to override
+            on top of the currently loaded ones.
+    """
+    with _constants_lock:
+        # loading replaces dict contents (and the selectors' internal dicts)
+        # rather than mutating nested values, so shallow copies suffice
+        saved = (
+            dict(STRUCTURE_PARAMS),
+            dict(CHORD_CHANGE_PROBS),
+            dict(KEY_PROBABILITIES),
+            dict(vars(CHORD_EXTENSIONS)),
+            dict(vars(FAMOUS_CHORD_PROGRESSIONS)),
+        )
+        try:
+            if constants_dir is not None:
+                load_constants(constants_dir)
+            if structure_params:
+                STRUCTURE_PARAMS.update(structure_params)
+            yield
+        finally:
+            _replace_contents(STRUCTURE_PARAMS, saved[0])
+            _replace_contents(CHORD_CHANGE_PROBS, saved[1])
+            _replace_contents(KEY_PROBABILITIES, saved[2])
+            _replace_contents(vars(CHORD_EXTENSIONS), saved[3])
+            _replace_contents(vars(FAMOUS_CHORD_PROGRESSIONS), saved[4])
 
 
 def is_probability(value):
@@ -79,7 +135,14 @@ class ExtensionSelector:
         A class to select chord extensions based on a dictionary of weights.
         The dictionary is loaded from a yaml file.
         """
-        self.__ext_dict = dict()
+        self.load(constants_dir)
+
+    def load(self, constants_dir=None):
+        """
+        (Re)load the extension weights from constants_dir, replacing any
+        previously loaded ones.
+        """
+        ext_dict = dict()
 
         # Determine the constants directory to use
         constants_dir = get_constants_dir(constants_dir)
@@ -124,14 +187,14 @@ class ExtensionSelector:
                 base_symbol = symbol[1:]
                 if base_symbol in proposed_extensions:
                     # Filter out power chords
-                    self.__ext_dict[symbol] = {
+                    ext_dict[symbol] = {
                         ext: weight
                         for ext, weight in proposed_extensions[base_symbol].items()
                         if ext != "5"
                     }
                 else:
                     # Default extensions for flat chords (excluding power chords)
-                    self.__ext_dict[symbol] = {
+                    ext_dict[symbol] = {
                         "7": 1000,
                         "maj7": 300,
                         "sus4": 200,
@@ -141,19 +204,21 @@ class ExtensionSelector:
                 # For non-flat chords, use extensions from YAML or defaults
                 if symbol in proposed_extensions:
                     # Filter out power chords
-                    self.__ext_dict[symbol] = {
+                    ext_dict[symbol] = {
                         ext: weight
                         for ext, weight in proposed_extensions[symbol].items()
                         if ext != "5"
                     }
                 else:
                     # Default extensions for non-flat chords (excluding power chords)
-                    self.__ext_dict[symbol] = {
+                    ext_dict[symbol] = {
                         "7": 1000,
                         "maj7": 300,
                         "sus4": 200,
                         "9": 100,
                     }
+
+        self.__ext_dict = ext_dict
 
     def add_extension(self, chord, extension, weight):
         if chord not in self.__ext_dict:
@@ -174,6 +239,13 @@ class FamousCPSelector:
         """
         A class to select famous chord progressions based on a dictionary of weights.
         The dictionary is loaded from a yaml file.
+        """
+        self.load(constants_dir)
+
+    def load(self, constants_dir=None):
+        """
+        (Re)load the progressions from constants_dir, replacing any
+        previously loaded ones.
         """
         self.__cp_dict = dict()
 
@@ -233,9 +305,7 @@ class FamousCPSelector:
         return this_CP
 
 
-# Initialize global variables
+# Initialize global variables (and load the default constants into them)
 CHORD_EXTENSIONS = ExtensionSelector()
 FAMOUS_CHORD_PROGRESSIONS = FamousCPSelector()
-
-# Load constants on module import
 load_constants()
