@@ -1,5 +1,5 @@
 .PHONY: docker docker-all enter test run-song run-album show-platform process-billboard fetch-hooktheory
-.PHONY: generate-constants audit-songs
+.PHONY: generate-constants audit-songs blend-chord-probs
 
 DOCKER_IMG ?= chord-striker
 DOCKER_TAG ?= $(shell git rev-parse --short HEAD)
@@ -100,6 +100,17 @@ process-billboard:
 # Generate constants from Hook Theory API
 process-hooktheory: scripts/query_hooktheory.py hooktheory_credentials.yaml
 	$(RUN) python3 scripts/query_hooktheory.py --output-dir constants/hooktheory
+
+# Blend chord change probabilities from Hook Theory and the Billboard dataset
+# into the package defaults (run process-hooktheory and process-billboard first)
+HOOKTHEORY_WEIGHT ?= 0.5
+BILLBOARD_WEIGHT ?= 0.5
+blend-chord-probs: scripts/blend_chord_change_probs.py
+	$(RUN) python3 scripts/blend_chord_change_probs.py \
+		--source constants/hooktheory/chord_change_probs.yaml $(HOOKTHEORY_WEIGHT) \
+		--source constants/mcgill_billboard/chord_change_probs.yaml $(BILLBOARD_WEIGHT) \
+		--start-from constants/mcgill_billboard/chord_change_probs.yaml \
+		--output chord_striker/constants/defaults/chord_change_probs.yaml
 
 # Audit song generation statistics
 AUDIT_NUM_SONGS ?= 1000

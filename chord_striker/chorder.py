@@ -1,6 +1,6 @@
 from chord_striker.section import Section
 from random import choices, choice
-from copy import copy
+from copy import copy, deepcopy
 import numpy as np
 from pychord import Chord
 from chord_striker.helper_fns import accidental_fixer, substitute, bernoulli_trial
@@ -61,19 +61,28 @@ def choose_change_locations(section: Section, chords_per_measure: float = None):
     units_per_measure = section.total_units // section.num_measures
     beats_per_measure = units_per_measure // section.units_per_beat
 
-    # Sometimes force exactly one chord at the start of each measure. Only
-    # do this when that roughly matches the requested density, so that much
-    # sparser or busier settings are respected
-    if 0.5 < chords_per_measure < 1.5 and bernoulli_trial(
-        STRUCTURE_PARAMS.get("force_one_chord_per_measure_prob", 0)
-    ):
+    # Choose a harmonic rhythm for the section: a chord every two measures,
+    # one per measure, or a 'free' (Poisson) number of changes per measure.
+    # The fixed rhythms are only used when they roughly match the requested
+    # density, so that much sparser or busier settings are respected
+    rhythm = "free"
+    rhythm_probs = STRUCTURE_PARAMS.get("harmonic_rhythm_probs")
+    if rhythm_probs and 0.5 < chords_per_measure < 1.5:
+        rhythm = choices(list(rhythm_probs), weights=list(rhythm_probs.values()))[0]
+
+    if rhythm == "every_two_measures":
+        return [units_per_measure * meas for meas in range(0, section.num_measures, 2)]
+    if rhythm == "every_measure":
         return [units_per_measure * meas for meas in range(section.num_measures)]
 
     # list of number of changes in each measure
     change_vec = np.random.poisson(chords_per_measure, size=section.num_measures)
 
-    # at most four changes per measure
-    change_vec = [min(4, num_changes) for num_changes in change_vec]
+    # limit the number of changes per measure
+    change_vec = [
+        min(STRUCTURE_PARAMS["max_changes_per_measure"], num_changes)
+        for num_changes in change_vec
+    ]
 
     # first measure must contain 'change' at first tick
     change_vec[0] = max(0, change_vec[0] - 1)
@@ -118,9 +127,11 @@ class Chorder:
         # sample
         new_chord = choices(chords, weights=probs)[0]
 
-        # if this is the last chord, we may revert to a 'perfect cadence'
-        # (choose the V chord) with 50% likelihood
-        if self.__last_chord and choice([True, False]):
+        # if this is the last chord, we may finish on a V (a half cadence,
+        # leading back into the next section)
+        if self.__last_chord and bernoulli_trial(
+            STRUCTURE_PARAMS["section_end_dominant_prob"]
+        ):
             new_chord = "V"
 
         return new_chord
@@ -329,8 +340,11 @@ class ChordProgressionSelector:
             ]
             variation_type = choice(options)
 
-            # make a duplicate of section with 'variation' encoded
+            # make an empty duplicate of section with 'variation' encoded (the
+            # chosen chords are assigned to it below; it must not share the
+            # base section's progression)
             new_section = copy(self.__section)
+            new_section.chord_progression = [None] * new_section.total_units
             new_section.change_variation(var)
 
             n = len(self.__change_indices)
@@ -346,7 +360,9 @@ class ChordProgressionSelector:
 
                 # need at least 2 chords to modify
                 if n == 1:
-                    output_section = new_section
+                    output_section = parse_chord_selections(
+                        new_section, self.__change_indices, self.__base_chords
+                    )
                 else:
                     alter_weights = [1 for i in range(n)]
                     alter_weights[-1] = 3
@@ -456,8 +472,9 @@ class ChordProgressionSelector:
                 "variation_type": variation_type,
             }
 
-        # get output section
-        output_section = self.__var_dict[var]["result"]
+        # return a copy, so callers can transpose/modify it without affecting
+        # other sections built from the same variation
+        output_section = deepcopy(self.__var_dict[var]["result"])
         if key is not None:
             output_section.transpose(key)
 

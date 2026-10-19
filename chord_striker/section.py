@@ -250,6 +250,17 @@ class Section:
     def make_final_section(self):
         self.final_section = True
 
+    def end_on_tonic(self):
+        """Replace the final chord of the section with the tonic chord."""
+        if self.chord_progression[-1].root == self.key:
+            return
+        last = str(self.chord_progression[-1])
+        tonic = Chord(self.key)
+        idx = self.total_units - 1
+        while idx >= 0 and str(self.chord_progression[idx]) == last:
+            self.chord_progression[idx] = tonic
+            idx -= 1
+
     def truncate(self, start_measure: int, end_measure: int):
         if (
             start_measure < 0

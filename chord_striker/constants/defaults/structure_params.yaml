@@ -7,7 +7,7 @@ num_choruses_probs:
   4: 80
   5: 20
   6: 2
-pre_chorus_prob: 0.3
+pre_chorus_prob: 0.18
 post_chorus_probs:
   pre_chorus_yes: 0.15
   pre_chorus_no: 0.3
@@ -27,60 +27,58 @@ skip_last_pre_chorus_prob: 0.25
 skip_last_pre_chorus_only_prob: 0.1
 skip_last_post_chorus_prob: 0.3
 truck_drivers_base_prob: 0.01
-bridge_base_prob: 0.4
+bridge_base_prob: 0.2
 solo_base_prob: 0.25
 halve_final_verse_prob: 0.15
 double_final_chorus_prob: 0.2
 measure_distributions:
   Intro:
-    1: 20
-    2: 50
-    4: 50
-    8: 100
-    16: 30
-    32: 3
+    1: 5
+    2: 10
+    4: 35
+    8: 22
+    16: 3
   Verse:
+    4: 5
+    8: 35
+    16: 30
+    32: 2
+  Prechorus:
+    2: 5
+    4: 35
+    8: 40
+  Chorus:
     4: 10
     8: 50
-    16: 100
-    32: 30
-  Prechorus:
-    1: 10
-    2: 50
-    4: 100
-    8: 70
-    16: 20
-  Chorus:
-    4: 30
-    8: 100
-    16: 30
-    32: 3
+    16: 15
   Postchorus:
     1: 10
     2: 50
     4: 100
     8: 50
   Bridge:
-    2: 5
-    4: 50
-    8: 100
-    16: 70
-    32: 5
+    4: 10
+    8: 55
+    16: 13
   Solo:
-    2: 10
-    4: 50
-    8: 100
-    12: 10
-    16: 20
+    4: 10
+    8: 40
+    16: 18
   Outro:
-    1: 20
-    2: 20
-    4: 50
-    8: 100
-    16: 30
-    32: 2
+    1: 5
+    2: 5
+    4: 15
+    8: 12
+    16: 10
 chords_per_measure: 1.22
-force_one_chord_per_measure_prob: 0.2
+harmonic_rhythm_probs:
+  every_two_measures: 0.2
+  every_measure: 0.3
+  free: 0.5
+max_changes_per_measure: 2
+section_no_loop_weight: 5
+section_end_dominant_prob: 0.15
+end_on_tonic_prob: 0.35
 famous_chord_progressions_probs:
   3: 0.3
   4: 0.6

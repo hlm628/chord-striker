@@ -563,8 +563,22 @@ def section_variation(base_variations: list):
 
 
 def base_section_length(n: int):
-    # function which decides base chord structure in CP
-    return n
+    """
+    Decide the length of the core progression a section of n measures is
+    built from. Sections whose length is a power of 2 are often a shorter
+    progression repeated (e.g. a 16-measure verse may be a 4-measure
+    progression played four times, with variations); longer sections are
+    more likely to be loops.
+    """
+    # only power-of-2 lengths can be split into repeats
+    if n == 1 or n & (n - 1):
+        return n
+
+    keep_weight = STRUCTURE_PARAMS["section_no_loop_weight"]
+    if choices([True, False], weights=[keep_weight, n])[0]:
+        return n
+
+    return base_section_length(n // 2)
 
 
 def measures_assign():
@@ -737,9 +751,11 @@ def parse_song_structure(song_structure: list = None, initial_key: str = None):
             if bernoulli_trial(STRUCTURE_PARAMS["double_final_chorus_prob"]):
                 this_section = this_section.concat(this_section)
 
-        # make last section if necessary
+        # make last section if necessary, possibly resolving to the tonic
         if section["final_section"]:
             this_section.make_final_section()
+            if bernoulli_trial(STRUCTURE_PARAMS["end_on_tonic_prob"]):
+                this_section.end_on_tonic()
 
         section["section"] = this_section
 

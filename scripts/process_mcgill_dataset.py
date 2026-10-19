@@ -20,14 +20,16 @@ MODE_MAP = {
     "locrian": ["i", "bII", "biii", "iv", "bV", "bVI", "bvii"],
 }
 
+# Semitones to add to a modal tonic to get its relative major (ionian) tonic,
+# e.g. A aeolian -> C ionian is +3
 MODE_SEMITONE_MAP = {
     "ionian": 0,
-    "dorian": 2,
-    "phrygian": 3,
-    "lydian": 4,
+    "dorian": 10,
+    "phrygian": 8,
+    "lydian": 7,
     "mixolydian": 5,
-    "aeolian": 7,
-    "locrian": 9,
+    "aeolian": 3,
+    "locrian": 1,
 }
 
 

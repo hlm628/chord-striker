@@ -229,6 +229,10 @@ def parse_song_structure_with_symbols(song_structure, initial_key=None):
 
         if section["final_section"]:
             this_section.make_final_section()
+            if bernoulli_trial(STRUCTURE_PARAMS["end_on_tonic_prob"]):
+                this_section.end_on_tonic()
+                if section["chord_symbols"]:
+                    section["chord_symbols"][-1] = "I"
 
         section["section"] = this_section
 
