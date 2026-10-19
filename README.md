@@ -4,7 +4,7 @@
 
 A Python library for generating random harmonic song structures. The results are formatted into PDF chord charts by Lilypond, and supplied with an accompanying MIDI file. If you're stuck in a creative rut, this can be an excellent way to start writing a new song! I like to load the MIDI file into a DAW and start building on top of it.
 
-**Try it online:** A user-friendly web interface is available at [chordstriker.com](https://chordstriker.com), where you can generate songs interactively without any installation.
+**Try it online:** A user-friendly web interface is available at [chordstriker.hlm628.com](https://chordstriker.hlm628.com), where you can generate songs interactively without any installation.
 
 Example outputs can be seen in the [example directory](./example).
 
