@@ -8,7 +8,6 @@ from chord_striker.load_constants import load_constants
 import random
 from numpy import random as np_random
 import click
-import sys
 
 
 def set_seed(seed):
@@ -41,6 +40,10 @@ def create_song(
         print_graph: Whether to print the song structure graph
         constants_dir: Directory containing custom YAML files for constants
     """
+    # These are rebound below when custom constants are loaded; declaring them
+    # global keeps them from becoming unbound locals when constants_dir is None
+    global get_tempo, generate_song_structure, parse_song_structure
+
     # Set the random seed if provided
     set_seed(seed)
 
@@ -55,16 +58,12 @@ def create_song(
         importlib.reload(chord_striker.song_structure)
         importlib.reload(chord_striker.helper_fns)
         importlib.reload(chord_striker.chorder)
-        # Re-import functions to get updated references
+        # Re-import functions to update the module-level references
         from chord_striker.song_structure import (
             get_tempo,
             generate_song_structure,
             parse_song_structure,
         )
-        # Update the module-level references
-        sys.modules[__name__].get_tempo = get_tempo
-        sys.modules[__name__].generate_song_structure = generate_song_structure
-        sys.modules[__name__].parse_song_structure = parse_song_structure
 
     # Generate a random tempo if not provided
     if tempo is None:
