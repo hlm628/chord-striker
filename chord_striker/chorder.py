@@ -55,6 +55,22 @@ def choose_change_locations(section: Section, chords_per_measure: float = None):
             that determines how many chords to ascribe to a given measure.
             Defaults to the loaded structure parameters.
     """
+    change_indices = rhythm_change_locations(section, chords_per_measure)
+
+    # make sure the section actually moves, by changing chord halfway
+    # through if the rhythm only gave it one (deliberate single-chord
+    # sections are handled by chord_progression_selector)
+    if len(change_indices) == 1:
+        change_indices.append(section.total_units // 2)
+
+    return change_indices
+
+
+def rhythm_change_locations(section: Section, chords_per_measure: float = None):
+    """
+    Choose chord change locations for a section from its harmonic rhythm (see
+    choose_change_locations for the parameters).
+    """
     if chords_per_measure is None:
         chords_per_measure = STRUCTURE_PARAMS["chords_per_measure"]
 
@@ -177,6 +193,12 @@ def chord_progression_selector(section: Section, minor: bool = False):
     Choose the chord changes for a section. If minor is True, the song is
     centred on the relative minor (vi) rather than the major tonic (I).
     """
+    # Some sections deliberately sit on the home chord (a 'vamp'). How often
+    # depends on the type of section: common for intros, rare for choruses
+    vamp_probs = STRUCTURE_PARAMS.get("vamp_probs", {})
+    if bernoulli_trial(vamp_probs.get(section.name, 0)):
+        return [0], ["vi" if minor else "I"]
+
     # decide where to place chord changes + get number of changes
     change_indices = choose_change_locations(section)
     num_changes = len(change_indices)

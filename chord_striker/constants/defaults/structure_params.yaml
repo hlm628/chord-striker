@@ -76,6 +76,15 @@ harmonic_rhythm_probs:
   every_measure: 0.3
   free: 0.5
 max_changes_per_measure: 2
+vamp_probs:
+  Intro: 0.25
+  Verse: 0.06
+  Prechorus: 0.03
+  Chorus: 0.03
+  Postchorus: 0.1
+  Bridge: 0.05
+  Solo: 0.1
+  Outro: 0.19
 section_no_loop_weight: 5
 section_end_dominant_prob: 0.15
 end_on_tonic_prob: 0.35

@@ -598,8 +598,43 @@ def measures_assign():
     return chosen_lengths
 
 
-def parse_song_structure(song_structure: list = None, initial_key: str = None):
-    """Function which converts a song structure into a sequence of sections."""
+def parse_key(key: str = None):
+    """
+    Split a key name into the (major) key the song is written in, and whether
+    it is centred on the relative minor: 'C' gives ('C', False), and 'Am' gives
+    ('C', True). None (a random key and tonality) gives (None, None).
+    """
+    if key is None:
+        return None, None
+    if key in KEYS:
+        return key, False
+
+    note_values = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
+    accidentals = {"": 0, "#": 1, "b": -1}
+    if (
+        key.endswith("m")
+        and key[0] in note_values
+        and key[1:-1] in accidentals
+    ):
+        minor_tonic = note_values[key[0]] + accidentals[key[1:-1]]
+        # the relative major is three semitones above the minor tonic
+        return KEYS[(minor_tonic + 3) % 12], True
+
+    raise ValueError(
+        f"key must be one of {KEYS}, or a minor key such as 'Am' or 'F#m'"
+    )
+
+
+def parse_song_structure(
+    song_structure: list = None, initial_key: str = None, minor: bool = None
+):
+    """
+    Function which converts a song structure into a sequence of sections.
+
+    initial_key is the (major) key the song starts in, and minor whether it
+    is centred on that key's relative minor; either is chosen at random if
+    not given.
+    """
 
     # input checker
     for elt in song_structure:
@@ -635,7 +670,8 @@ def parse_song_structure(song_structure: list = None, initial_key: str = None):
     song_key = SongKey(initial_key)
 
     # decide whether the song is centred on the relative minor (vi) of its key
-    minor = bernoulli_trial(STRUCTURE_PARAMS["minor_prob"])
+    if minor is None:
+        minor = bernoulli_trial(STRUCTURE_PARAMS["minor_prob"])
 
     # store lengths of various song sections
     song_section_lengths = measures_assign()

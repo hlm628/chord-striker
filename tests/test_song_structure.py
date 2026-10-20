@@ -8,7 +8,11 @@ from chord_striker.chorder import ChordProgressionSelector, start_on_tonic
 from chord_striker.helper_fns import accidental_fixer
 from chord_striker.load_constants import STRUCTURE_PARAMS, constants_override
 from chord_striker.section import Section
-from chord_striker.song_structure import generate_song_structure, parse_song_structure
+from chord_striker.song_structure import (
+    generate_song_structure,
+    parse_key,
+    parse_song_structure,
+)
 
 
 def seed_all(seed):
@@ -102,3 +106,26 @@ def test_minor_song_ends_on_relative_minor(tmp_path):
 )
 def test_start_on_tonic(progression, minor, expected):
     assert start_on_tonic(progression, minor) == expected
+
+
+@pytest.mark.parametrize(
+    "key, expected",
+    [
+        (None, (None, None)),
+        ("C", ("C", False)),
+        ("F#", ("F#", False)),
+        ("Am", ("C", True)),
+        ("F#m", ("A", True)),
+        ("Bbm", ("C#", True)),
+        ("A#m", ("C#", True)),
+        ("Cm", ("Eb", True)),
+    ],
+)
+def test_parse_key(key, expected):
+    assert parse_key(key) == expected
+
+
+@pytest.mark.parametrize("key", ["H", "Cmaj", "m", "C#b", "Xm"])
+def test_parse_key_rejects_invalid(key):
+    with pytest.raises(ValueError):
+        parse_key(key)

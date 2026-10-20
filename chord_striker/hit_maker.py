@@ -1,6 +1,7 @@
 from chord_striker.song_structure import (
     get_tempo,
     generate_song_structure,
+    parse_key,
     parse_song_structure,
 )
 from chord_striker.create_chord_chart import ChordChart
@@ -33,7 +34,7 @@ def create_song(
     Create a song with the given key, tempo, and seed.
 
     Args:
-        key: The key of the song
+        key: The key of the song, e.g. 'C' or 'Am' (random if None)
         tempo: The tempo of the song
         seed: Random seed for reproducibility
         song_name: Name of the song
@@ -57,7 +58,8 @@ def create_song(
         ss = generate_song_structure(print_graph=print_graph, output_dir=output_dir)
 
         # Add chords
-        sections = parse_song_structure(ss, key)
+        major_key, minor = parse_key(key)
+        sections = parse_song_structure(ss, major_key, minor)
 
         # Create a chord chart; generate PDF and MIDI files in 'output_dir'
         # with the song name
@@ -97,7 +99,10 @@ def create_album(num_songs, seeds=[], parent_dir="output", constants_dir=None):
 @click.option(
     "--key",
     default=None,
-    help="Key for the chord chart; randomly generated if not supplied (default: None)",
+    help=(
+        "Key for the chord chart, e.g. C or Am; randomly generated if not "
+        "supplied (default: None)"
+    ),
 )
 @click.option(
     "--tempo",
